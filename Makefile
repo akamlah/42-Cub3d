@@ -1,5 +1,5 @@
 
-NAME = cub3d
+NAME = cub3D
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -10,11 +10,11 @@ CFLAGS = -Wall -Wextra -Werror
 
 MAIN = main.c
 
-#CFILES_ALICE = 
+CFILES_ALICE = 
 
-#CFILES_ANDI =
+CFILES_ANDI =
 
-HEADERS = cub3d.h
+HEADERS = cub3D.h
 
 # **************************************************************************** #
 # loctaions
@@ -25,7 +25,7 @@ INCL_DIR ?= ./header
 LIBFT_PATH = libft
 
 # **************************************************************************** #
-# internal vars
+# internal setups
 
 CFILES := $(CFILES_ALICE) $(CFILES_ANDI) $(MAIN)
 SOURCES := $(addprefix $(SOURCE_DIR)/,$(CFILES))
@@ -69,4 +69,3 @@ fclean: clean
 
 re: fclean
 	@ make
-
