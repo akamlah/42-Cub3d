@@ -6,7 +6,7 @@
 #    By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 14:46:21 by akamlah           #+#    #+#              #
-#    Updated: 2022/01/24 16:51:38 by akamlah          ###   ########.fr        #
+#    Updated: 2022/01/24 18:14:00 by akamlah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,16 +30,13 @@ ft_lstclear.c ft_lstiter.c ft_lstmap.c
 OFILES := $(patsubst %.c, %.o, $(CFILES))
 
 all:
-	@ echo "Compiling libft \c"
 	@ make $(NAME)
 
 $(NAME): $(OFILES) libft.h
-	@ ar rc $(NAME) $(OFILES)
-	@ echo
+	@ ar -rc $(NAME) $(OFILES) ; echo "Creating archive '$(NAME)'"
 
 %.o : %.c
 	@ $(CC) $(CFLAGS) $^ -c -o $@
-	@ echo ".\c"
 
 .PHONY: clean
 
