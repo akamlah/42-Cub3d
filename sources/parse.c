@@ -60,6 +60,6 @@ int	parse(t_vars *vars, int argc, char **argv)
 		print_usage_message();
 		return (0);
 	}
-	vars->fd = open(argv[1], O_RDONLY);
+	vars->map->fd = open(argv[1], O_RDONLY);
 	return (0);
 }
