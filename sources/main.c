@@ -1,4 +1,4 @@
-#include "../header/cub3D.h"
+#include "../header/cub3d.h"
 
 int main(int argc, char **argv)
 {
@@ -6,6 +6,9 @@ int main(int argc, char **argv)
 
 	if (parse(&vars, argc, argv))
 		return (1);
-	printf("yo\n");
+	init_mlx_vars(&vars);
+	mlx_hooks(&vars);
+	mlx_loop(vars.mlx_vars->mlx);
+
 	return (0);
 }

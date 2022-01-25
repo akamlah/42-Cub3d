@@ -12,7 +12,7 @@ MAIN = main.c
 
 CFILES_ALICE = parse.c
 
-CFILES_ANDI =
+CFILES_ANDI = mlx.c mlx_hooks.c
 
 HEADERS = cub3D.h
 
