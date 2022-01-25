@@ -10,7 +10,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 MAIN = main.c
 
-CFILES_ALICE = 
+CFILES_ALICE = parse.c
 
 CFILES_ANDI =
 
