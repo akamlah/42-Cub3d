@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include "../libft/libft.h"
 
 
 // screen parameters
@@ -24,7 +25,7 @@ typedef struct s_point
 typedef struct s_map
 {
 	int		fd;
-	t_point	**map;
+	t_point	**nodes;
 
 }			t_map;
 

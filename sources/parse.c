@@ -55,11 +55,24 @@ void	print_usage_message()
 
 int	parse(t_vars *vars, int argc, char **argv)
 {
+	t_map	map;
+	char	*buff;
+	int i;
+
+	vars->map = &map;
 	if (argc != 2)
 	{
 		print_usage_message();
 		return (0);
 	}
-	vars->map->fd = open(argv[1], O_RDONLY);
+	map.fd = open(argv[1], O_RDONLY);
+	i = 0;
+	buff = "1";
+	while (buff)
+	{
+		buff = get_next_line(map.fd);
+		printf("%s\n", buff);
+		i++;
+	}
 	return (0);
 }
