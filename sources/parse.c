@@ -1,4 +1,4 @@
-#include "../header/cub3D.h"
+#include "../header/cub3d.h"
 
 
 /*
