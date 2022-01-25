@@ -15,8 +15,18 @@
 
 typedef struct s_point
 {
-	
-}	t_point;
+	int		x;
+	int		y;
+	int		wall;
+	char	spawn_or;
+}			t_point;
+
+typedef struct s_map
+{
+	int		fd;
+	t_point	**map;
+
+}			t_map;
 
 typedef struct s_vars
 {
@@ -25,9 +35,7 @@ typedef struct s_vars
 
 
 	//alice
-
-
-
+	t_map	*map;
 }	t_vars;
 
 // FUNCTIONS
