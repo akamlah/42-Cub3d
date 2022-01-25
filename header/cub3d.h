@@ -4,6 +4,8 @@
 # include <stdio.h>
 # include <math.h>
 # include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
 
 
 // screen parameters
@@ -35,7 +37,7 @@ typedef struct s_vars
 
 
 // Alice
-int	parse(t_vars *vars);
+int	parse(t_vars *vars, int argc, char **argv);
 
 
 
