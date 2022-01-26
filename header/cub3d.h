@@ -43,6 +43,8 @@ typedef struct s_map
 	char	*textr_s;
 	char	*textr_w;
 	char	*textr_e;
+	char	*ceiling_color;
+	char	*floor_color;
 }			t_map;
 
 typedef struct mlx_vars
@@ -75,6 +77,12 @@ void	*loadimage(char *path, t_vars *vars);
 
 // Alice
 int	parse(t_vars *vars, int argc, char **argv);
+int	get_texture(char *line, t_map *map, int i);
+int	get_color_id(char *line, t_map *map);
+int	is_map_chars(char	*line);
+int	only_map_after(t_map *map, int i);
+int	is_whitespaces(char *line);
+
 
 
 # endif

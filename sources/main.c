@@ -4,11 +4,11 @@
 void	exit_cub(t_vars *vars)
 {
 	// eventually call freeing functions?
-/* 	if (vars->map->fd_cubfile)
-		close(vars->map->fd_cubfile); */
 
-/* 	if (vars->map)
+	if (vars->map)
 	{
+		if (vars->map->fd_cubfile)
+			close(vars->map->fd_cubfile);
 		if (vars->map->textr_n)
 			free(vars->map->textr_n);
 		if (vars->map->textr_s)
@@ -17,9 +17,12 @@ void	exit_cub(t_vars *vars)
 			free(vars->map->textr_w);
 		if (vars->map->textr_e)
 			free(vars->map->textr_e);
-	} */
-	if (vars->map)
+		if (vars->map->floor_color)
+			free(vars->map->floor_color);
+		if (vars->map->ceiling_color)
+			free(vars->map->ceiling_color);
 		free(vars->map);
+	}
 	system("leaks cub3D");
 	exit(0);
 }
