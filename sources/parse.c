@@ -52,81 +52,6 @@
 // exit from main but error msgs printed by subfunctions
 
 
-int	handle_tex_id(int i, char *id, char **map_ptr, char *line)
-{
-	if (*map_ptr)
-	{
-		printf("Error\nLine %d: Duplicate identifier `%s'\n", i + 1, id);
-		return (0);
-	}
-	*map_ptr = ft_strdup(line + 3);
-	return (1);
-}
-
-int	get_texture(char *line, t_map *map, int i)
-{
-	if (!line[0] || !line[1] || !line[2])
-		return (0);
-	if (line [2] != ' ')
-		return (0);
-	if (line[0] == 'N' && line[1] == 'O')
-		return (handle_tex_id(i, "NO", &(map->textr_n), line));
-	if (line[0] == 'S' && line[1] == 'O')
-		return (handle_tex_id(i, "SO", &(map->textr_s), line));
-	if (line[0] == 'W' && line[1] == 'E')
-		return (handle_tex_id(i, "WE", &(map->textr_w), line));
-	if (line[0] == 'E' && line[1] == 'A')
-		return (handle_tex_id(i, "EA", &(map->textr_e), line));
-	return (0);
-}
-
-/*
-	checks if a string is a map line
-	spaces okay 
-*/
-int	is_map_chars(char	*line)
-{
-	int i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != ' '
-		&& line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E'
-		&& line[i] != '\n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-
-int	is_color_id(char *line)
-{
-	if (!line[0] || !line[1])
-		return (0);
-	if (line [1] != ' ')
-		return (0);
-	if (line[0] == 'F')
-		return (1);
-	if (line[0] == 'C')
-		return (1);
-	return (0);
-}
-
-int	is_whitespaces(char *line)
-{
-	int i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (!ft_isspace(line[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 
 void	print_usage_message(int msg)
@@ -141,7 +66,8 @@ void	print_usage_message(int msg)
 	WE ./path_to_the_west_texture\n\
 	EA ./path_to_the_east_texture\n\
 	F [floor color R,G,B]\n\
-	C [ceiling color R,G,B]\n");
+	C [ceiling color R,G,B]\n\
+	or lines of the map\n");
 }
 
 int	open_cubfile(t_map *map, char *path)
@@ -164,38 +90,43 @@ void	map_init(t_map *map)
 	map->textr_s = NULL;
 	map->textr_w = NULL;
 	map->textr_e = NULL;
+	map->floor_color = NULL;
+	map->ceiling_color = NULL;
 	// ...
 }
 
-int	only_map_after(t_map *map, int i)
+// parses line by line
+int	parse_line(char *tmp, int i, t_map *map)
 {
 	char *line;
-	
-	i++;
-	while (1)
-	{
-		line = get_next_line(map->fd_cubfile);
-		if (!line)
-			break ;
-		if (!(is_map_chars(line) && !is_whitespaces(line)))
-		{
-	//		printf("Error\nLine %d: invalid sequence\n", i + 1);
-			// print_usage_message(2);
-			free(line);
-			return (0);
-		}
-		free(line);
-		i++;
-	}
 
-	return (1);
+	line = ft_strtrim(tmp, "\n");
+		free(tmp);
+	if (is_map_chars(line) && !is_whitespaces(line))
+	{
+		free(line);
+		return (only_map_after(map, i));
+	}
+	else if (get_texture(line, map, i))
+		free(line);
+	else if (get_color_id(line, map))
+		free(line);
+	else if (is_whitespaces(line))
+		free(line);
+	else
+	{
+		printf("Error\nLine %d: invalid identifier\n", i + 1);
+		print_usage_message(2);
+		free(line);
+		return (1);
+	}
+	return (0);
 }
 
 // main parser
 int	parse(t_vars *vars, int argc, char **argv)
 {
 	t_map	*map;
-	char	*line;
 	int		i;
 	char	*tmp;
 
@@ -212,31 +143,11 @@ int	parse(t_vars *vars, int argc, char **argv)
 	i = 0;
 	while (1)
 	{
-
 		tmp = get_next_line(map->fd_cubfile);
 		if (!tmp)
 			break ;
-		line = ft_strtrim(tmp, "\n");
-		free(tmp);
-
-		if (is_map_chars(line) && !is_whitespaces(line))
-		{
-			free(line);
-			if (only_map_after(map, i))
-				return (0);
-			else
-				return (1);
-		}
-
-		else if (!get_texture(line, map, i) && !is_color_id(line) && !is_whitespaces(line))
-		{
-//			printf("Error\nLine %d: invalid identifier\n", i + 1);
-			print_usage_message(2);
-			free(line);
+		if (parse_line(tmp, i, map))
 			return (1);
-		}
-		
-		free(line);
 		i++;
 	}
 	return (0);

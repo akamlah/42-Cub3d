@@ -10,7 +10,7 @@ CFLAGS = -Wall -Wextra -Werror # -g -fsanitize=address
 
 MAIN = main.c
 
-CFILES_ALICE = parse.c
+CFILES_ALICE = parse.c parse_mapvals.c parse_identifiers.c
 
 CFILES_ANDI = mlx.c mlx_hooks.c
 
