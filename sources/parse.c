@@ -154,13 +154,13 @@ int	parse(t_vars *vars, int argc, char **argv)
 	char	*line;
 	int i;
 
+	vars->map = &map;
+	map_init(&map);
 	if (argc != 2)
 	{
 		print_usage_message(1);
 		return (1);
 	}
-	vars->map = &map;
-	map_init(&map);
 	if (!open_cubfile(&map, argv[1]))
 		return (1);
 	i = 0;
