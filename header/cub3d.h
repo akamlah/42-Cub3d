@@ -25,6 +25,8 @@
 # define key_w 13
 # define key_s 1
 
+# define key_esc 53
+
 typedef struct s_point
 {
 	int		x;

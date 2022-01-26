@@ -6,7 +6,7 @@
 #    By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 14:46:21 by akamlah           #+#    #+#              #
-#    Updated: 2022/01/24 18:14:00 by akamlah          ###   ########.fr        #
+#    Updated: 2022/01/26 11:58:41 by akamlah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ ft_putarr_2d_fd.c \
 ft_get_first_word.c \
 ft_free_char2.c \
 ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c \
-ft_lstclear.c ft_lstiter.c ft_lstmap.c
+ft_lstclear.c ft_lstiter.c ft_lstmap.c \
+ft_isspace.c \
 
 OFILES := $(patsubst %.c, %.o, $(CFILES))
 

@@ -40,5 +40,10 @@ int	key_hook(int keycode, t_vars *vars)
 		printf("w key pressed!\n");
 	if (keycode == key_s)
 		printf("s key pressed!\n");
+
+	// exit with esc
+	if (keycode == key_esc)
+		exit_hook(vars);
+		
 	return (0);
 }
