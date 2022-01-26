@@ -77,7 +77,9 @@ int	is_map_chars(char	*line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != ' ')
+		if (line[i] != '1' && line[i] != '0' && line[i] != ' '
+		&& line[i] != 'N' && line[i] != 'S' && line[i] != 'W' && line[i] != 'E'
+		&& line[i] != '\n')
 			return (0);
 		i++;
 	}
@@ -147,6 +149,28 @@ void	map_init(t_map *map)
 	// ...
 }
 
+int	only_map_after(t_map *map, int i)
+{
+	char *line;
+	
+	i++;
+	while (1)
+	{
+		line = get_next_line(map->fd_cubfile);
+		if (!line)
+			break ;
+		if (!(is_map_chars(line) && !is_whitespaces(line)))
+		{
+			printf("Error\nLine %d: invalid sequence\n", i + 1);
+			print_usage_message(2);
+			free(line);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 // main parser
 int	parse(t_vars *vars, int argc, char **argv)
 {
@@ -169,20 +193,18 @@ int	parse(t_vars *vars, int argc, char **argv)
 		line = get_next_line(map.fd_cubfile);
 		if (!line)
 			break ;
-
-		else if (is_map_chars(line))
-		{
-			printf("is map line: %s\n", line);
-		}
-
-		else if (!is_map_chars(line) && !is_texture_id(line) && !is_color_id(line) && !is_whitespaces(line))
+		else if (is_map_chars(line) && !is_whitespaces(line))
+			if (only_map_after(&map, i))
+				return (0);
+			else
+				return (1);
+		else if (!is_texture_id(line) && !is_color_id(line) && !is_whitespaces(line))
 		{
 			printf("Error\nLine %d: invalid identifier\n", i + 1);
 			print_usage_message(2);
 			free(line);
 			return (1);
 		}
-		printf("%s\n", line);
 		i++;
 	}
 	free(line);
