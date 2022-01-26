@@ -68,11 +68,12 @@ typedef struct s_vars
 // FUNCTIONS
 //Andi
 
-int	init_mlx_vars(t_vars *vars);
-int	mlx_hooks(t_vars *vars);
-int exit_hook(t_vars *vars);
-int	update(t_vars *vars);
-int	key_hook(int keycode, t_vars *vars);
+int		init_mlx_vars(t_vars *vars);
+int		mlx_hooks(t_vars *vars);
+int		exit_hook(t_vars *vars);
+int		update(t_vars *vars);
+int		key_hook(int keycode, t_vars *vars);
+void	*loadimage(char *path, t_vars *vars);
 
 // Alice
 int	parse(t_vars *vars, int argc, char **argv);
