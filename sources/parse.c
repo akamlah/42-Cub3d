@@ -51,14 +51,10 @@
 
 // exit from main but error msgs printed by subfunctions
 
-
-
-
 void	print_usage_message(int msg)
 {
 	if (msg == 1)
 		printf("Usage:\t./cub3D <path to `.cub' file>\n");
-
 	if (msg == 2)
 	printf("Valid identifiers:\n\
 	NO ./path_to_the_north_texture\n\
