@@ -6,8 +6,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <mlx.h>
 # include "../libft/libft.h"
+# include "../minilibx_macos/mlx.h"
 
 
 // screen parameters
@@ -35,9 +35,12 @@ typedef struct s_point
 
 typedef struct s_map
 {
-	int		fd;
+	int		fd_cubfile;
 	t_point	**nodes;
-
+	char	*textr_n;
+	char	*textr_s;
+	char	*textr_w;
+	char	*textr_e;
 }			t_map;
 
 typedef struct mlx_vars
@@ -55,6 +58,9 @@ typedef struct s_vars
 
 	//alice
 	t_map	*map;
+
+	int		exitcode;
+
 }	t_vars;
 
 // FUNCTIONS
@@ -68,7 +74,6 @@ int	key_hook(int keycode, t_vars *vars);
 
 // Alice
 int	parse(t_vars *vars, int argc, char **argv);
-
 
 
 # endif

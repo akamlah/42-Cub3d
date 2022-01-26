@@ -48,31 +48,93 @@
 	must exit properly and return "Error\n" followed by an explicit error message
 	of your choice.
 */
-void	print_usage_message()
+
+// exit from main but error msgs printed by subfunctions
+
+
+void	print_usage_message(int msg)
 {
-	printf("Usage: ./cub3D <path to map>\n");
+	if (msg == 1)
+		printf("Usage:\t./cub3D <path to `.cub' file>\n");
+
+	if (msg == 2)
+	printf("Valid identifiers:\n\
+	NO ./path_to_the_north_texture\n\
+	SO ./path_to_the_south_texture\n\
+	WE ./path_to_the_west_texture\n\
+	EA ./path_to_the_east_texture\n\
+	F [floor color R,G,B]\n\
+	C [ceiling color R,G,B]\n");
 }
 
+int	open_cubfile(t_map *map, char *path)
+{
+	map->fd_cubfile = open(path, O_RDONLY);
+	if (map->fd_cubfile < 0)
+	{
+		perror(path);
+		print_usage_message(1);
+		return(0);
+	}
+	return (1);
+}
+
+void	map_init(t_map *map)
+{
+	map->fd_cubfile = 0;
+	map->nodes = NULL;
+	// ...
+}
+
+int	is_texture(char	*line)
+{
+	line++;
+	return (1);
+}
+int	is_map_line(char	*line)
+{
+	line++;
+	return (1);
+}
+int	is_color_info(char	*line)
+{
+	line++;
+	return (1);
+}
+
+// main parser
 int	parse(t_vars *vars, int argc, char **argv)
 {
 	t_map	map;
-	char	*buff;
+	char	*line;
 	int i;
 
-	vars->map = &map;
 	if (argc != 2)
 	{
-		print_usage_message();
-		return (0);
+		print_usage_message(1);
+		return (1);
 	}
-	map.fd = open(argv[1], O_RDONLY);
+	vars->map = &map;
+	map_init(&map);
+	if (!open_cubfile(&map, argv[1]))
+		return (1);
 	i = 0;
-	buff = "1";
-	while (buff)
+	line = "1";
+	while (line)
 	{
-		buff = get_next_line(map.fd);
-		printf("%s\n", buff);
+		line = get_next_line(map.fd_cubfile);
+/* 		if (is_map_line)
+			try_read_map */
+		if (!is_texture(line) && !is_color_info(line))
+		{
+			printf("Error\nLine %d: invalid identifier\n", i + 1);
+			print_usage_message(2);
+			free(line);
+			return (1);
+		}
+		printf("%s\n", line);
 		i++;
 	}
+	free(line);
 	return (0);
 }
