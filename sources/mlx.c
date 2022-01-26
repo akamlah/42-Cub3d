@@ -1,5 +1,35 @@
 #include "../header/cub3d.h"
 
+/*
+*Loads an image from path and returns MLX-Image as void pointer.
+*Returns NULL Pointer if file invalid
+*/
+void	*loadimage(char *path, t_vars *vars)
+{
+	void	*img;
+	int		fd;
+	int		width;
+	int		height;
+
+	if (!path)
+	{
+		printf("Error: Empty image file name.\n");
+		return(NULL);
+	}
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+	{
+		perror(path);
+		return (NULL);
+	}
+	img = mlx_xpm_file_to_image(vars->mlx_vars->mlx, path, &width, &height);
+	if (!img)
+	{
+		printf("Error: Image file could not be opened. Please make sure it exists and is in .xpm format.\n");
+		return(NULL);
+	}
+	return (img);
+}
 
 /*
 *Calls all mlx-hooks (keyhooks, loophooks, etc)
