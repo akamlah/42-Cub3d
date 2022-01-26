@@ -61,8 +61,6 @@ typedef struct s_vars
 	//alice
 	t_map	*map;
 
-	int		exitcode;
-
 }	t_vars;
 
 // FUNCTIONS

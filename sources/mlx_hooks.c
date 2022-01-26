@@ -6,6 +6,7 @@
 int	exit_hook(t_vars *vars)
 {
 	free(vars->mlx_vars);
+	system("leaks cub3D");
 	exit(0);
 }
 

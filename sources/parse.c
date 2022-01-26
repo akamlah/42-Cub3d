@@ -51,18 +51,32 @@
 
 // exit from main but error msgs printed by subfunctions
 
-int	is_texture_id(char	*line)
+
+int	handle_tex_id(int i, char *id, char **map_ptr, char *line)
+{
+	if (*map_ptr)
+	{
+		printf("Error\nLine %d: Duplicate identifier `%s'\n", i + 1, id);
+		return (0);
+	}
+	*map_ptr = ft_strdup(line + 3);
+	return (1);
+}
+
+int	get_texture(char *line, t_map *map, int i)
 {
 	if (!line[0] || !line[1] || !line[2])
 		return (0);
 	if (line [2] != ' ')
 		return (0);
-	if ((line[0] == 'N' || line[0] == 'S') && line[1] == 'O')
-		return (1);
+	if (line[0] == 'N' && line[1] == 'O')
+		return (handle_tex_id(i, "NO", &(map->textr_n), line));
+	if (line[0] == 'S' && line[1] == 'O')
+		return (handle_tex_id(i, "SO", &(map->textr_s), line));
 	if (line[0] == 'W' && line[1] == 'E')
-		return (1);
+		return (handle_tex_id(i, "WE", &(map->textr_w), line));
 	if (line[0] == 'E' && line[1] == 'A')
-		return (1);
+		return (handle_tex_id(i, "EA", &(map->textr_e), line));
 	return (0);
 }
 
@@ -146,6 +160,10 @@ void	map_init(t_map *map)
 {
 	map->fd_cubfile = 0;
 	map->nodes = NULL;
+	map->textr_n = NULL;
+	map->textr_s = NULL;
+	map->textr_w = NULL;
+	map->textr_e = NULL;
 	// ...
 }
 
@@ -161,52 +179,65 @@ int	only_map_after(t_map *map, int i)
 			break ;
 		if (!(is_map_chars(line) && !is_whitespaces(line)))
 		{
-			printf("Error\nLine %d: invalid sequence\n", i + 1);
-			print_usage_message(2);
+	//		printf("Error\nLine %d: invalid sequence\n", i + 1);
+			// print_usage_message(2);
 			free(line);
 			return (0);
 		}
+		free(line);
 		i++;
 	}
+
 	return (1);
 }
 
 // main parser
 int	parse(t_vars *vars, int argc, char **argv)
 {
-	t_map	map;
+	t_map	*map;
 	char	*line;
-	int i;
+	int		i;
+	char	*tmp;
 
-	vars->map = &map;
-	map_init(&map);
+	map = malloc(sizeof(t_map));
+	vars->map = map;
+	map_init(map);
 	if (argc != 2)
 	{
 		print_usage_message(1);
 		return (1);
 	}
-	if (!open_cubfile(&map, argv[1]))
+	if (!open_cubfile(map, argv[1]))
 		return (1);
 	i = 0;
 	while (1)
 	{
-		line = get_next_line(map.fd_cubfile);
-		if (!line)
+
+		tmp = get_next_line(map->fd_cubfile);
+		if (!tmp)
 			break ;
-		else if (is_map_chars(line) && !is_whitespaces(line))
-			if (only_map_after(&map, i))
+		line = ft_strtrim(tmp, "\n");
+		free(tmp);
+
+		if (is_map_chars(line) && !is_whitespaces(line))
+		{
+			free(line);
+			if (only_map_after(map, i))
 				return (0);
 			else
 				return (1);
-		else if (!is_texture_id(line) && !is_color_id(line) && !is_whitespaces(line))
+		}
+
+		else if (!get_texture(line, map, i) && !is_color_id(line) && !is_whitespaces(line))
 		{
-			printf("Error\nLine %d: invalid identifier\n", i + 1);
+//			printf("Error\nLine %d: invalid identifier\n", i + 1);
 			print_usage_message(2);
 			free(line);
 			return (1);
 		}
+		
+		free(line);
 		i++;
 	}
-	free(line);
 	return (0);
 }
