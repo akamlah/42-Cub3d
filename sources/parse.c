@@ -51,6 +51,67 @@
 
 // exit from main but error msgs printed by subfunctions
 
+int	is_texture_id(char	*line)
+{
+	if (!line[0] || !line[1] || !line[2])
+		return (0);
+	if (line [2] != ' ')
+		return (0);
+	if ((line[0] == 'N' || line[0] == 'S') && line[1] == 'O')
+		return (1);
+	if (line[0] == 'W' && line[1] == 'E')
+		return (1);
+	if (line[0] == 'E' && line[1] == 'A')
+		return (1);
+	return (0);
+}
+
+/*
+	checks if a string is a map line
+	spaces okay 
+*/
+int	is_map_chars(char	*line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != '1' && line[i] != '0' && line[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+
+int	is_color_id(char *line)
+{
+	if (!line[0] || !line[1])
+		return (0);
+	if (line [1] != ' ')
+		return (0);
+	if (line[0] == 'F')
+		return (1);
+	if (line[0] == 'C')
+		return (1);
+	return (0);
+}
+
+int	is_whitespaces(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isspace(line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 
 void	print_usage_message(int msg)
 {
@@ -86,22 +147,6 @@ void	map_init(t_map *map)
 	// ...
 }
 
-int	is_texture(char	*line)
-{
-	line++;
-	return (1);
-}
-int	is_map_line(char	*line)
-{
-	line++;
-	return (1);
-}
-int	is_color_info(char	*line)
-{
-	line++;
-	return (1);
-}
-
 // main parser
 int	parse(t_vars *vars, int argc, char **argv)
 {
@@ -119,13 +164,18 @@ int	parse(t_vars *vars, int argc, char **argv)
 	if (!open_cubfile(&map, argv[1]))
 		return (1);
 	i = 0;
-	line = "1";
-	while (line)
+	while (1)
 	{
 		line = get_next_line(map.fd_cubfile);
-/* 		if (is_map_line)
-			try_read_map */
-		if (!is_texture(line) && !is_color_info(line))
+		if (!line)
+			break ;
+
+		else if (is_map_chars(line))
+		{
+			printf("is map line: %s\n", line);
+		}
+
+		else if (!is_map_chars(line) && !is_texture_id(line) && !is_color_id(line) && !is_whitespaces(line))
 		{
 			printf("Error\nLine %d: invalid identifier\n", i + 1);
 			print_usage_message(2);

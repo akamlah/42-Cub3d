@@ -26,9 +26,9 @@ int main(int argc, char **argv)
 	if (vars.exitcode)
 		exit_cub(vars.exitcode, &vars);
 
-	init_mlx_vars(&vars);
+/* 	init_mlx_vars(&vars);
 	mlx_hooks(&vars);
-	mlx_loop(vars.mlx_vars->mlx);
+	mlx_loop(vars.mlx_vars->mlx); */
 
 	return (0);
 }
