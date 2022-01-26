@@ -38,4 +38,3 @@ int	init_mlx_vars(t_vars *vars)
 	}
 	return (0);
 }
-
