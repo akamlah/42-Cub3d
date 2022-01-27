@@ -81,6 +81,8 @@ int	open_cubfile(t_map *map, char *path)
 void	map_init(t_map *map)
 {
 	map->fd_cubfile = 0;
+	map->subf_error = 0;
+	map->eof = 0;
 	map->nodes = NULL;
 	map->textr_n = NULL;
 	map->textr_s = NULL;
@@ -98,24 +100,21 @@ int	parse_line(char *tmp, int i, t_map *map)
 
 	line = ft_strtrim(tmp, "\n");
 		free(tmp);
-	if (is_map_chars(line) && !is_whitespaces(line))
+	// printf("LINE: |%s|\n", line);
+	if (!get_texture(line, map, i)
+		&& !get_color_id(line, map, i)
+		&& !is_whitespaces(line)
+		&& !get_map(line, map, i)) // && !is_whitespaces(line)try if this solves order issue...
 	{
-		free(line);
-		return (only_map_after(map, i));
-	}
-	else if (get_texture(line, map, i))
-		free(line);
-	else if (get_color_id(line, map))
-		free(line);
-	else if (is_whitespaces(line))
-		free(line);
-	else
-	{
-		printf("Error\nLine %d: invalid identifier\n", i + 1);
-		print_usage_message(2);
+		if (!map->subf_error)
+		{
+			printf("Error\nLine |%s| %d: invalid identifier\n", line, i + 1);
+			print_usage_message(2);
+		}
 		free(line);
 		return (1);
 	}
+	free(line);
 	return (0);
 }
 
@@ -137,7 +136,7 @@ int	parse(t_vars *vars, int argc, char **argv)
 	if (!open_cubfile(map, argv[1]))
 		return (1);
 	i = 0;
-	while (1)
+	while (!map->eof)
 	{
 		tmp = get_next_line(map->fd_cubfile);
 		if (!tmp)

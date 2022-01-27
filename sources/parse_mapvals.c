@@ -20,8 +20,8 @@ int	is_map_chars(char	*line)
 	return (1);
 }
 
-
-int	only_map_after(t_map *map, int i)
+// only map or just whitespaces
+int	only_maplines_after(t_map *map, int i)
 {
 	char *line;
 	
@@ -30,14 +30,34 @@ int	only_map_after(t_map *map, int i)
 	{
 		line = get_next_line(map->fd_cubfile);
 		if (!line)
-			break ;
-		if (!(is_map_chars(line) && !is_whitespaces(line)))
+			return (0);
+		if (!(!is_whitespaces(line) && is_map_chars(line)))
 		{
+			printf("this ine %s\n", line);
 			free(line);
-			return (1);
+			return (i);
 		}
 		free(line);
 		i++;
+	}
+	return (0);
+}
+
+int get_map(char *line, t_map *map, int i)
+{
+	int	line_err;
+	if (!is_whitespaces(line) && is_map_chars(line))
+	{
+		line_err = only_maplines_after(map, i);
+		if (!line_err)
+			return (1);
+		printf("Error\nMap: Line %d: Invalid sequence\n\
+		\b\b\b\b\b\b\b\b- Map can contain only: '0', '1', 'N', 'W', 'S', 'E' or space,\n\
+		\b\b\b\b\b\b\b\b- should be the last element in a .cub file'\n\
+		\b\b\b\b\b\b\b\b- should not be interrupted by other lines or newlines.\n",\
+		line_err + 1);
+		map->subf_error = 1;
+		return (0);
 	}
 	return (0);
 }

@@ -42,7 +42,13 @@ int main(int argc, char **argv)
 	{
 		exit_cub(&vars);
 	}
-
+	// check parsing:
+	printf("tn |%s|\n", vars.map->textr_n);
+	printf("ts |%s|\n", vars.map->textr_s);
+	printf("tw |%s|\n", vars.map->textr_w);
+	printf("te |%s|\n", vars.map->textr_e);
+	printf("f |%s|\n", vars.map->floor_color);
+	printf("c |%s|\n", vars.map->ceiling_color);
 
 	init_mlx_vars(&vars);
 	mlx_hooks(&vars);
