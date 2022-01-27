@@ -38,6 +38,8 @@ typedef struct s_point
 typedef struct s_map
 {
 	int		fd_cubfile;
+	int		subf_error;
+	int		eof;
 	t_point	**nodes;
 	char	*textr_n;
 	char	*textr_s;
@@ -76,11 +78,11 @@ int	key_hook(int keycode, t_vars *vars);
 
 // Alice
 int	parse(t_vars *vars, int argc, char **argv);
-int	get_texture(char *line, t_map *map, int i);
-int	get_color_id(char *line, t_map *map);
-int	is_map_chars(char	*line);
-int	only_map_after(t_map *map, int i);
 int	is_whitespaces(char *line);
+int	get_texture(char *line, t_map *map, int i);
+int	get_color_id(char *line, t_map *map, int i);
+int	get_map(char *line, t_map *map, int i);
+void	exit_cub(t_vars *vars);
 
 
 
