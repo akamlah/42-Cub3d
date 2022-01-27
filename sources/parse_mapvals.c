@@ -51,11 +51,10 @@ int get_map(char *line, t_map *map, int i)
 		line_err = only_maplines_after(map, i);
 		if (!line_err)
 			return (1);
-		printf("Error\nMap: Line %d: Invalid sequence\n\
-		\b\b\b\b\b\b\b\b- Map can contain only: '0', '1', 'N', 'W', 'S', 'E' or space,\n\
-		\b\b\b\b\b\b\b\b- should be the last element in a .cub file'\n\
-		\b\b\b\b\b\b\b\b- should not be interrupted by other lines or newlines.\n",\
-		line_err + 1);
+		printf("Error\nMap: Line %d: Invalid sequence\n", line_err + 1);
+		printf("\tMap can contain only: '0', '1', 'N', 'W', 'S', 'E' or space\n");
+		printf("\tMap should be the last element in a `.cub' file\n");
+		printf("\tMap should not be interrupted by other lines or newlines\n");
 		map->subf_error = 1;
 		return (0);
 	}
