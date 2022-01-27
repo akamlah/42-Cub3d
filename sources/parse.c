@@ -82,7 +82,7 @@ void	map_init(t_map *map)
 {
 	map->fd_cubfile = 0;
 	map->subf_error = 0;
-	map->eof = 0;
+	map->path = NULL;
 	map->nodes = NULL;
 	map->textr_n = NULL;
 	map->textr_s = NULL;
@@ -133,10 +133,11 @@ int	parse(t_vars *vars, int argc, char **argv)
 		print_usage_message(1);
 		return (1);
 	}
-	if (!open_cubfile(map, argv[1]))
+	map->path = argv[1];
+	if (!open_cubfile(map, map->path))
 		return (1);
 	i = 0;
-	while (!map->eof)
+	while (1)
 	{
 		tmp = get_next_line(map->fd_cubfile);
 		if (!tmp)
@@ -145,5 +146,6 @@ int	parse(t_vars *vars, int argc, char **argv)
 			return (1);
 		i++;
 	}
+	
 	return (0);
 }
