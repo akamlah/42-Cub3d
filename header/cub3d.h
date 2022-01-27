@@ -38,9 +38,10 @@ typedef struct s_point
 typedef struct s_map
 {
 	int		fd_cubfile;
+	char	*path;
 	int		subf_error;
-	int		eof;
 	t_point	**nodes;
+	int		**tiles;
 	char	*textr_n;
 	char	*textr_s;
 	char	*textr_w;
@@ -84,6 +85,7 @@ int	get_texture(char *line, t_map *map, int i);
 int	get_color_id(char *line, t_map *map, int i);
 int	get_map(char *line, t_map *map, int i);
 void	exit_cub(t_vars *vars);
+int	open_cubfile(t_map *map, char *path);
 
 
 
