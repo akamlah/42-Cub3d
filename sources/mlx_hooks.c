@@ -26,13 +26,17 @@ int	key_hook(int keycode, t_vars *vars)
 {
 	vars->mlx_vars->mlx = vars->mlx_vars->mlx; //silence flags, can be deleted
 	if (keycode == key_left)
-		printf("Left key pressed!\n");
+		vars->px--;
+		// printf("Left key pressed!\n");
 	if (keycode == key_right)
-		printf("Right key pressed!\n");
+		vars->px++; // protect!
+		// printf("Right key pressed!\n");
 	if (keycode == key_up)
-		printf("Up key pressed!\n");
+		vars->py--;
+		// printf("Up key pressed!\n");
 	if (keycode == key_down)
-		printf("Down key pressed!\n");
+		vars->py++;
+		// printf("Down key pressed!\n");
 	if (keycode == key_a)
 		printf("a key pressed!\n");
 	if (keycode == key_d)
@@ -40,11 +44,16 @@ int	key_hook(int keycode, t_vars *vars)
 	if (keycode == key_w)
 		printf("w key pressed!\n");
 	if (keycode == key_s)
-		printf("s key pressed!\n");
+	{
+		// printf("s key pressed!\n");
+		// test for img:
+		vars->mlx_vars->test *= -1;
+	}
 
 	// exit with esc
 	if (keycode == key_esc)
 		exit_hook(vars);
-		
+	// redraw when finished:
+	draw(vars);
 	return (0);
 }

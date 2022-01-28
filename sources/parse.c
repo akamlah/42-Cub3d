@@ -82,6 +82,11 @@ void	map_init(t_map *map)
 {
 	map->fd_cubfile = 0;
 	map->subf_error = 0;
+
+	map->startline = 0;
+	map->n_lines = 0;
+	map->max_width = 0;
+
 	map->path = NULL;
 	map->nodes = NULL;
 	map->textr_n = NULL;

@@ -49,12 +49,23 @@ int main(int argc, char **argv)
 	printf("te |%s|\n", vars.map->textr_e);
 	printf("f |%s|\n", vars.map->floor_color);
 	printf("c |%s|\n", vars.map->ceiling_color);
+	printf("map startline %d\n", vars.map->startline);
+	printf("map height %d\n", vars.map->n_lines);
+	printf("map width %d\n", vars.map->max_width);
 
 	init_mlx_vars(&vars);
+
+	// tests
+	vars.mlx_vars->test = 8;
+	// set to spawn stuff when parsing
+	vars.px = 0;
+	vars.py = 0;
+	vars.scale = 50;
 
 	draw(&vars);
 
 	mlx_hooks(&vars);
+
 	mlx_loop(vars.mlx_vars->mlx);
 
 	return (0);
