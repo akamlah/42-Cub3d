@@ -35,6 +35,9 @@ void	vars_init(t_vars *vars)
 	// ...
 }
 
+/*
+*HELLO
+*/
 int main(int argc, char **argv)
 {
 	t_vars	vars;
