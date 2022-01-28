@@ -28,6 +28,7 @@ void	*loadimage(char *path, t_vars *vars)
 		printf("Error: Image file could not be opened. Please make sure it exists and is in .xpm format.\n");
 		return(NULL);
 	}
+	close (fd);
 	return (img);
 }
 

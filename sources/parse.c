@@ -99,19 +99,20 @@ void	map_init(t_map *map)
 }
 
 // parses line by line
-int	parse_line(char *tmp, int i, t_map *map)
+int	parse_line(char *tmp, int i, t_vars *vars)
 {
 	char *line;
 
 	line = ft_strtrim(tmp, "\n");
 		free(tmp);
 	// printf("LINE: |%s|\n", line);
-	if (!get_texture(line, map, i)
-		&& !get_color_id(line, map, i)
+	if (!get_texture(line, vars->map, i)
+		&& !get_color_id(line, vars->map, i)
 		&& !is_whitespaces(line)
-		&& !get_map(line, map, i)) // && !is_whitespaces(line)try if this solves order issue...
+		&& !get_map(line, vars->map, i) // && !is_whitespaces(line)try if this solves order issue...
+		&& !parse_map_lines(vars))
 	{
-		if (!map->subf_error)
+		if (!vars->map->subf_error)
 		{
 			printf("Error\nLine |%s| %d: invalid identifier\n", line, i + 1);
 			print_usage_message(2);
@@ -147,10 +148,11 @@ int	parse(t_vars *vars, int argc, char **argv)
 		tmp = get_next_line(map->fd_cubfile);
 		if (!tmp)
 			break ;
-		if (parse_line(tmp, i, map))
+		if (parse_line(tmp, i, vars))
 			return (1);
 		i++;
 	}
-	
-	return (0);
+	//1 = fehlermeldung 0 = Gut
+	close (vars->map->fd_cubfile);
+	return (parse_map_lines(vars));
 }
