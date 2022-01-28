@@ -72,8 +72,10 @@ typedef struct mlx_vars
 	void	*mlx_ref;
 	void	*window;
 	t_image	*mainImg;
+	t_image	*minimap;
 
 	int test;
+
 
 }			t_mlx_vars;
 
@@ -85,6 +87,10 @@ typedef struct s_vars
 
 	//alice
 	t_map	*map;
+
+	int	minimap_scale;
+	int	minimap_xoffset;
+	int	minimap_yoffset;
 
 	int	px; // player x screen coord topdown
 	int	py; // player y screen coord topdown
@@ -115,5 +121,6 @@ int	open_cubfile(t_map *map, char *path);
 void draw(t_vars *vars);
 int cub_dealkey(int keycode, t_vars *vars);
 
+void minimap(t_vars *vars);
 
 # endif

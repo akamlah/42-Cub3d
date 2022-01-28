@@ -32,6 +32,9 @@ void	exit_cub(t_vars *vars)
 void	vars_init(t_vars *vars)
 {
 	vars->map = NULL;
+	vars->minimap_xoffset = 20;
+	vars->minimap_yoffset = 20;
+	vars->minimap_scale = 20;
 	// ...
 }
 
