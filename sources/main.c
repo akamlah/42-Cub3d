@@ -23,7 +23,7 @@ void	exit_cub(t_vars *vars)
 			free(vars->map->ceiling_color);
 		free(vars->map);
 	}
-	system("leaks cub3D");
+	// system("leaks cub3D");
 	exit(0);
 }
 
@@ -51,6 +51,9 @@ int main(int argc, char **argv)
 	printf("c |%s|\n", vars.map->ceiling_color);
 
 	init_mlx_vars(&vars);
+
+	draw(&vars);
+
 	mlx_hooks(&vars);
 	mlx_loop(vars.mlx_vars->mlx);
 

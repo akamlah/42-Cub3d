@@ -55,6 +55,15 @@ typedef struct mlx_vars
 	void *mlx;
 	void *window;
 	void *mainImg;
+
+	// image data -> have a typedef if we need more than ne img per window
+	char *addr; // image address
+	int	bpp; //bits per pixel
+	int	iw; // image width
+	int ih; // image higth
+	int ll; // line length
+	int	edn; // endian
+
 }			t_mlx_vars;
 
 typedef struct s_vars
@@ -87,6 +96,7 @@ int	get_map(char *line, t_map *map, int i);
 void	exit_cub(t_vars *vars);
 int	open_cubfile(t_map *map, char *path);
 
+void draw(t_vars *vars);
 
 
 # endif
