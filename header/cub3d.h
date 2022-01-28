@@ -39,6 +39,12 @@ typedef struct s_map
 {
 	int		fd_cubfile;
 	char	*path;
+
+	// new mapdata:
+	int		startline;
+	int		n_lines;
+	int		max_width;
+
 	int		subf_error;
 	t_point	**nodes;
 	int		**tiles;
@@ -64,6 +70,8 @@ typedef struct mlx_vars
 	int ll; // line length
 	int	edn; // endian
 
+	int test;
+
 }			t_mlx_vars;
 
 typedef struct s_vars
@@ -74,6 +82,11 @@ typedef struct s_vars
 
 	//alice
 	t_map	*map;
+
+	int	px; // player x screen coord topdown
+	int	py; // player y screen coord topdown
+
+	int scale;
 
 }	t_vars;
 

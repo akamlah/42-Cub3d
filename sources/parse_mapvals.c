@@ -11,7 +11,7 @@ int	parse_map(t_map *map)
 	checks if a string is a map line
 	spaces okay 
 */
-int	is_map_chars(char	*line)
+int	is_map_chars(char	*line, t_map *map)
 {
 	int i;
 
@@ -24,6 +24,8 @@ int	is_map_chars(char	*line)
 			return (0);
 		i++;
 	}
+	if (i > map->max_width)
+		map->max_width = i;
 	return (1);
 }
 
@@ -37,8 +39,11 @@ int	only_maplines_after(t_map *map, int i)
 	{
 		line = get_next_line(map->fd_cubfile);
 		if (!line)
+		{
+			map->n_lines = i - map->startline + 1;
 			return (0);
-		if (!(!is_whitespaces(line) && is_map_chars(line)))
+		}
+		if (!(!is_whitespaces(line) && is_map_chars(line, map)))
 		{
 			printf("this ine %s\n", line);
 			free(line);
@@ -53,7 +58,9 @@ int	only_maplines_after(t_map *map, int i)
 int get_map(char *line, t_map *map, int i)
 {
 	int	line_err;
-	if (!is_whitespaces(line) && is_map_chars(line))
+
+	map->startline = i + 1;
+	if (!is_whitespaces(line) && is_map_chars(line, map))
 	{
 		line_err = only_maplines_after(map, i);
 		if (!line_err)
