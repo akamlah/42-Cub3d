@@ -4,7 +4,9 @@ int	cub_pixel_put(t_vars *vars, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = vars->mlx_vars->addr + (y * vars->mlx_vars->ll + x * (vars->mlx_vars->bpp / 8));
+	dst = vars->mlx_vars->mainImg->address +
+	(y * vars->mlx_vars->mainImg->line_length +
+	x * (vars->mlx_vars->mainImg->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 	return (0);
 }
@@ -28,38 +30,38 @@ void	fcku(t_vars *vars)
 		{1, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1},
 	}; */
-	// int testmap[10][10] = 
-	// {
-	// 	{1, 1, 1, 0, 1, 1, 1, 0, 0, 1},
-	// 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	// 	{1, 1, 0, 0, 1, 0, 0, 0, 0, 1},
-	// 	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	// 	{1, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-	// 	{ ,  , 1, 0, 0,  , 0, 0, 0, 1},
-	// 	{1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-	// 	{1, 1, 0, 0, 1, 0, 1, 0, 0, 1},
-	// 	{1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-	// 	{1, 0, 1, 0, 1, 1, 1, 1, 1, 1},
-	// };
-	h = 13;
-		int testmap[13][10] = 
+	int testmap[10][10] = 
 	{
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 1, 0, 1, 1, 0, 1, 0, 1},
-		{1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
-		{1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
-		{1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
-		{1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 1, 1, 0, 1, 1, 1, 0, 0, 1},
+		{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+		{1, 1, 0, 0, 1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 1, 1, 1, 0, 0, 1},
+		{0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
+		{1, 1, 0, 0, 1, 0, 1, 0, 0, 1},
+		{1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
+		{1, 0, 1, 0, 1, 1, 1, 1, 1, 1},
 	};
-	int scale = 10; // distance in pixel between points
-	int offset = 50; // here it is both for x and for y, it is the distance from tlc of screen.
+	// h = 13;
+	// 	int testmap[13][10] = 
+	// {
+	// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	// 	{1, 0, 1, 0, 1, 1, 0, 1, 0, 1},
+	// 	{1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+	// 	{1, 0, 1, 0, 0, 1, 0, 0, 0, 1},
+	// 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+	// 	{1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+	// 	{1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
+	// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	// 	{1, 0, 1, 1, 1, 1, 1, 1, 0, 1},
+	// 	{1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
+	// 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+	// 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+	// };
+	int scale = 50; // distance in pixel between points
+	int offset = 500; // here it is both for x and for y, it is the distance from tlc of screen.
 	// solution for color:multiply white by 0 or one, to switch on/off
 	while (i < h)
 	{
@@ -97,7 +99,7 @@ void	fcku(t_vars *vars)
 			l = 0;
 			while (l < pw)
 			{
-				cub_pixel_put(vars, (vars->px * 10 + offset) + l, (vars->py* 10 + offset) + k, 0xf9dc4a);
+				cub_pixel_put(vars, (vars->px * 10 + offset) + l, (vars->py * 10 + offset) + k, 0xf9dc4a);
 				l++;
 			}
 			k++;
@@ -135,14 +137,23 @@ void	raycast_urmom(t_vars *vars)
 
 void draw(t_vars *vars)
 {
-	mlx_clear_window(vars->mlx_vars->mlx, vars->mlx_vars->window);
 
-	vars->mlx_vars->mainImg = mlx_new_image(vars->mlx_vars->mlx, WW, WH);
+	mlx_clear_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window);
 
-	// printf("%p\n", vars->mlx_vars->mlx);//, vars->mlx_vars->mainImg, vars->mlx_vars->window);
+	if (vars->mlx_vars->mainImg)
+	{
+		free(vars->mlx_vars->mainImg);
+		vars->mlx_vars->mainImg = NULL;
+	}
+	vars->mlx_vars->mainImg = malloc(sizeof(t_image));
+	vars->mlx_vars->mainImg->ref = mlx_new_image(vars->mlx_vars->mlx_ref, WW, WH);
 
-	vars->mlx_vars->addr = mlx_get_data_addr(vars->mlx_vars->mainImg, &vars->mlx_vars->bpp, 
-		&vars->mlx_vars->ll, &vars->mlx_vars->edn);
+	// printf("%p\n", vars->mlx_vars->mlx_ref);//, vars->mlx_vars->mainImg, vars->mlx_vars->window);
+
+	vars->mlx_vars->mainImg->address = mlx_get_data_addr(vars->mlx_vars->mainImg->ref, 
+		&vars->mlx_vars->mainImg->bits_per_pixel, 
+		&vars->mlx_vars->mainImg->line_length, 
+		&vars->mlx_vars->mainImg->endian);
 
 	// fill image -> I drew a square. change col with 's'.
 	fcku(vars);
@@ -151,7 +162,6 @@ void draw(t_vars *vars)
 	// raycast_urmom(vars);
 
 
-	mlx_put_image_to_window(vars->mlx_vars->mlx, vars->mlx_vars->window, vars->mlx_vars->mainImg, 0, 0);
-
-
+	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, vars->mlx_vars->mainImg->ref, 0, 0);
+	// free(vars->mlx_vars->mainImg);
 }

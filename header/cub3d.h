@@ -56,19 +56,22 @@ typedef struct s_map
 	char	*floor_color;
 }			t_map;
 
+typedef struct	s_image
+{
+	void	*ref;
+	char	*address;
+	int		bits_per_pixel;
+	int		width;
+	int		height;
+	int		line_length;
+	int		endian;
+}				t_image;
+
 typedef struct mlx_vars
 {
-	void *mlx;
-	void *window;
-	void *mainImg;
-
-	// image data -> have a typedef if we need more than ne img per window
-	char *addr; // image address
-	int	bpp; //bits per pixel
-	int	iw; // image width
-	int ih; // image higth
-	int ll; // line length
-	int	edn; // endian
+	void	*mlx_ref;
+	void	*window;
+	t_image	*mainImg;
 
 	int test;
 
@@ -110,6 +113,7 @@ void	exit_cub(t_vars *vars);
 int	open_cubfile(t_map *map, char *path);
 
 void draw(t_vars *vars);
+int cub_dealkey(int keycode, t_vars *vars);
 
 
 # endif

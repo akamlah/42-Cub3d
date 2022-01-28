@@ -21,6 +21,8 @@ void	exit_cub(t_vars *vars)
 			free(vars->map->floor_color);
 		if (vars->map->ceiling_color)
 			free(vars->map->ceiling_color);
+	if (vars->mlx_vars->mainImg)
+		free(vars->mlx_vars->mainImg);
 		free(vars->map);
 	}
 	// system("leaks cub3D");
@@ -62,11 +64,12 @@ int main(int argc, char **argv)
 	vars.py = 0;
 	vars.scale = 50;
 
+	vars.mlx_vars->mainImg = NULL;
 	draw(&vars);
 
 	mlx_hooks(&vars);
 
-	mlx_loop(vars.mlx_vars->mlx);
+	// mlx_loop(vars.mlx_vars->mlx_ref);
 
 	return (0);
 }

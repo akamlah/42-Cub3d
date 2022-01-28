@@ -15,16 +15,19 @@ int	exit_hook(t_vars *vars)
 */
 int	update(t_vars *vars)
 {
-	vars->mlx_vars->mlx = vars->mlx_vars->mlx; //silence flags, can be deleted
+
+	draw(vars);
+	// vars->mlx_vars->mlx_ref = vars->mlx_vars->mlx_ref; //silence flags, can be deleted
+
+	
 	return (0);
 }
 
-/*
-*Handles all neccessary keyboard interaction
-*/
-int	key_hook(int keycode, t_vars *vars)
+
+// works also with pressed keys
+int cub_dealkey(int keycode, t_vars *vars)
 {
-	vars->mlx_vars->mlx = vars->mlx_vars->mlx; //silence flags, can be deleted
+	// t_vars *vars;
 	if (keycode == key_left)
 		vars->px--;
 		// printf("Left key pressed!\n");
@@ -50,10 +53,47 @@ int	key_hook(int keycode, t_vars *vars)
 		vars->mlx_vars->test *= -1;
 	}
 
-	// exit with esc
 	if (keycode == key_esc)
-		exit_hook(vars);
-	// redraw when finished:
-	draw(vars);
+		exit_cub(vars);
+		draw(vars);
 	return (0);
 }
+
+// /*
+// *Handles all neccessary keyboard interaction
+// */
+// int	key_hook(int keycode, t_vars *vars)
+// {
+// 	vars->mlx_vars->mlx_ref = vars->mlx_vars->mlx; //silence flags, can be deleted
+// 	if (keycode == key_left)
+// 		vars->px--;
+// 		// printf("Left key pressed!\n");
+// 	if (keycode == key_right)
+// 		vars->px++; // protect!
+// 		// printf("Right key pressed!\n");
+// 	if (keycode == key_up)
+// 		vars->py--;
+// 		// printf("Up key pressed!\n");
+// 	if (keycode == key_down)
+// 		vars->py++;
+// 		// printf("Down key pressed!\n");
+// 	if (keycode == key_a)
+// 		printf("a key pressed!\n");
+// 	if (keycode == key_d)
+// 		printf("d key pressed!\n");
+// 	if (keycode == key_w)
+// 		printf("w key pressed!\n");
+// 	if (keycode == key_s)
+// 	{
+// 		// printf("s key pressed!\n");
+// 		// test for img:
+// 		vars->mlx_vars->test *= -1;
+// 	}
+
+// 	// exit with esc
+// 	if (keycode == key_esc)
+// 		exit_hook(vars);
+// 	// redraw when finished:
+// 	// draw(vars);
+// 	return (0);
+// }
