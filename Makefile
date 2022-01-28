@@ -2,7 +2,7 @@
 NAME = cub3D
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror # -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 
 # **************************************************************************** #
@@ -10,7 +10,11 @@ CFLAGS = -Wall -Wextra -Werror # -g -fsanitize=address
 
 MAIN = main.c
 
-CFILES_ALICE = parse.c parse_mapvals.c parse_identifiers.c
+CFILES_ALICE = \
+	parse.c \
+	parse_mapvals.c \
+	parse_identifiers.c \
+	draw.c 
 
 CFILES_ANDI = mlx.c mlx_hooks.c
 
