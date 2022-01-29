@@ -1,25 +1,6 @@
 #include "../header/cub3d.h"
 
-int	check_emptyspace(t_vars *vars, char	**maplines, int x, int y)
-{
 
-	if (
-		(x != 0 && maplines[y][x - 1] != '1' && maplines[y][x - 1] != ' ') //one to left
-		|| (x + 1 < (int)ft_strlen(maplines[y]) && maplines[y][x + 1] != '1' && maplines[y][x + 1] != ' ') // one to right
-		|| (y != 0 && maplines[y - 1][x] != '1' && maplines[y - 1][x] != ' ') // one to top
-		|| (y + 1 < vars->map->n_lines && maplines[y + 1][x] != '1' && maplines[y + 1][x] != ' ') // one to bottom
-		|| (y != 0 && x != 0 && maplines[y - 1][x - 1] != '1' && maplines[y - 1][x - 1] != ' ') //top-left corner
-		|| (y != 0 && x + 1 < (int)ft_strlen(maplines[y]) && maplines[y - 1][x + 1] != '1' && maplines[y - 1][x + 1] != ' ') //top-right corner
-		|| (y + 1 < vars->map->n_lines && x + 1 < (int)ft_strlen(maplines[y]) && maplines[y + 1][x + 1] != '1' && maplines[y + 1][x + 1] != ' ') //bottom-right corner
-		|| (y + 1 < vars->map->n_lines && x != 0 && maplines[y + 1][x - 1] != '1' && maplines[y + 1][x - 1] != ' ') //bottom-left corner
-		)
-		{
-			printf("Error: Map: Empty Character at (x: %d, y: %d) not enclosed by walls\n", x, y);
-			return (0);
-		}
-		
-	return (1);
-}
 
 int	check_char(t_vars *vars, char **maplines, int x, int y)
 {
