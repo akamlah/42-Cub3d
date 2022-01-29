@@ -103,6 +103,7 @@ int		update(t_vars *vars);
 int		key_hook(int keycode, t_vars *vars);
 void	*loadimage(char *path, t_vars *vars);
 int		parse_map_lines(t_vars *vars);
+int		check_emptyspace(t_vars *vars, char	**maplines, int x, int y);
 
 // Alice
 int	parse(t_vars *vars, int argc, char **argv);

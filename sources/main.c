@@ -21,8 +21,8 @@ void	exit_cub(t_vars *vars)
 			free(vars->map->floor_color);
 		if (vars->map->ceiling_color)
 			free(vars->map->ceiling_color);
-	if (vars->mlx_vars->mainImg)
-		free(vars->mlx_vars->mainImg);
+	// if (vars->mlx_vars->mainImg)
+	// 	free(vars->mlx_vars->mainImg);
 		free(vars->map);
 	}
 	// system("leaks cub3D");

@@ -16,7 +16,7 @@ CFILES_ALICE = \
 	parse_identifiers.c \
 	draw.c 
 
-CFILES_ANDI = mlx.c mlx_hooks.c
+CFILES_ANDI = mlx.c mlx_hooks.c parse_map.c check_empty_space.c
 
 HEADERS = cub3D.h
 
