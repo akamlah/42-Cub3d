@@ -86,20 +86,28 @@ int	check_map(t_vars *vars, char **maplines)
 {
 	int	y;
 	int	x;
+	int	spawncnt;
 
 	y = 0;
 	x = 0;
+	spawncnt = 0;
 	while (maplines[y])
 	{
 		while (maplines[y][x])
 		{
-			printf("%c", maplines[y][x]);
+			if (is_valid_c(maplines[y][x]))
+				spawncnt++;
 			 if (check_square(vars, maplines, x, y))
 				return (1);
 			x++;
 		}
 		x = 0;
 		y++;
+	}
+	if (spawncnt != 1)
+	{
+		printf("Error: Map: Incorrect number of spawnpoints, only 1 allowed!\n");
+		return (1);
 	}
 	return (0);
 }
