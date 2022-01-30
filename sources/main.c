@@ -72,9 +72,8 @@ int main(int argc, char **argv)
 
 	vars.mlx_vars->mainImg = NULL;
 	draw(&vars);
-
 	mlx_hooks(&vars);
-
+	
 	// mlx_loop(vars.mlx_vars->mlx_ref);
 
 	return (0);
