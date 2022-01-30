@@ -46,7 +46,7 @@ typedef struct s_map
 	int		max_width;
 
 	int		subf_error;
-	t_point	**nodes;
+	char	**nodes;
 	int		**tiles;
 	char	*textr_n;
 	char	*textr_s;

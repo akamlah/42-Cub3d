@@ -56,5 +56,6 @@ int	parse_map_lines(t_vars *vars)
 	if (check_borders(vars, maplines)
 		|| check_map(vars, maplines))
 		return (1);
+	vars->map->nodes = maplines;
 	return (0);
 }
