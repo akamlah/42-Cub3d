@@ -9,6 +9,8 @@ int	check_top(char **maplines, int x, int y)
 		return (0);
 	length_top = (int)ft_strlen(maplines[y - 1]);
 	length_middle = (int)ft_strlen(maplines[y]);
+	if (length_top - 3 < x)
+		return (1);
 	if(( length_top >= length_middle && maplines[y - 1][x] != '1' && maplines[y - 1][x] != maplines[y][x])
 		|| (length_top >= length_middle - 1 && x != 0 && maplines[y - 1][x - 1] != '1' && maplines[y - 1][x - 1] != maplines[y][x]) 
 		|| (length_top >= length_middle + 1 && x + 1 < length_top && maplines[y - 1][x + 1] != '1'
@@ -27,6 +29,8 @@ int	check_bot(t_vars *vars, char **maplines, int x, int y)
 		return (0);
 	length_bot = (int)ft_strlen(maplines[y + 1]);
 	length_middle = (int)ft_strlen(maplines[y]);
+	if (length_bot - 3 < x)
+		return (1);
 	if((length_bot >= length_middle && maplines[y + 1][x] != '1' && maplines[y + 1][x] != maplines[y][x]) // one to bottom
 		|| (length_bot >= length_middle - 1 && x != 0 && maplines[y + 1][x - 1] != '1' && maplines[y + 1][x - 1] != maplines[y][x]) //bottom-left corner
 		|| (length_bot >= length_middle + 1 && x + 1 < length_middle && maplines[y + 1][x + 1] != '1' && maplines[y + 1][x + 1] != maplines[y][x])) //bottom-right corner
