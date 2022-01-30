@@ -1,12 +1,5 @@
 #include "../header/cub3d.h"
 
-int	check_char(t_vars *vars, char **maplines, int x, int y)
-{
-	if ((maplines[y][x] == ' ' || maplines[y][x] == '0') && !check_map_squares(vars, maplines, x, y))
-		return (0);
-	return (1);
-}
-
 char	**get_map_lines(t_vars *vars)
 {
 	int		fd;
@@ -15,12 +8,17 @@ char	**get_map_lines(t_vars *vars)
 	char	*linebuff;
 	char	**maplines = NULL;
 
+	if (vars->map->max_width < 3 || vars->map->n_lines < 3)
+	{
+		printf("Error: Invaliid map size!\n");
+		return (0);
+	}
 	i = 0;
 	linecount = 0;
 	fd = open(vars->map->path, O_RDONLY);
 	if (fd < 0)
 		return (0);
-	maplines = malloc((vars->map->max_width + 1) * (vars->map->n_lines + 1));
+	maplines = malloc((vars->map->max_width + 2) * (vars->map->n_lines + 2));
 	while (i < vars->map->startline + vars->map->n_lines - 1)
 	{
 		linebuff = get_next_line(fd);
@@ -41,13 +39,6 @@ char	**get_map_lines(t_vars *vars)
 	}
 	close (fd);
 	maplines[linecount] = NULL;
-	// 	int ii = 0;
-
-	// while (maplines[ii])
-	// {
-	// 	printf("LINE: %s", maplines[ii]);
-	// 	ii++;
-	// }
 	return (maplines);
 }
 
@@ -62,20 +53,8 @@ int	parse_map_lines(t_vars *vars)
 	maplines = get_map_lines(vars);
 	if (!maplines)
 		return (1);
-	if (check_borders(vars, maplines))
-	{
+	if (check_borders(vars, maplines)
+		|| check_map(vars, maplines))
 		return (1);
-	}
-	while (maplines[y])
-	{
-		while (maplines[y][x])
-		{
-			if (!check_char(vars, maplines, x, y))
-				return (1);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
 	return (0);
 }
