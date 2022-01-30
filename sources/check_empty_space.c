@@ -37,8 +37,11 @@ int	check_empty_bot(t_vars *vars, char **maplines, int x, int y)
 
 int	check_empty_lr(char **maplines, int x, int y)
 {
-	if((x != 0 && maplines[y][x - 1] != '1' && maplines[y][x - 1] != ' ') 	//one to left
-		|| (x + 1 < (int)ft_strlen(maplines[y]) && maplines[y][x + 1] != '1' && maplines[y][x + 1] != ' ')) // one to right
+	int	length_middle;
+
+	length_middle = (int)ft_strlen(maplines[y]);
+	if((x != 0 && maplines[y][x - 1] != '1' && maplines[y][x - 1] != ' ')	//one to left
+		|| ((x + 1 < length_middle && maplines[y][x + 1] != '1' && maplines[y][x + 1] != ' ') && x < length_middle - 2)) // one to right
 		return (1);
 	else
 		return (0);
