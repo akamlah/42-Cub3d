@@ -109,8 +109,7 @@ int	parse_line(char *tmp, int i, t_vars *vars)
 	if (!get_texture(line, vars->map, i)
 		&& !get_color_id(line, vars->map, i)
 		&& !is_whitespaces(line)
-		&& !get_map(line, vars->map, i) // && !is_whitespaces(line)try if this solves order issue...
-		&& !parse_map_lines(vars))
+		&& !get_map(line, vars->map, i)) // && !is_whitespaces(line)try if this solves order issue...)
 	{
 		if (!vars->map->subf_error)
 		{
