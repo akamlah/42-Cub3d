@@ -11,7 +11,7 @@ int	check_top_bot(t_vars *vars, char **maplines)
 	{
 		if (maplines[0][x] != '1' && maplines[0][x] != ' ')
 		{
-			printf("Error: Map: Map not inclosed in walls (x: %d, y: %d\n", x, 0);
+			printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", x, 0);
 			return (1);
 		}
 		x++;
@@ -21,7 +21,7 @@ int	check_top_bot(t_vars *vars, char **maplines)
 	{
 		if (maplines[y][x] != '1' && maplines[y][x] != ' ')
 		{
-			printf("Error: Map: Map not inclosed in walls (x: %d, y: %d\n", x, y);
+			printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", x, y);
 			return (1);
 		}
 		x++;
@@ -38,7 +38,7 @@ int	check_front(char **maplines, int y)
 			x++;
 	if (maplines[y][x] != '1')
 	{
-		printf("Error: Map: Map not inclosed in walls (x: %d, y: %d\n", x, y);
+		printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", x, y);
 		return (1);
 	}
 	return (0);
@@ -55,7 +55,7 @@ int	check_back(char **maplines, int y)
 			i++;
 	if (maplines[y][line_len - 2 - i] != '1')
 	{
-		printf("Error: Map: Map not inclosed in walls (x: %d, y: %d\n", line_len - 2 - i, y);
+		printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", line_len - 2 - i, y);
 		return (1);
 	}
 	return (0);

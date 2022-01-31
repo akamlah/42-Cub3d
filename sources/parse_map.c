@@ -10,7 +10,7 @@ char	**get_map_lines(t_vars *vars)
 
 	if (vars->map->max_width < 3 || vars->map->n_lines < 3)
 	{
-		printf("Error: Invaliid map size!\n");
+		printf("Error\nInvaliid map size!\n");
 		return (0);
 	}
 	i = 0;

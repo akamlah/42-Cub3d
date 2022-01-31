@@ -45,7 +45,7 @@ int	only_maplines_after(t_map *map, int i)
 		}
 		if (!(!is_whitespaces(line) && is_map_chars(line, map)))
 		{
-			printf("this ine %s\n", line);
+			// printf("this ine %s\n", line);
 			free(line);
 			return (i);
 		}

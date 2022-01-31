@@ -21,8 +21,8 @@ void	exit_cub(t_vars *vars)
 			free(vars->map->floor_color);
 		if (vars->map->ceiling_color)
 			free(vars->map->ceiling_color);
-	// if (vars->mlx_vars->mainImg)
-	// 	free(vars->mlx_vars->mainImg);
+	// if (vars->mlx_vars->minimap)
+	// 	free(vars->mlx_vars->minimap);
 		free(vars->map);
 	}
 	// system("leaks cub3D");
@@ -32,8 +32,8 @@ void	exit_cub(t_vars *vars)
 void	vars_init(t_vars *vars)
 {
 	vars->map = NULL;
-	vars->minimap_xoffset = 20;
-	vars->minimap_yoffset = 20;
+	vars->minimap_xwinoffset = 20;
+	vars->minimap_ywinoffset = 20;
 	vars->minimap_scale = 20;
 	// ...
 }
@@ -50,31 +50,48 @@ int main(int argc, char **argv)
 	{
 		exit_cub(&vars);
 	}
-	// check parsing:
-	printf("tn |%s|\n", vars.map->textr_n);
-	printf("ts |%s|\n", vars.map->textr_s);
-	printf("tw |%s|\n", vars.map->textr_w);
-	printf("te |%s|\n", vars.map->textr_e);
-	printf("f |%s|\n", vars.map->floor_color);
-	printf("c |%s|\n", vars.map->ceiling_color);
-	printf("map startline %d\n", vars.map->startline);
-	printf("map height %d\n", vars.map->n_lines);
-	printf("map width %d\n", vars.map->max_width);
+
+		//--------------------------------
+		// check parsing:
+		printf("tn |%s|\n", vars.map->textr_n);
+		printf("ts |%s|\n", vars.map->textr_s);
+		printf("tw |%s|\n", vars.map->textr_w);
+		printf("te |%s|\n", vars.map->textr_e);
+		printf("f |%s|\n", vars.map->floor_color);
+		printf("c |%s|\n", vars.map->ceiling_color);
+		printf("map startline %d\n", vars.map->startline);
+		printf("map height %d\n", vars.map->n_lines);
+		printf("map width %d\n", vars.map->max_width);
+
+		int i, j;
+		// PRINT map->nodes (char ** with nls)
+		i = 0;
+		while (vars.map->nodes[i] && i < vars.map->n_lines)
+		{
+			j = 0;
+			while (vars.map->nodes[i][j] && vars.map->nodes[i][j] != '\n')
+			{
+				printf("%c", vars.map->nodes[i][j]);
+				j++;
+			}
+			// printf("\n");
+			i++;
+		}
+		//--------------------------------
 
 	init_mlx_vars(&vars);
-
 	// tests
 	vars.mlx_vars->test = 8;
 	// set to spawn stuff when parsing
 	vars.px = 0;
 	vars.py = 0;
+	vars.ps = 4;
 	vars.scale = 50;
 
-	vars.mlx_vars->mainImg = NULL;
-	draw(&vars);
+	vars.mlx_vars->minimap = NULL;
+	build_frame(&vars);
+
 	mlx_hooks(&vars);
 	
-	// mlx_loop(vars.mlx_vars->mlx_ref);
-
 	return (0);
 }

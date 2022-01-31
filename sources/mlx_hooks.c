@@ -17,32 +17,56 @@ int	update(t_vars *vars)
 {
 
 	mlx_clear_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window);
-	if (vars->mlx_vars->mainImg)
+	if (vars->mlx_vars->minimap)
 	{
-		free(vars->mlx_vars->mainImg);
-		vars->mlx_vars->mainImg = NULL;
+		free(vars->mlx_vars->minimap);
+		vars->mlx_vars->minimap = NULL;
 	}
-	draw(vars);
+	build_frame(vars);
+
+	// (test)
+	// 		int i, j;
+	// 	// PRINT map->nodes (char ** with nls)
+	// 	i = 0;
+	// 	while (vars->map->nodes[i] && i < vars->map->n_lines)
+	// 	{
+	// 		j = 0;
+	// 		while (vars->map->nodes[i][j] && vars->map->nodes[i][j] != '\n')
+	// 		{
+	// 			printf("%c", vars->map->nodes[i][j]);
+	// 			j++;
+	// 		}
+	// 		printf("\n");
+	// 		i++;
+	// 	}
 	return (0);
 }
 
 
+/*
+*Calls all mlx-hooks (keyhooks, loophooks, etc)
+*/
+int	mlx_hooks(t_vars *vars)
+{
+	mlx_hook(vars->mlx_vars->window, 17, 0, &exit_hook, vars);
+	mlx_hook(vars->mlx_vars->window, 2, (1L<<13), &cub_dealkey, vars);
+	mlx_loop_hook(vars->mlx_vars->mlx_ref, &update, vars);
+	mlx_loop(vars->mlx_vars->mlx_ref);
+	return (0);
+}
+
 // works also with pressed keys
 int cub_dealkey(int keycode, t_vars *vars)
 {
-	// t_vars *vars;
+
 	if (keycode == key_a)
-		vars->px--;
-		// printf("Left key pressed!\n");
+		vars->px-=2;
 	if (keycode == key_d)
-		vars->px++; // protect!
-		// printf("Right key pressed!\n");
+		vars->px+=2; // protect!
 	if (keycode == key_w)
-		vars->py--;
-		// printf("Up key pressed!\n");
+		vars->py-=2;
 	if (keycode == key_s)
-		vars->py++;
-		// printf("Down key pressed!\n");
+		vars->py+=2;
 	if (keycode == key_up)
 		printf("a key pressed!\n");
 	if (keycode == key_down)
@@ -58,6 +82,7 @@ int cub_dealkey(int keycode, t_vars *vars)
 
 	if (keycode == key_esc)
 		exit_cub(vars);
-		draw(vars);
+	// build_frame(vars);
+
 	return (0);
 }

@@ -34,24 +34,6 @@ void	*loadimage(char *path, t_vars *vars)
 
 
 /*
-*Calls all mlx-hooks (keyhooks, loophooks, etc)
-*/
-int	mlx_hooks(t_vars *vars)
-{
-	mlx_hook(vars->mlx_vars->window, 17, 0, &exit_hook, vars);
-
-	// mlx_hook(vars->mlx_vars->window, 3, (1L<<14), &cub_dealkey, vars);
-	mlx_hook(vars->mlx_vars->window, 2, (1L<<13), &cub_dealkey, vars);
-
-	// mlx_loop_hook(vars->mlx_vars->mlx_ref, &update, vars);
-
-	// mlx_key_hook(vars->mlx_vars->window, &key_hook, vars);
-	mlx_loop(vars->mlx_vars->mlx_ref);
-
-	return (0);
-}
-
-/*
 *Initializes MLX variables
 */
 int	init_mlx_vars(t_vars *vars)
