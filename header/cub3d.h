@@ -12,8 +12,9 @@
 
 // screen parameters
 // window size (WW width, WH heigth in pixel)
-# define WW 2560
-# define WH 1600
+// https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
+# define WW 1920
+# define WH 1080
 
 //keycodes
 # define key_left 123
@@ -72,11 +73,8 @@ typedef struct mlx_vars
 	void	*mlx_ref;
 	void	*window;
 	t_image	*minimap;
-	t_image	*img2;
-
-	int test;
-
-
+	t_image	*background;
+	t_image *raycast;
 }			t_mlx_vars;
 
 typedef struct s_vars
@@ -101,6 +99,7 @@ typedef struct s_vars
 	int	px; // player x screen coord topdown
 	int	py; // player y screen coord topdown
 	int	ps; // player size (square) . justt 4 tests 
+
 	int scale;
 
 }	t_vars;
@@ -125,7 +124,7 @@ int		get_color_id(char *line, t_map *map, int i);
 int		get_map(char *line, t_map *map, int i);
 void	exit_cub(t_vars *vars);
 int		open_cubfile(t_map *map, char *path);
-void	build_frame(t_vars *vars);
+void	compone_window(t_vars *vars);
 int		cub_dealkey(int keycode, t_vars *vars);
 void	minimap(t_vars *vars);
 

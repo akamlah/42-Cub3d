@@ -5,9 +5,7 @@ int	cub_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = img->address +
-	(y * img->line_length +
-	x * (img->bits_per_pixel / 8));
+	dst = img->address + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 	return (0);
 }
@@ -31,11 +29,32 @@ void	draw_square_tlc(t_image *img, int xsize, int ysize, int x, int y, int color
 	}
 }
 
+void	draw_frame(t_image *img, int w, int h, int xtl, int ytl, int col)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < h)
+	{
+		cub_pixel_put(img, xtl, ytl + i, col);
+		cub_pixel_put(img, xtl + w, ytl + i, col);
+		i++;
+	}
+	j = 0;
+	while (j < w)
+	{
+		cub_pixel_put(img, xtl + j, ytl, col);
+		cub_pixel_put(img, xtl + j, ytl + h, col);
+		j++;
+	}
+}
+
 void draw_player_minimap(t_vars *vars)
 {
 	draw_square_tlc(vars->mlx_vars->minimap, vars->ps, \
-	vars->ps, vars->px, \
-	vars->py, \
+	vars->ps, vars->px + vars->minimap_xframeoffset, \
+	vars->py + vars->minimap_yframeoffset, \
 	0xfaf20f);
 }
 
@@ -47,26 +66,27 @@ void	fill_minimap(t_vars *vars)
 	int col;
 	// minimap background?
 	i = 0;
-	while (i < vars->map->n_lines)
+	while (vars->map->nodes[i] && i < vars->map->n_lines)
 	{
 		j = 0;
-		while (j <  vars->map->max_width - 1)
+		while (vars->map->nodes[i][j] && vars->map->nodes[i][j] != '\n')
 		{
 			if (vars->map->nodes[i][j] == 'N')
 			{
-				printf("here\n");
-				vars->px = j * vars->minimap_scale + vars->minimap_scale / 2 - vars->ps / 2 + vars->minimap_xframeoffset;
-				vars->py = i * vars->minimap_scale + vars->minimap_scale / 2 - vars->ps / 2 + vars->minimap_yframeoffset;
+				vars->px = j * vars->minimap_scale + vars->minimap_scale / 2 - vars->ps / 2;
+				vars->py = i * vars->minimap_scale + vars->minimap_scale / 2 - vars->ps / 2;
 				vars->map->nodes[i][j] = '0';
 			}
 			if (vars->map->nodes[i][j] == '1')
 				col = 1;
 			else
 				col = 0;
-			draw_square_tlc(vars->mlx_vars->minimap, vars->minimap_scale - 1, vars->minimap_scale - 1, \
-			(j * vars->minimap_scale + vars->minimap_xframeoffset), //+ vars->minimap_xwinoffset),
-			(i * vars->minimap_scale + vars->minimap_yframeoffset), //+ vars->minimap_ywinoffset),
-			col * 0xffffff);
+			if (vars->map->nodes[i][j] == '1' || vars->map->nodes[i][j] == '0')
+			{
+				draw_square_tlc(vars->mlx_vars->minimap, vars->minimap_scale - 1, vars->minimap_scale - 1, \
+				(j * vars->minimap_scale + vars->minimap_xframeoffset), \
+				(i * vars->minimap_scale + vars->minimap_yframeoffset), col * 0xffffff);
+			}
 			j++;
 		}
 		i++;
@@ -86,31 +106,58 @@ void	draw_minimap(t_vars *vars)
 	vars->mlx_vars->minimap->address = mlx_get_data_addr(vars->mlx_vars->minimap->ref, \
 		&vars->mlx_vars->minimap->bits_per_pixel, &vars->mlx_vars->minimap->line_length, \
 		&vars->mlx_vars->minimap->endian);
-
-	// background:
-	draw_square_tlc(vars->mlx_vars->minimap, vars->minimap_xframelen, vars->minimap_yframelen, 0, 0, 0x809672);
-	
-	fill_minimap(vars); // have a separate img for minimap?
-
+	draw_square_tlc(vars->mlx_vars->minimap, vars->minimap_xframelen - 4, vars->minimap_yframelen - 4, 2, 2, 0x809672);
+	draw_frame(vars->mlx_vars->minimap, vars->minimap_xframelen - 1, vars->minimap_yframelen -1, 0, 0, 0xf4f2f3);
+	fill_minimap(vars);
 	draw_player_minimap(vars);
-
+	vars->minimap_xwinoffset = 20;
+	vars->minimap_ywinoffset = WH - vars->minimap_yframelen - 20;
 	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, vars->mlx_vars->minimap->ref, \
 	vars->minimap_xwinoffset, vars->minimap_ywinoffset);
 }
 
-void	draw_secondimg(t_vars *vars)
+void	draw_background(t_vars *vars)
 {
-	vars->mlx_vars->img2 = malloc(sizeof(t_image));
-	vars->mlx_vars->img2->ref = mlx_new_image(vars->mlx_vars->mlx_ref, WW, WH);
-	vars->mlx_vars->img2->address = mlx_get_data_addr(vars->mlx_vars->img2->ref, &vars->mlx_vars->img2->bits_per_pixel, &vars->mlx_vars->img2->line_length, &vars->mlx_vars->img2->endian);
-	draw_square_tlc(vars->mlx_vars->img2, 50, 50, 0, 0, 0xffffff);
-	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, vars->mlx_vars->img2->ref, 500, 500);
+	vars->mlx_vars->background = malloc(sizeof(t_image));
+	vars->mlx_vars->background->ref = mlx_new_image(vars->mlx_vars->mlx_ref, WW, WH);
+	vars->mlx_vars->background->address = mlx_get_data_addr(vars->mlx_vars->background->ref, &vars->mlx_vars->background->bits_per_pixel, &vars->mlx_vars->background->line_length, &vars->mlx_vars->background->endian);
+	// background color
+	draw_square_tlc(vars->mlx_vars->background, WW, WH, 0, 0, 0x1e1a1c);
+	draw_frame(vars->mlx_vars->background, WW - 10, WH - 10, 5, 5, 0xf4f2f3);
+	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, vars->mlx_vars->background->ref, 0, 0);
 }
 
-void build_frame(t_vars *vars)
+
+void render_raycast(t_vars *vars)
 {
+	vars->mlx_vars->raycast = malloc(sizeof(t_image));
+	vars->mlx_vars->raycast->ref = mlx_new_image(vars->mlx_vars->mlx_ref, WW - 100, WH - 100);
+	vars->mlx_vars->raycast->address = mlx_get_data_addr(vars->mlx_vars->raycast->ref, \
+	&vars->mlx_vars->raycast->bits_per_pixel, &vars->mlx_vars->raycast->line_length, \
+	&vars->mlx_vars->raycast->endian);
+
+	draw_square_tlc(vars->mlx_vars->raycast, WW - 100, WH - 100, 0, 0, 0xffffff);
+	
+	
+	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, \
+	vars->mlx_vars->raycast->ref, 50, 50);
+}
+
+void compone_window(t_vars *vars)
+{
+	draw_background(vars);
+
+	render_raycast(vars);
 	draw_minimap(vars);
-	// draw_secondimg(vars);
+
+	// write player coord on screen:
+	char *tmp;
+	tmp = ft_strjoin("Player x coordinate: ", ft_itoa(vars->px));
+	mlx_string_put(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, 10, 10, 0xffffff, tmp);
+	free(tmp);
+	tmp = ft_strjoin("Player y coordinate: ", ft_itoa(vars->py));
+	mlx_string_put(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, 10, 30, 0xffffff, tmp);
+	free(tmp);
 }
 
 // ----------------------------------------------------------------
