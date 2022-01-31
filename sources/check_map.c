@@ -76,7 +76,7 @@ int	check_square(t_vars *vars, char **maplines, int x, int y)
 		((maplines[y][x] == '0' || maplines[y][x] == 'N' || maplines[y][x] == 'S' || maplines[y][x] == 'E' || maplines[y][x] == 'W')
 		&& (check_bot(vars, maplines, x, y, '0') || check_top(maplines, x, y, '0') || check_lr(maplines, x, y, '0'))))
 	{
-		printf("Error: Map: Incorrect format at (x: %d, y: %d) not enclosed by walls\n", x, y);
+		printf("Error\nMap: Incorrect format at (x: %d, y: %d) not enclosed by walls\n", x, y);
 		return (1);
 	}
 	return (0);
@@ -106,7 +106,7 @@ int	check_map(t_vars *vars, char **maplines)
 	}
 	if (spawncnt != 1)
 	{
-		printf("Error: Map: Incorrect number of spawnpoints, only 1 allowed!\n");
+		printf("Error\nMap: Incorrect number of spawnpoints, only 1 allowed!\n");
 		return (1);
 	}
 	return (0);

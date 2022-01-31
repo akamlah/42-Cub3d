@@ -71,8 +71,8 @@ typedef struct mlx_vars
 {
 	void	*mlx_ref;
 	void	*window;
-	t_image	*mainImg;
 	t_image	*minimap;
+	t_image	*img2;
 
 	int test;
 
@@ -88,20 +88,25 @@ typedef struct s_vars
 	//alice
 	t_map	*map;
 
+	// struct minimap? 
 	int	minimap_scale;
-	int	minimap_xoffset;
-	int	minimap_yoffset;
+	int	minimap_xwinoffset;
+	int	minimap_ywinoffset;
+	int	minimap_xframelen;
+	int minimap_yframelen;
+	int	minimap_xframeoffset;
+	int	minimap_yframeoffset;
 
+	// player  data - have better names and struct?
 	int	px; // player x screen coord topdown
 	int	py; // player y screen coord topdown
-
+	int	ps; // player size (square) . justt 4 tests 
 	int scale;
 
 }	t_vars;
 
 // FUNCTIONS
 //Andi
-
 int		init_mlx_vars(t_vars *vars);
 int		mlx_hooks(t_vars *vars);
 int		exit_hook(t_vars *vars);
@@ -113,17 +118,15 @@ int		check_map(t_vars *vars, char	**maplines);
 int		check_borders(t_vars *vars, char **maplines);
 
 // Alice
-int	parse(t_vars *vars, int argc, char **argv);
-int	is_whitespaces(char *line);
-int	get_texture(char *line, t_map *map, int i);
-int	get_color_id(char *line, t_map *map, int i);
-int	get_map(char *line, t_map *map, int i);
+int		parse(t_vars *vars, int argc, char **argv);
+int		is_whitespaces(char *line);
+int		get_texture(char *line, t_map *map, int i);
+int		get_color_id(char *line, t_map *map, int i);
+int		get_map(char *line, t_map *map, int i);
 void	exit_cub(t_vars *vars);
-int	open_cubfile(t_map *map, char *path);
-
-void draw(t_vars *vars);
-int cub_dealkey(int keycode, t_vars *vars);
-
-void minimap(t_vars *vars);
+int		open_cubfile(t_map *map, char *path);
+void	build_frame(t_vars *vars);
+int		cub_dealkey(int keycode, t_vars *vars);
+void	minimap(t_vars *vars);
 
 # endif
