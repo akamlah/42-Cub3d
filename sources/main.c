@@ -32,8 +32,7 @@ void	exit_cub(t_vars *vars)
 void	vars_init(t_vars *vars)
 {
 	vars->map = NULL;
-	vars->minimap_xwinoffset = 20;
-	vars->minimap_ywinoffset = 20;
+
 	vars->minimap_scale = 20;
 	// ...
 }
@@ -64,7 +63,6 @@ int main(int argc, char **argv)
 		printf("map width %d\n", vars.map->max_width);
 
 		int i, j;
-		// PRINT map->nodes (char ** with nls)
 		i = 0;
 		while (vars.map->nodes[i] && i < vars.map->n_lines)
 		{
@@ -80,8 +78,7 @@ int main(int argc, char **argv)
 		//--------------------------------
 
 	init_mlx_vars(&vars);
-	// tests
-	vars.mlx_vars->test = 8;
+
 	// set to spawn stuff when parsing
 	vars.px = 0;
 	vars.py = 0;
@@ -89,7 +86,7 @@ int main(int argc, char **argv)
 	vars.scale = 50;
 
 	vars.mlx_vars->minimap = NULL;
-	build_frame(&vars);
+	compone_window(&vars);
 
 	mlx_hooks(&vars);
 	
