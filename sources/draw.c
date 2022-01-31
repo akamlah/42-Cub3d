@@ -52,10 +52,25 @@ void	draw_frame(t_image *img, int w, int h, int xtl, int ytl, int col)
 
 void draw_player_minimap(t_vars *vars)
 {
-	draw_square_tlc(vars->mlx_vars->minimap, vars->ps, \
-	vars->ps, vars->px + vars->minimap_xframeoffset, \
-	vars->py + vars->minimap_yframeoffset, \
-	0xfaf20f);
+	int x, y, i;
+	// int startx;
+	// int starty;
+	// int endx;
+	// int endy;
+
+	//y = atan(orientation)x + q;
+	// startx = vars->player->px; // - vars->player->size / 2;
+
+	x = 0;
+	i = 0;
+	while (i < 20 )
+	{
+		y = tan(0.4) * (x + vars->player->px) - vars->player->py;
+		printf("%d %d\n", x, y);
+		cub_pixel_put(vars->mlx_vars->minimap, x, y, 0xff0073);
+		i++;
+		x++;
+	}
 }
 
 
@@ -71,10 +86,18 @@ void	fill_minimap(t_vars *vars)
 		j = 0;
 		while (vars->map->nodes[i][j] && vars->map->nodes[i][j] != '\n')
 		{
-			if (vars->map->nodes[i][j] == 'N')
+			if (vars->map->nodes[i][j] == 'N' || vars->map->nodes[i][j] == 'S' || vars->map->nodes[i][j] == 'W' || vars->map->nodes[i][j] == 'E')
 			{
-				vars->px = j * vars->minimap_scale + vars->minimap_scale / 2 - vars->ps / 2;
-				vars->py = i * vars->minimap_scale + vars->minimap_scale / 2 - vars->ps / 2;
+				if (vars->map->nodes[i][j] == 'N')
+					vars->player->orientation = 0;
+				if (vars->map->nodes[i][j] == 'W')
+					vars->player->orientation = M_PI;
+				if (vars->map->nodes[i][j] == 'S')
+					vars->player->orientation = 2 * M_PI / 3;
+				if (vars->map->nodes[i][j] == 'E')
+					vars->player->orientation = 0;
+				vars->player->px = j * vars->minimap_scale + vars->minimap_scale / 2 - vars->player->size / 2;
+				vars->player->py = i * vars->minimap_scale + vars->minimap_scale / 2 - vars->player->size / 2;
 				vars->map->nodes[i][j] = '0';
 			}
 			if (vars->map->nodes[i][j] == '1')
@@ -91,7 +114,6 @@ void	fill_minimap(t_vars *vars)
 		}
 		i++;
 	}
-
 }
 
 void	draw_minimap(t_vars *vars)
@@ -121,9 +143,10 @@ void	draw_background(t_vars *vars)
 	vars->mlx_vars->background = malloc(sizeof(t_image));
 	vars->mlx_vars->background->ref = mlx_new_image(vars->mlx_vars->mlx_ref, WW, WH);
 	vars->mlx_vars->background->address = mlx_get_data_addr(vars->mlx_vars->background->ref, &vars->mlx_vars->background->bits_per_pixel, &vars->mlx_vars->background->line_length, &vars->mlx_vars->background->endian);
-	// background color
+
 	draw_square_tlc(vars->mlx_vars->background, WW, WH, 0, 0, 0x1e1a1c);
 	draw_frame(vars->mlx_vars->background, WW - 10, WH - 10, 5, 5, 0xf4f2f3);
+
 	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, vars->mlx_vars->background->ref, 0, 0);
 }
 
@@ -138,77 +161,24 @@ void render_raycast(t_vars *vars)
 
 	draw_square_tlc(vars->mlx_vars->raycast, WW - 100, WH - 100, 0, 0, 0xffffff);
 	
-	
+
 	mlx_put_image_to_window(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, \
 	vars->mlx_vars->raycast->ref, 50, 50);
 }
 
 void compone_window(t_vars *vars)
 {
-	draw_background(vars);
 
+	draw_background(vars);
 	render_raycast(vars);
 	draw_minimap(vars);
 
 	// write player coord on screen:
 	char *tmp;
-	tmp = ft_strjoin("Player x coordinate: ", ft_itoa(vars->px));
+	tmp = ft_strjoin("Player x coordinate: ", ft_itoa(vars->player->px));
 	mlx_string_put(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, 10, 10, 0xffffff, tmp);
 	free(tmp);
-	tmp = ft_strjoin("Player y coordinate: ", ft_itoa(vars->py));
+	tmp = ft_strjoin("Player y coordinate: ", ft_itoa(vars->player->py));
 	mlx_string_put(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, 10, 30, 0xffffff, tmp);
 	free(tmp);
 }
-
-// ----------------------------------------------------------------
-
-// // testbench
-// void	testdraw(t_vars *vars)
-// {
-// 	int i = 0;
-// 	int j;//, k, l;
-// 	int w = 10;
-// 	int h = 10;
-// 	int testmap[10][10] = 
-// 	{
-// 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-// 		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 		{1, 1, 2, 1, 0, 1, 1, 1, 0, 1},
-// 		{1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-// 		{1, 0, 1, 0, 0, 1, 0, 1, 0, 1},
-// 		{1, 0, 1, 0, 0, 1, 0, 1, 0, 1},
-// 		{1, 0, 1, 0, 0, 1, 0, 1, 0, 1},
-// 		{1, 0, 1, 0, 0, 1, 1, 1, 0, 1},
-// 		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-// 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-// 	};
-// 	// background
-// 	draw_square_tlc(vars->mlx_vars->minimap, vars->minimap_scale * w + 1, \
-// 	(vars->minimap_xwinoffset - 1), \
-// 	(vars->minimap_ywinoffset - 1), \
-// 	0x91cad1);//+ vars->mlx_vars->test);
-// 	while (i < h)
-// 	{
-// 		j = 0;
-// 		while (j < w)
-// 		{
-// 			// draws node:
-// 			// cub_pixel_put(vars->mlx_vars->minimap, j * vars->minimap_scale + vars->minimap_xwinoffset, \
-// 			// i * vars->minimap_scale + vars->minimap_ywinoffset, testmap[i][j] * 0xfffffff);
-// 			// dreaw a square for every dot, with tlc = dot
-// 			if (testmap[i][j] == 2)
-// 			{
-// 				vars->px = j * vars->minimap_scale + vars->minimap_xwinoffset + vars->minimap_scale / 2 - vars->ps / 2; 
-// 				vars->py = i * vars->minimap_scale + vars->minimap_ywinoffset + vars->minimap_scale / 2 - vars->ps / 2;
-// 				testmap[i][j] = 0;
-// 			}
-// 			draw_square_tlc(vars->mlx_vars->minimap, vars->minimap_scale - 1, \
-// 			(j * vars->minimap_scale + vars->minimap_xwinoffset), \
-// 			(i * vars->minimap_scale + vars->minimap_ywinoffset), \
-// 			testmap[i][j] * 0xffffff);//+ vars->mlx_vars->test);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	draw_player(vars);
-// }

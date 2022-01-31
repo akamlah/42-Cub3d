@@ -77,6 +77,18 @@ typedef struct mlx_vars
 	t_image *raycast;
 }			t_mlx_vars;
 
+
+typedef struct s_player
+{
+
+	double	orientation;
+	// player  data - have better names and struct?
+	int	px; // player x screen coord topdown
+	int	py; // player y screen coord topdown
+	int	size; // player size (square) . justt 4 tests 
+
+}	t_player;
+
 typedef struct s_vars
 {
 	//andi
@@ -95,10 +107,7 @@ typedef struct s_vars
 	int	minimap_xframeoffset;
 	int	minimap_yframeoffset;
 
-	// player  data - have better names and struct?
-	int	px; // player x screen coord topdown
-	int	py; // player y screen coord topdown
-	int	ps; // player size (square) . justt 4 tests 
+	t_player *player;
 
 	int scale;
 

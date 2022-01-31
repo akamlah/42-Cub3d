@@ -29,6 +29,12 @@ int	update(t_vars *vars)
 		free(vars->mlx_vars->background);
 		vars->mlx_vars->background = NULL;
 	}
+	if (vars->mlx_vars->raycast)
+	{
+		mlx_destroy_image(vars->mlx_vars->mlx_ref, vars->mlx_vars->raycast->ref);
+		free(vars->mlx_vars->raycast);
+		vars->mlx_vars->raycast = NULL;
+	}
 	compone_window(vars);
 
 	// (test)
@@ -67,22 +73,23 @@ int cub_dealkey(int keycode, t_vars *vars)
 {
 
 	if (keycode == key_a)
-		vars->px-=2;
+		vars->player->px-=2;
 	if (keycode == key_d)
-		vars->px+=2; // protect!
+		vars->player->px+=2; // protect!
 	if (keycode == key_w)
-		vars->py-=2;
+		vars->player->py-=2;
 	if (keycode == key_s)
-		vars->py+=2;
+		vars->player->py+=2;
 
 	if (keycode == key_up)
 		printf("a key pressed!\n");
 	if (keycode == key_down)
 		printf("d key pressed!\n");
+
 	if (keycode == key_left)
-		printf("w key pressed!\n");
+		vars->player->orientation-=0.1;
 	if (keycode == key_right)
-		printf("s key pressed!\n");
+		vars->player->orientation+=0.1;
 
 	if (keycode == key_esc)
 		exit_cub(vars);

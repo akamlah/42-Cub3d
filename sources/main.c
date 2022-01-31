@@ -32,8 +32,16 @@ void	exit_cub(t_vars *vars)
 void	vars_init(t_vars *vars)
 {
 	vars->map = NULL;
-
 	vars->minimap_scale = 20;
+	vars->mlx_vars->minimap = NULL;
+	// set to spawn stuff when parsing
+	vars->player = malloc(sizeof(t_player));
+	vars->player->px = 0;
+	vars->player->py = 0;
+	vars->player->size = 4;
+	vars->player->orientation = 0;
+	
+	vars->scale = 50;
 	// ...
 }
 
@@ -79,13 +87,9 @@ int main(int argc, char **argv)
 
 	init_mlx_vars(&vars);
 
-	// set to spawn stuff when parsing
-	vars.px = 0;
-	vars.py = 0;
-	vars.ps = 4;
-	vars.scale = 50;
 
-	vars.mlx_vars->minimap = NULL;
+
+
 	compone_window(&vars);
 
 	mlx_hooks(&vars);
