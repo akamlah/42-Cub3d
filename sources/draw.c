@@ -1,6 +1,40 @@
 #include "../header/cub3d.h"
 
-// put pixel to image
+void	raycast(t_vars *vars);
+
+void draw_all(t_vars *vars)
+{
+	// tests
+	// t_image *game;
+	// game = new_image(vars, WW - 40, WH - 40, 20, 20);
+	// // draw_square_tlc(game, game->width, game->height, 20, 20, 0xffffff); // boundary check for draw square ft.
+	// draw_square_tlc(game, game->width, game->height, 0, 0, 0x808080);
+	// int i, j;
+	// i = 0;
+	// while (vars->map->nodes[i] && i < vars->map->n_lines)
+	// {
+	// 	j = 0;
+	// 	while (vars->map->nodes[i][j] && vars->map->nodes[i][j] != '\n')
+	// 	{
+	// 		if (j * RW_UNIT < game->width && i * RW_UNIT < game->height)
+	// 			cub_pixel_put(game, j * RW_UNIT, i * RW_UNIT, 0xff0000);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
+	// cub_pixel_put(game, vars->player->RW_x, vars->player->RW_y, 0x00ff00);
+	// mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, vars->mlx_vars->win_ptr, game->img_ptr, game->S_xtlc, game->S_ytlc);
+	raycast(vars);
+	draw_minimap(vars);
+}
+
+
+/////////////// UTILS ////////////////////
+
+/*
+	Draws a pixel in the given image given its image coordinate (x, y)
+	and its color 'col'
+*/
 int	cub_pixel_put(t_image *img, int x, int y, int color)
 {
 	char	*dst;
@@ -10,33 +44,69 @@ int	cub_pixel_put(t_image *img, int x, int y, int color)
 	return (0);
 }
 
-// draw square top left corner of given position. too many vars -> typedef?
-void	draw_square_tlc(t_image *img, int xsize, int ysize, int x, int y, int color)
+/*
+	This function allocates memory for a new image and initialises it with the given size
+	and position of its top left corner in the window (S_xtlc, S_ytlc) (values in pixel), and
+	returns a pointer to it.
+*/
+t_image *new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc)
+{
+	t_image	*new_image;
+
+	new_image = malloc(sizeof(t_image));
+	new_image->width = width;
+	new_image->height = height;
+	new_image->S_xtlc = S_xtlc;
+	new_image->S_ytlc = S_ytlc;
+	new_image->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, new_image->width, new_image->height);
+	new_image->address = mlx_get_data_addr(new_image->img_ptr, &new_image->bits_per_pixel, &new_image->line_length, &new_image->endian);
+	return (new_image);
+}
+
+/*
+	Draws a square sized 'xsize' * 'ysize' pixels given:
+	- width and height in pixels
+	- its top left corner (I_xtlc, I_ytlc) in IMAGE coordinates, in pixels
+	- its color 'col'
+	The if statement before drawing allows only pixels that actually fall into img boundaries to be drawn.
+*/
+void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while (i < ysize)
+	while (i < height)
 	{
 		j = 0;
-		while (j < xsize)
+		while (j < width)
 		{
-			cub_pixel_put(img, x + j, y + i, color);
+			if ((I_xtlc + j < img->width && I_ytlc + i < img->height)
+				&& (I_xtlc >= 0 && I_ytlc >= 0))
+				cub_pixel_put(img, I_xtlc + j, I_ytlc + i, color);
 			j++;
 		}
 		i++;
 	}
 }
 
-void	draw_frame(t_image *img, int w, int h, int xtl, int ytl, int col)
+void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend)
 {
-	int i;
-	int j;
-
-	i = 0;
-	while (i < h)
+	int sx, sy, err, dx, dy, e2;
+	dx = abs(I_xend - I_xo);
+	if (I_xo < I_xend)
+		sx = 1;
+	else
+		sx = -1;
+	dy = -abs(I_yend - I_yo);
+	if (I_yo < I_yend)
+		sy = 1;
+	else
+		sy = -1;
+	err = dx + dy;
+	while (1)
 	{
+<<<<<<< Updated upstream
 		cub_pixel_put(img, xtl, ytl + i, col);
 		cub_pixel_put(img, xtl + w, ytl + i, col);
 		i++;
@@ -111,9 +181,24 @@ void	fill_minimap(t_vars *vars)
 				(i * vars->minimap_scale + vars->minimap_yframeoffset), col * 0xffffff);
 			}
 			j++;
+=======
+		cub_pixel_put(img, I_xo, I_yo, 0x00ff00);
+		if (I_xo == I_xend && I_yo == I_yend)
+			break ;
+		e2 = 2 * err;
+		if (e2 > dy)
+		{
+			err += dy;
+			I_xo += sx;
 		}
-		i++;
+		if (e2 < dx)
+		{
+			err += dx;
+			I_yo += sy;
+>>>>>>> Stashed changes
+		}
 	}
+<<<<<<< Updated upstream
 }
 
 void	draw_minimap(t_vars *vars)
@@ -182,3 +267,6 @@ void compone_window(t_vars *vars)
 	mlx_string_put(vars->mlx_vars->mlx_ref, vars->mlx_vars->window, 10, 30, 0xffffff, tmp);
 	free(tmp);
 }
+=======
+}
+>>>>>>> Stashed changes

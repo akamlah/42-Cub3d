@@ -1,10 +1,44 @@
 #include "../header/cub3d.h"
 
-// only exitpoint, easier check for leaks
-void	exit_cub(t_vars *vars)
+/*
+*	Set all pointers in main struct to null or allocate memory for them before using them
+*/
+void	vars_init(t_vars *vars)
 {
-	// eventually call freeing functions?
+	vars->map = NULL;
+	vars->mlx_vars = NULL;
+	vars->player = NULL;
+	vars->prjp = NULL;
+	vars->minimap = malloc(sizeof(t_minimap));
+	vars->minimap->img = NULL;
+}
 
+int main(int argc, char **argv)
+{
+	t_vars	vars;
+	int		error;
+
+	vars_init(&vars);
+	error = parse(&vars, argc, argv);
+	if (error)
+		free_and_exit(&vars);
+
+	init_mlx_vars(&vars);
+	init_player(&vars);
+
+
+	draw_all(&vars);
+	mlx_hooks(&vars);
+	return (0);
+}
+
+/*
+*	ONLY EXITPOINT here.
+*	Checks for any variable to be freed.
+*/
+void	free_and_exit(t_vars *vars)
+{
+	// free map vars:
 	if (vars->map)
 	{
 		if (vars->map->fd_cubfile)
@@ -21,14 +55,10 @@ void	exit_cub(t_vars *vars)
 			free(vars->map->floor_color);
 		if (vars->map->ceiling_color)
 			free(vars->map->ceiling_color);
-	// if (vars->mlx_vars->minimap)
-	// 	free(vars->mlx_vars->minimap);
 		free(vars->map);
 	}
-	// system("leaks cub3D");
-	exit(0);
-}
 
+<<<<<<< Updated upstream
 void	vars_init(t_vars *vars)
 {
 	vars->map = NULL;
@@ -51,13 +81,25 @@ void	vars_init(t_vars *vars)
 int main(int argc, char **argv)
 {
 	t_vars	vars;
+=======
+	// free mlx vars:
+	if (vars->mlx_vars)
+		free(vars->mlx_vars);
+	
+	// player vars:
+	if (vars->player)
+		free(vars->player);
+>>>>>>> Stashed changes
 
-	vars_init(&vars);
-	if (parse(&vars, argc, argv))
+	// minimap vars:
+	if (vars->minimap)
 	{
-		exit_cub(&vars);
+		if (vars->minimap->img)
+			free(vars->minimap->img);
+		free(vars->minimap);
 	}
 
+<<<<<<< Updated upstream
 		//--------------------------------
 		// check parsing:
 		printf("tn |%s|\n", vars.map->textr_n);
@@ -95,4 +137,8 @@ int main(int argc, char **argv)
 	mlx_hooks(&vars);
 	
 	return (0);
+=======
+	// system("leaks cub3D");
+	exit(0);
+>>>>>>> Stashed changes
 }
