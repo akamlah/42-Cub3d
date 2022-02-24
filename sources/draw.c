@@ -8,7 +8,7 @@ void draw_all(t_vars *vars)
 	draw_minimap(vars);
 }
 
-/////////////// UTILS ////////////////////
+/////////////// UTILS //////////////////// 
 
 /*
 	Draws a pixel in the given image given its image coordinate (x, y)

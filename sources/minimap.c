@@ -58,10 +58,6 @@ void	draw_player_minimap(t_vars *vars)
 		vars->player->RW_x * vars->minimap->scale / RW_UNIT - size / 2, \
 		vars->player->RW_y * vars->minimap->scale / RW_UNIT - size / 2, \
 	0xff0000);
-	draw_line(vars->minimap->img, \
-		vars->player->RW_x * vars->minimap->scale / RW_UNIT - size / 2, \
-		vars->player->RW_y * vars->minimap->scale / RW_UNIT - size / 2, \
-		0, 0);
 }
 
 void	draw_minimap(t_vars *vars)
@@ -82,72 +78,73 @@ void	draw_minimap(t_vars *vars)
 
 	vars->prjp = new_image(vars, PRJP_W, PRJP_H, 20, 20);
 
-
 	// find HORIZONTAL COLLISIONS:
-	float first_hor_grid_coll_RW_x = 0;
-	float first_hor_grid_coll_RW_y = 0;
+	double first_hor_grid_coll_RW_x = 0;
+	double first_hor_grid_coll_RW_y = 0;
+	double range_rounding = 0.0000001;
 
 	// find coordinates of 1st intersection with the horizontal gridlines from player position.
 
-	// 1st octant
-	if (vars->player->th <= 0.0001 || vars->player->th >= (M_PI * 2) - 0.0001)
+	// edge cases... excluded from drawing
+	// around 0
+	if (vars->player->th <= range_rounding || vars->player->th >= (M_PI * 2) - range_rounding)
 	{
-		// first_hor_grid_coll_RW_x = ((vars->player->RW_x / RW_UNIT) + 1) * RW_UNIT; // actually it  is a vertical collision - should be infinite
 		first_hor_grid_coll_RW_x = (vars->map->max_width - 1) * RW_UNIT;
 		first_hor_grid_coll_RW_y = vars->player->RW_y;
 	}
-	if (0.0001 < vars->player->th && M_PI / 2 -  0.0001 > vars->player->th) // find better solution but tan segfaults if th = 0.00001!
-	{
-		// ray points upwards so y coord will be same as y of the whole gridline, ie py / rw_unit
-		// vertical distance to grid is py % rw_unit.
-		// x  coord of pt is px % rwunit + (vertical distance to grid / tan (th))
-		first_hor_grid_coll_RW_x = vars->player->RW_x + ((vars->player->RW_y % RW_UNIT) / tan(vars->player->th));
-		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT) * RW_UNIT;
-	}
-
-	// 2nd octant
-	if (vars->player->th <= M_PI / 2 + 0.0001 && vars->player->th >= M_PI / 2 - 0.0001)
+	// around 90
+	if (vars->player->th <= M_PI_2 + range_rounding && vars->player->th >= M_PI_2 - range_rounding)
 	{
 		first_hor_grid_coll_RW_x = vars->player->RW_x;
 		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT) * RW_UNIT;
 	}
-	if (M_PI / 2 + 0.0001 < vars->player->th && M_PI - 0.0001 > vars->player->th)
+	// around 180
+	if (vars->player->th >= M_PI - range_rounding && vars->player->th <= M_PI + range_rounding)
 	{
-		first_hor_grid_coll_RW_x = vars->player->RW_x - ((vars->player->RW_y % RW_UNIT) / tan(M_PI - vars->player->th));
-		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT) * RW_UNIT;
-	}
-
-	// 3rd octant
-	if (vars->player->th >= M_PI - 0.0001 && vars->player->th <= M_PI + 0.0001)
-	{
-		// first_hor_grid_coll_RW_x = ((vars->player->RW_x / RW_UNIT)) * RW_UNIT; // actually it  is a vertical collision  - should be infinite
 		first_hor_grid_coll_RW_x = 0;
 		first_hor_grid_coll_RW_y = vars->player->RW_y;
 	}
-	if (vars->player->th > M_PI + 0.0001 && vars->player->th < 3 * (M_PI / 2) - 0.0001)
+	// around 270
+	if (vars->player->th >= 3 * M_PI_2 - range_rounding && vars->player->th <= 3 * M_PI_2 + range_rounding)
 	{
-		first_hor_grid_coll_RW_x = vars->player->RW_x - ((RW_UNIT - vars->player->RW_y % RW_UNIT) / tan(vars->player->th - M_PI));
+		first_hor_grid_coll_RW_x = vars->player->RW_x;
 		first_hor_grid_coll_RW_y = ((vars->player->RW_y / RW_UNIT) + 1) * RW_UNIT;
 	}
 
+	double dy = RW_UNIT;
+	double dx = RW_UNIT / tan(vars->player->th);
+
+	// 1st octant
+	// 2nd octant
+	if ((range_rounding < vars->player->th && M_PI_2 -  range_rounding > vars->player->th)
+		|| (M_PI_2 + range_rounding < vars->player->th && M_PI - range_rounding > vars->player->th))
+	{
+		first_hor_grid_coll_RW_x = vars->player->RW_x + ((vars->player->RW_y % RW_UNIT) / tan(vars->player->th));
+		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT) * RW_UNIT;
+		// next hit has x coord of first hit + dx, y coord of first hit + dy;
+		/// if init i = 0, iterate in i * dx, i * dy orr something like that.make
+		while ()
+	}
+
+	// 3rd octant
 	// 4th octant
-	if (vars->player->th >= 3 * (M_PI / 2) - 0.0001 && vars->player->th <= 3 * (M_PI / 2) + 0.0001)
+	if ((vars->player->th > M_PI + range_rounding && vars->player->th < 3 * M_PI_2 - range_rounding)
+		|| (vars->player->th > 3 * M_PI_2 + range_rounding && vars->player->th < (M_PI * 2) - range_rounding))
 	{
-		first_hor_grid_coll_RW_x = vars->player->RW_x;
-		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT + 1) * RW_UNIT;
-	}
-	if (vars->player->th > 3 * (M_PI / 2) + 0.0001 && vars->player->th < (M_PI * 2) - 0.0001)
-	{
-		first_hor_grid_coll_RW_x = vars->player->RW_x + ((RW_UNIT - vars->player->RW_y % RW_UNIT) / tan(M_PI * 2 - vars->player->th));
-		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT + 1) * RW_UNIT;
+		first_hor_grid_coll_RW_x = vars->player->RW_x - ((RW_UNIT - vars->player->RW_y % RW_UNIT) / tan(vars->player->th)); 
+		first_hor_grid_coll_RW_y = ((vars->player->RW_y / RW_UNIT) + 1) * RW_UNIT;
 	}
 
-
-	draw_line(vars->minimap->img, \
-		vars->player->RW_x * vars->minimap->scale / RW_UNIT, \
-		vars->player->RW_y * vars->minimap->scale / RW_UNIT, \
-		(int)first_hor_grid_coll_RW_x * vars->minimap->scale / RW_UNIT, \
-		(int)first_hor_grid_coll_RW_y * vars->minimap->scale / RW_UNIT);
+	if (!(first_hor_grid_coll_RW_x <= 0
+		|| first_hor_grid_coll_RW_y <= 0
+		|| first_hor_grid_coll_RW_x >= (vars->map->max_width - 1) * RW_UNIT
+		|| first_hor_grid_coll_RW_y >= vars->map->n_lines * RW_UNIT))
+			draw_line(vars->minimap->img, \
+				vars->player->RW_x * vars->minimap->scale / RW_UNIT, \
+				vars->player->RW_y * vars->minimap->scale / RW_UNIT, \
+				(int)first_hor_grid_coll_RW_x * vars->minimap->scale / RW_UNIT, \
+				(int)first_hor_grid_coll_RW_y * vars->minimap->scale / RW_UNIT);
+	// if statement makes sure that only if intersection exists  the line is drawwn -> use later to check.
 
 
 	// put to window
@@ -156,4 +153,5 @@ void	draw_minimap(t_vars *vars)
 		vars->minimap->img->img_ptr, \
 		vars->minimap->img->S_xtlc, \
 		vars->minimap->img->S_ytlc);
+
 }

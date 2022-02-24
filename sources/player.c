@@ -25,9 +25,9 @@ void	init_player(t_vars *vars)
 				vars->player->RW_x = vars->player->RW_xspawn;
 				vars->player->RW_y = vars->player->RW_yspawn;
 				if (vars->map->nodes[i][j] == 'N')
-					vars->player->th_spawn = M_PI / 2;
+					vars->player->th_spawn = M_PI_2;
 				if (vars->map->nodes[i][j] == 'S')
-					vars->player->th_spawn = 3 * (M_PI / 2);
+					vars->player->th_spawn = 3 * M_PI_2;
 				if (vars->map->nodes[i][j] == 'E')
 					vars->player->th_spawn = 0;
 				if (vars->map->nodes[i][j] == 'W')

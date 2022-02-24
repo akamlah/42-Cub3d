@@ -94,10 +94,10 @@ typedef struct s_player
 {
 	int		RW_xspawn;
 	int		RW_yspawn;
-	float	th_spawn;
+	double	th_spawn;
 	int		RW_x;
 	int		RW_y;
-	float	th;
+	double	th;
 }				t_player;
 
 typedef struct s_minimap

@@ -44,8 +44,8 @@ int cub_dealkey(int keycode, t_vars *vars)
 {
 	int pace;
 	pace = 2;
-	float th_rot_speed = M_PI / 48;
-	float diff = 0;
+	double th_rot_speed = M_PI / 48;
+	double diff = 0;
 	if (keycode == key_a && vars->player->RW_x - pace >= 0 
 		&& vars->map->nodes[vars->player->RW_y / RW_UNIT][(vars->player->RW_x - pace) / RW_UNIT] == '0')
 		vars->player->RW_x -= pace;
