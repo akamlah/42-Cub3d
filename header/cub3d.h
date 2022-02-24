@@ -90,20 +90,6 @@ typedef struct mlx_vars
 	void	*win_ptr;
 }			t_mlx_vars;
 
-<<<<<<< Updated upstream
-
-typedef struct s_player
-{
-
-	double	orientation;
-	// player  data - have better names and struct?
-	int	px; // player x screen coord topdown
-	int	py; // player y screen coord topdown
-	int	size; // player size (square) . justt 4 tests 
-
-}	t_player;
-
-=======
 typedef struct s_player
 {
 	int		RW_xspawn;
@@ -126,35 +112,16 @@ typedef struct s_minimap
 	char	floor_color;
 	char	background_color;
 }				t_minimap;
->>>>>>> Stashed changes
 typedef struct s_vars
 {
 	//andi
 	t_mlx_vars *mlx_vars;
 
 	//alice
-<<<<<<< Updated upstream
-	t_map	*map;
-
-	// struct minimap? 
-	int	minimap_scale;
-	int	minimap_xwinoffset;
-	int	minimap_ywinoffset;
-	int	minimap_xframelen;
-	int minimap_yframelen;
-	int	minimap_xframeoffset;
-	int	minimap_yframeoffset;
-
-	t_player *player;
-
-	int scale;
-
-=======
 	t_map		*map;
 	t_player	*player;
 	t_minimap	*minimap;
 	t_image		*prjp;
->>>>>>> Stashed changes
 }	t_vars;
 
 
