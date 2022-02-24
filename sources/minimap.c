@@ -111,8 +111,8 @@ void	draw_minimap(t_vars *vars)
 		first_hor_grid_coll_RW_y = ((vars->player->RW_y / RW_UNIT) + 1) * RW_UNIT;
 	}
 
-	double dy = RW_UNIT;
-	double dx = RW_UNIT / tan(vars->player->th);
+	// double dy = RW_UNIT;
+	// double dx = RW_UNIT / tan(vars->player->th);
 
 	// 1st octant
 	// 2nd octant
@@ -123,7 +123,16 @@ void	draw_minimap(t_vars *vars)
 		first_hor_grid_coll_RW_y = (vars->player->RW_y / RW_UNIT) * RW_UNIT;
 		// next hit has x coord of first hit + dx, y coord of first hit + dy;
 		/// if init i = 0, iterate in i * dx, i * dy orr something like that.make
-		while ()
+		if (!(first_hor_grid_coll_RW_x <= 0
+		|| first_hor_grid_coll_RW_y <= 0
+		|| first_hor_grid_coll_RW_x >= (vars->map->max_width - 1) * RW_UNIT
+		|| first_hor_grid_coll_RW_y >= vars->map->n_lines * RW_UNIT))
+		if (vars->map->nodes[((int)first_hor_grid_coll_RW_y - RW_UNIT / 2) / RW_UNIT][(int)first_hor_grid_coll_RW_x / RW_UNIT] == '1')
+		{
+			draw_square_tlc(vars->minimap->img, vars->minimap->scale, vars->minimap->scale, \
+			((int)first_hor_grid_coll_RW_x / RW_UNIT) * vars->minimap->scale, \
+			(((int)first_hor_grid_coll_RW_y - RW_UNIT / 2) / RW_UNIT) * vars->minimap->scale, 0x00ff00);
+		}
 	}
 
 	// 3rd octant
@@ -133,6 +142,16 @@ void	draw_minimap(t_vars *vars)
 	{
 		first_hor_grid_coll_RW_x = vars->player->RW_x - ((RW_UNIT - vars->player->RW_y % RW_UNIT) / tan(vars->player->th)); 
 		first_hor_grid_coll_RW_y = ((vars->player->RW_y / RW_UNIT) + 1) * RW_UNIT;
+		if (!(first_hor_grid_coll_RW_x <= 0
+			|| first_hor_grid_coll_RW_y <= 0
+			|| first_hor_grid_coll_RW_x >= (vars->map->max_width - 1) * RW_UNIT
+			|| first_hor_grid_coll_RW_y >= vars->map->n_lines * RW_UNIT))
+		if (vars->map->nodes[((int)first_hor_grid_coll_RW_y + RW_UNIT / 2) / RW_UNIT][(int)first_hor_grid_coll_RW_x / RW_UNIT] == '1')
+		{
+			draw_square_tlc(vars->minimap->img, vars->minimap->scale, vars->minimap->scale, \
+			((int)first_hor_grid_coll_RW_x / RW_UNIT) * vars->minimap->scale, \
+			(((int)first_hor_grid_coll_RW_y + RW_UNIT / 2) / RW_UNIT) * vars->minimap->scale, 0x00ff00);
+		}
 	}
 
 	if (!(first_hor_grid_coll_RW_x <= 0
