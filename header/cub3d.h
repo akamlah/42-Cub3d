@@ -158,5 +158,7 @@ void	draw_all(t_vars *vars);
 int		cub_pixel_put(t_image *img, int x, int y, int color);
 t_image	*new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc);
 void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
+void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend);
+
 
 # endif

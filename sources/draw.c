@@ -4,30 +4,9 @@ void	raycast(t_vars *vars);
 
 void draw_all(t_vars *vars)
 {
-	// tests
-	// t_image *game;
-	// game = new_image(vars, WW - 40, WH - 40, 20, 20);
-	// // draw_square_tlc(game, game->width, game->height, 20, 20, 0xffffff); // boundary check for draw square ft.
-	// draw_square_tlc(game, game->width, game->height, 0, 0, 0x808080);
-	// int i, j;
-	// i = 0;
-	// while (vars->map->nodes[i] && i < vars->map->n_lines)
-	// {
-	// 	j = 0;
-	// 	while (vars->map->nodes[i][j] && vars->map->nodes[i][j] != '\n')
-	// 	{
-	// 		if (j * RW_UNIT < game->width && i * RW_UNIT < game->height)
-	// 			cub_pixel_put(game, j * RW_UNIT, i * RW_UNIT, 0xff0000);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	// cub_pixel_put(game, vars->player->RW_x, vars->player->RW_y, 0x00ff00);
-	// mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, vars->mlx_vars->win_ptr, game->img_ptr, game->S_xtlc, game->S_ytlc);
-	raycast(vars);
+	// raycast(vars);
 	draw_minimap(vars);
 }
-
 
 /////////////// UTILS ////////////////////
 
@@ -67,7 +46,7 @@ t_image *new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc)
 	Draws a square sized 'xsize' * 'ysize' pixels given:
 	- width and height in pixels
 	- its top left corner (I_xtlc, I_ytlc) in IMAGE coordinates, in pixels
-	- its color 'col'
+	- its color 'color'
 	The if statement before drawing allows only pixels that actually fall into img boundaries to be drawn.
 */
 void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color)
