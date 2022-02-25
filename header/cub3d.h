@@ -22,7 +22,8 @@
 # define RW_UNIT 64
 
 // field of view (angle, in rad)
-# define FOV (M_PI / 3)
+# define FOV_DEG 60
+# define FOV_RAD (M_PI / 3)
 
 // width  and height of projection plane
 # define PRJP_W 320
@@ -158,7 +159,7 @@ void	draw_all(t_vars *vars);
 int		cub_pixel_put(t_image *img, int x, int y, int color);
 t_image	*new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc);
 void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
-void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend);
+void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color);
 
 
 # endif

@@ -4,8 +4,23 @@ void	raycast(t_vars *vars);
 
 void draw_all(t_vars *vars)
 {
-	// raycast(vars);
 	draw_minimap(vars);
+
+	raycast(vars); // also draws to minimap img.
+
+	// put to window minimap
+	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
+		vars->mlx_vars->win_ptr, \
+		vars->minimap->img->img_ptr, \
+		vars->minimap->img->S_xtlc, \
+		vars->minimap->img->S_ytlc);
+
+	// put to window raycasted
+	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
+		vars->mlx_vars->win_ptr, \
+		vars->prjp->img_ptr, \
+		vars->prjp->S_xtlc, \
+		vars->prjp->S_ytlc);
 }
 
 /////////////// UTILS //////////////////// 
@@ -69,7 +84,7 @@ void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc
 	}
 }
 
-void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend)
+void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color)
 {
 	int sx, sy, err, dx, dy, e2;
 	dx = abs(I_xend - I_xo);
@@ -85,7 +100,7 @@ void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend)
 	err = dx + dy;
 	while (1)
 	{
-		cub_pixel_put(img, I_xo, I_yo, 0x00ff00);
+		cub_pixel_put(img, I_xo, I_yo, color);
 		if (I_xo == I_xend && I_yo == I_yend)
 			break ;
 		e2 = 2 * err;

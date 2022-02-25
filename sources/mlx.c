@@ -45,6 +45,7 @@ int cub_dealkey(int keycode, t_vars *vars)
 	int pace;
 	pace = 2;
 	double th_rot_speed = M_PI / 48;
+	// double th_rot_speed = FOV_RAD / FOV_DEG;
 	double diff = 0;
 	if (keycode == key_a && vars->player->RW_x - pace >= 0 
 		&& vars->map->nodes[vars->player->RW_y / RW_UNIT][(vars->player->RW_x - pace) / RW_UNIT] == '0')
