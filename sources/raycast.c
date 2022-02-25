@@ -73,11 +73,9 @@ int	ray_dist(t_vars *vars, double ray_angle)
 		while ((hor_hit_RW_y < vars->map->n_lines * RW_UNIT && hor_hit_RW_y > 0 && hor_hit_RW_x < (vars->map->max_width - 1) * RW_UNIT && hor_hit_RW_x > 0) // while lines in map basically
 			|| (vert_hit_RW_y < vars->map->n_lines * RW_UNIT && vert_hit_RW_y > 0 && vert_hit_RW_x < (vars->map->max_width - 1) * RW_UNIT && vert_hit_RW_x > 0))
 		{
-			// if (hor_hit_RW_x != 0 && hor_hit_RW_y != 0)
-				hor_hit_player_dist_RW = (vars->player->RW_y - hor_hit_RW_y) / sin(ray_angle); // sinus: no need for 90 deg edge case.
-			// if (vert_hit_RW_x != 0 && vert_hit_RW_y != 0)
-				vert_hit_player_dist_RW = (vert_hit_RW_x - vars->player->RW_x) / cos(ray_angle);
-			if (hor_hit_player_dist_RW < vert_hit_player_dist_RW && (hor_hit_RW_x != 0 && hor_hit_RW_y != 0))
+			hor_hit_player_dist_RW = (vars->player->RW_y - hor_hit_RW_y) / sin(ray_angle);
+			vert_hit_player_dist_RW = (vert_hit_RW_x - vars->player->RW_x) / cos(ray_angle);
+			if (hor_hit_player_dist_RW < vert_hit_player_dist_RW)
 			{
 				if ((hor_hit_RW_y < vars->map->n_lines * RW_UNIT && hor_hit_RW_y > 0 && hor_hit_RW_x < (vars->map->max_width - 1) * RW_UNIT && hor_hit_RW_x > 0)
 					&& (vars->map->nodes[((int)hor_hit_RW_y + y_increment_sign * (RW_UNIT / 2)) / RW_UNIT][(int)hor_hit_RW_x / RW_UNIT] == '1'))
@@ -139,9 +137,11 @@ void	raycast(t_vars *vars)
 	int height;
 	int color;
 
-	// background
+	// background:
 	vars->prjp = new_image(vars, PRJP_W, PRJP_H, 20, 20);
-	draw_square_tlc(vars->prjp, PRJP_W, PRJP_H, 0, 0, 0x808080);
+	draw_square_tlc(vars->prjp, PRJP_W, PRJP_H, 0, 0, 0x1b2d0d);
+	// ceiling
+	draw_square_tlc(vars->prjp, PRJP_W, PRJP_H / 2, 0, 0, 0xb8dcfd);
 
 	i = 0;
 	while (ray_angle < vars->player->th + (FOV_RAD / 2))
