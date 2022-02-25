@@ -26,8 +26,8 @@
 # define FOV_RAD (M_PI / 3)
 
 // width  and height of projection plane
-# define PRJP_W 320
-# define PRJP_H 200
+# define PRJP_W 1160
+# define PRJP_H 760
 
 //keycodes
 # define key_left 123
@@ -113,6 +113,14 @@ typedef struct s_minimap
 	char	floor_color;
 	char	background_color;
 }				t_minimap;
+
+
+// typedef struct s_ray;
+// {
+// 	int facing_direction;
+	
+// } 				t_ray;
+
 typedef struct s_vars
 {
 	//andi
@@ -123,6 +131,9 @@ typedef struct s_vars
 	t_player	*player;
 	t_minimap	*minimap;
 	t_image		*prjp;
+
+	int facing_direction;
+
 }	t_vars;
 
 

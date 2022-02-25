@@ -7,7 +7,13 @@ void draw_all(t_vars *vars)
 	draw_minimap(vars);
 
 	raycast(vars); // also draws to minimap img.
-
+	// put to window raycasted
+	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
+		vars->mlx_vars->win_ptr, \
+		vars->prjp->img_ptr, \
+		vars->prjp->S_xtlc, \
+		vars->prjp->S_ytlc);
+draw_player_minimap(vars);
 	// put to window minimap
 	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
 		vars->mlx_vars->win_ptr, \
@@ -15,12 +21,6 @@ void draw_all(t_vars *vars)
 		vars->minimap->img->S_xtlc, \
 		vars->minimap->img->S_ytlc);
 
-	// put to window raycasted
-	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
-		vars->mlx_vars->win_ptr, \
-		vars->prjp->img_ptr, \
-		vars->prjp->S_xtlc, \
-		vars->prjp->S_ytlc);
 }
 
 /////////////// UTILS //////////////////// 

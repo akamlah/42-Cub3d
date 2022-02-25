@@ -4,7 +4,7 @@ void	init_minimap(t_vars *vars)
 {
 	if (!vars->minimap)
 		vars->minimap = malloc(sizeof(t_minimap));
-	vars->minimap->scale = 50;
+	vars->minimap->scale = 20;
 	vars->minimap->width = (vars->map->max_width - 1) * vars->minimap->scale;
 	vars->minimap->height = vars->map->n_lines * vars->minimap->scale;
 	vars->minimap->img = new_image(vars, \
@@ -69,9 +69,9 @@ void	draw_minimap(t_vars *vars)
 		vars->minimap->height, \
 		0, \
 		0, \
-		0x808080);
+		0x003333);
 
 	// draw blocks
 	draw_blocks_minimap(vars);
-	draw_player_minimap(vars);
+	// draw_player_minimap(vars);
 }
