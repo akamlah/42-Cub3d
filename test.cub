@@ -109,3 +109,99 @@
 	// 		vert_hit_RW_y += vert_dy;
 	// 	}
 	// }
+
+
+
+
+
+
+	int	point_is_in_map_RW(t_vars *vars, double RW_x, double RW_y)
+{
+	if (RW_y < vars->map->n_lines * RW_UNIT && RW_y > 0 && RW_x < (vars->map->max_width - 1) * RW_UNIT && RW_x > 0)
+		return (1);
+	return (0);
+}
+
+				// if ((point_is_in_map_RW(vars, hor_hit_RW_x, hor_hit_RW_y))
+
+
+								// shorter code:
+				// hit == hor hit, else hit = vert hit and then perform checks and return only once for the found hit.
+				// closest_intersection_RW_x = hor_hit_RW_x;
+				// closest_intersection_RW_y = hor_hit_RW_y;
+
+
+	// double	closest_intersection_RW_x;
+	// double	closest_intersection_RW_y;
+
+
+
+
+
+
+	// if (!(ray_angle >= M_PI - range_rounding && ray_angle <= M_PI + range_rounding) // 180
+	// 	&& !(ray_angle <= range_rounding || ray_angle >= (M_PI * 2) - range_rounding)) //0
+	// if (hor_hit_RW_x != 0 && hor_hit_RW_y != 0)
+	// {
+	// 	while (hor_hit_RW_y < vars->map->n_lines * RW_UNIT && hor_hit_RW_y > 0 && hor_hit_RW_x < (vars->map->max_width - 1) * RW_UNIT && hor_hit_RW_x > 0) // while lines in map basically
+	// 	{
+	// 				draw_line(vars->minimap->img, \
+	// 					vars->player->RW_x * vars->minimap->scale / RW_UNIT, \
+	// 					vars->player->RW_y * vars->minimap->scale / RW_UNIT, \
+	// 					(int)hor_hit_RW_x * vars->minimap->scale / RW_UNIT, \
+	// 					(int)hor_hit_RW_y * vars->minimap->scale / RW_UNIT, color);
+
+	// 		if (vars->map->nodes[((int)hor_hit_RW_y + y_increment_sign * (RW_UNIT / 2)) / RW_UNIT][(int)hor_hit_RW_x / RW_UNIT] == '1')
+	// 		{
+
+	// 				draw_square_tlc(vars->minimap->img, vars->minimap->scale, vars->minimap->scale, \
+	// 				((int)hor_hit_RW_x / RW_UNIT) * vars->minimap->scale, \
+	// 				(((int)hor_hit_RW_y + y_increment_sign * (RW_UNIT / 2)) / RW_UNIT) * vars->minimap->scale, 0x00ff00);
+
+	// 			// find hit distance.
+	// 			hor_hit_player_dist_RW = (vars->player->RW_y - hor_hit_RW_y) / sin(ray_angle); // sinus: no need for 90 deg edge case.
+	// 				printf("HOR DIST: %f %d\n", hor_hit_player_dist_RW, (int)hor_hit_player_dist_RW);
+
+
+	// 					vars->facing_direction = 1;
+	// 				if (ray_angle > M_PI)
+	// 					vars->facing_direction = 3;
+	// 				return ((int)hor_hit_player_dist_RW);
+	// 			// break ;
+	// 		}
+	// 		hor_hit_RW_x += hor_dx;
+	// 		hor_hit_RW_y += hor_dy;
+	// 	}
+	// }
+
+	// if (vert_hit_RW_x != 0 && vert_hit_RW_y != 0)
+	// {
+	// 	while (vert_hit_RW_y < vars->map->n_lines * RW_UNIT && vert_hit_RW_y > 0 && vert_hit_RW_x < (vars->map->max_width - 1) * RW_UNIT && vert_hit_RW_x > 0)
+	// 	{
+	// 				draw_line(vars->minimap->img, \
+	// 					vars->player->RW_x * vars->minimap->scale / RW_UNIT, \
+	// 					vars->player->RW_y * vars->minimap->scale / RW_UNIT, \
+	// 					(int)vert_hit_RW_x * vars->minimap->scale / RW_UNIT, \
+	// 					(int)vert_hit_RW_y * vars->minimap->scale / RW_UNIT, color);
+
+	// 		if (vars->map->nodes[(int)vert_hit_RW_y / RW_UNIT][((int)vert_hit_RW_x  + x_increment_sign *  (RW_UNIT / 2)) / RW_UNIT] == '1')
+	// 		{
+
+	// 				draw_square_tlc(vars->minimap->img, vars->minimap->scale, vars->minimap->scale, \
+	// 				(((int)vert_hit_RW_x  + x_increment_sign * (RW_UNIT / 2)) / RW_UNIT) * vars->minimap->scale, \
+	// 				(int)vert_hit_RW_y / RW_UNIT * vars->minimap->scale, 0xffff00);
+
+
+	// 			vert_hit_player_dist_RW = (vert_hit_RW_x - vars->player->RW_x) / cos(ray_angle);
+	// 				printf("VERT DIST: %f %d\n", vert_hit_player_dist_RW, (int)vert_hit_player_dist_RW);
+	// 				vars->facing_direction = 2;
+	// 				if (ray_angle > M_PI_2 * 3)
+	// 					vars->facing_direction = 4;
+	// 				return ((int)vert_hit_player_dist_RW);
+	// 				// break :
+	// 		}
+	// 		vert_hit_RW_x += vert_dx;
+	// 		vert_hit_RW_y += vert_dy;
+	// 	}
+	// }
+

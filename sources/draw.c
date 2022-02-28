@@ -13,7 +13,7 @@ void draw_all(t_vars *vars)
 		vars->prjp->img_ptr, \
 		vars->prjp->S_xtlc, \
 		vars->prjp->S_ytlc);
-draw_player_minimap(vars);
+	draw_player_minimap(vars);
 	// put to window minimap
 	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
 		vars->mlx_vars->win_ptr, \
