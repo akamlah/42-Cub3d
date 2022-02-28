@@ -2,7 +2,7 @@
 
 int	ray_dist(t_vars *vars, double ray_angle)
 {
-	double	range_rounding = 0.000001;
+	double	range_rounding = 0;
 	int		color = 0x83d0c9;
 
 	double	hor_dx = RW_UNIT / tan(ray_angle);
@@ -129,8 +129,6 @@ int	ray_dist(t_vars *vars, double ray_angle)
 
 void	raycast(t_vars *vars)
 {
-	// double	ray_angle = vars->player->th;
-	// ray_dist(vars, ray_angle);
 	int dist;
 	int prjp_dist;
 	double	ray_angle = vars->player->th - (FOV_RAD / 2);
@@ -144,15 +142,17 @@ void	raycast(t_vars *vars)
 	// ceiling
 	draw_square_tlc(vars->prjp, PRJP_W, PRJP_H / 2, 0, 0, 0xb8dcfd);
 
+	// double	ray_angle = vars->player->th;
+	// dist = ray_dist(vars, ray_angle);
 	i = 0;
-	while (ray_angle < vars->player->th + 0.000001 + (FOV_RAD / 2))
+	while (ray_angle < vars->player->th + 0 + (FOV_RAD / 2))
 	{
 		printf("%d: ", i);
 		dist = ray_dist(vars, ray_angle);
 
 		prjp_dist = (int)((PRJP_W / 2) / tan(FOV_RAD / 2));
 		printf ("PRJP DIST: %d\n", prjp_dist);
-		height = (PRJP_H * 10) / dist;
+		height = (PRJP_H * 30) / dist;
 		// height = (PRJP_H / dist) * prjp_dist;
 		if (vars->facing_direction == 1)
 			color = 0xc0c5ce;
@@ -168,11 +168,11 @@ void	raycast(t_vars *vars)
 			height = 20;
 			color = 0x00ff00;
 		}
-		draw_square_tlc(vars->prjp, (PRJP_W / FOV_DEG), height, \
-			i * (PRJP_W / FOV_DEG) , \
+		draw_square_tlc(vars->prjp, 1, height, \
+			i  , \
 			PRJP_H / 2 - height / 2, color);
 
-		ray_angle += FOV_RAD / FOV_DEG;
+		ray_angle += FOV_RAD / PRJP_W;
 		i++;
 	}
 	printf("%d\n", i);

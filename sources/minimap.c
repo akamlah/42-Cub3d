@@ -4,7 +4,7 @@ void	init_minimap(t_vars *vars)
 {
 	if (!vars->minimap)
 		vars->minimap = malloc(sizeof(t_minimap));
-	vars->minimap->scale = 20;
+	vars->minimap->scale = 30;
 	vars->minimap->width = (vars->map->max_width - 1) * vars->minimap->scale;
 	vars->minimap->height = vars->map->n_lines * vars->minimap->scale;
 	vars->minimap->img = new_image(vars, \
