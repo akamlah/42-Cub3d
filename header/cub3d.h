@@ -8,13 +8,14 @@
 # include <fcntl.h>
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
+# include <limits.h>
 
 // screen parameters
 // win_ptr size (WW width, WH heigth in pixel)
 // https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
 // # define WW 1920
 // # define WH 1080
-# define WW 1200
+# define WW 2000
 # define WH 800
 
 // defines how big a cube is in the 2D abstraction,
@@ -26,7 +27,7 @@
 # define FOV_RAD (M_PI / 3)
 
 // width  and height of projection plane
-# define PRJP_W 1160
+# define PRJP_W (WW - 40)
 # define PRJP_H 760
 
 //keycodes
@@ -40,13 +41,11 @@
 # define key_s 1
 # define key_esc 53
 
-typedef struct s_point
+typedef struct s_vector2
 {
-	int		x;
-	int		y;
-	int		wall;
-	char	spawn_or;
-}			t_point;
+	double		x;
+	double		y;
+}			t_vector2;
 
 typedef struct s_map
 {

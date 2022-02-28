@@ -34,10 +34,54 @@ int	mlx_hooks(t_vars *vars)
 {
 	mlx_hook(vars->mlx_vars->win_ptr, 17, 0, &exit_hook, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 2, (1L<<13), &cub_dealkey, vars);
+
+	// mlx_hook(vars->mlx_vars->win_ptr, 2, 0, &on_key_down, vars);
+	// mlx_hook(vars->mlx_vars->win_ptr, 3, 0, &on_key_up, vars);
+
+	// mlx_loop_hook(vars->mlx_vars->mlx_ref, &update, vars);
+
+
 	// mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars); // memory consuming!
 	mlx_loop(vars->mlx_vars->mlx_ptr);
 	return (0);
 }
+
+// int	on_key_down(int keycode, t_vars *vars)
+// {
+// 	if (keycode == key_w)
+// 		vars->player.move_forward = 1;
+// 	else if (keycode == key_s)
+// 		vars->player.move_backward = 1;
+// 	else if (keycode == key_a)
+// 		vars->player.move_left = 1;
+// 	else if (keycode == key_d)
+// 		vars->player.move_right = 1;
+// 	else if (keycode == key_left)
+// 		vars->player.rotate_left = 1;
+// 	else if (keycode == key_right)
+// 		vars->player.rotate_right = 1;
+// 	else if (keycode == key_esc)
+// 		exit_cub(vars);
+// 	return (0);
+// }
+
+// int	on_key_up(int keycode, t_vars *vars)
+// {
+// 	if (keycode == key_w)
+// 		vars->player.move_forward = 0;
+// 	else if (keycode == key_s)
+// 		vars->player.move_backward = 0;
+// 	else if (keycode == key_a)
+// 		vars->player.move_left = 0;
+// 	else if (keycode == key_d)
+// 		vars->player.move_right = 0;
+// 	else if (keycode == key_left)
+// 		vars->player.rotate_left = 0;
+// 	else if (keycode == key_right)
+// 		vars->player.rotate_right = 0;
+// 	return (0);
+// }
+
 
 // works also with pressed keys
 int cub_dealkey(int keycode, t_vars *vars)
@@ -73,7 +117,7 @@ int cub_dealkey(int keycode, t_vars *vars)
 			diff = M_PI * 2 - vars->player->th;
 			vars->player->th = th_rot_speed - diff;
 		}
-		printf("%f %f\n", M_PI / 2, vars->player->th);
+		// printf("%f %f\n", M_PI / 2, vars->player->th);
 	}
 	if (keycode == key_right)
 	{
@@ -84,7 +128,7 @@ int cub_dealkey(int keycode, t_vars *vars)
 			diff = vars->player->th;
 			vars->player->th = M_PI * 2 - th_rot_speed + diff;
 		}
-		printf("%f\n", vars->player->th);
+		// printf("%f\n", vars->player->th);
 	}
 
 	if (keycode == key_esc)

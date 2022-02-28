@@ -205,3 +205,10 @@
 	// 	}
 	// }
 
+
+
+
+				// printf("VERT DIST: %f %d\n", vert_hit_player_dist_RW, (int)vert_hit_player_dist_RW);
+				// printf("HOR DIST: %f %d\n", hor_hit_player_dist_RW, (int)hor_hit_player_dist_RW);
+
+				// printf("VERT HIT! angle: %f, map block x, y: %d, %d\n", ray_angle, (int)(vert_hit_RW_x + x_increment_sign) / RW_UNIT, (int)(vert_hit_RW_y) / RW_UNIT);
