@@ -77,6 +77,8 @@ int	ray_dist(t_vars *vars, double ray_angle)
 			vert_hit_player_dist_RW = (vert_hit_RW_x - vars->player->RW_x) / cos(ray_angle);
 			if (hor_hit_player_dist_RW < vert_hit_player_dist_RW)
 			{
+				// shorter code:
+				// hit == hor hit, else hit = vert hit and then perform checks and return only once for the found hit.
 				if ((hor_hit_RW_y < vars->map->n_lines * RW_UNIT && hor_hit_RW_y > 0 && hor_hit_RW_x < (vars->map->max_width - 1) * RW_UNIT && hor_hit_RW_x > 0)
 					&& (vars->map->nodes[((int)hor_hit_RW_y + y_increment_sign * (RW_UNIT / 2)) / RW_UNIT][(int)hor_hit_RW_x / RW_UNIT] == '1'))
 				{
@@ -121,8 +123,7 @@ int	ray_dist(t_vars *vars, double ray_angle)
 			}
 		}
 	}
-	// return ((int)hor_hit_player_dist_RW);
-	return (1);
+	return (0);
 }
 
 
@@ -144,14 +145,14 @@ void	raycast(t_vars *vars)
 	draw_square_tlc(vars->prjp, PRJP_W, PRJP_H / 2, 0, 0, 0xb8dcfd);
 
 	i = 0;
-	while (ray_angle < vars->player->th + (FOV_RAD / 2))
+	while (ray_angle < vars->player->th + 0.000001 + (FOV_RAD / 2))
 	{
 		printf("%d: ", i);
 		dist = ray_dist(vars, ray_angle);
 
 		prjp_dist = (int)((PRJP_W / 2) / tan(FOV_RAD / 2));
 		printf ("PRJP DIST: %d\n", prjp_dist);
-		height = (PRJP_H * 30) / dist;
+		height = (PRJP_H * 10) / dist;
 		// height = (PRJP_H / dist) * prjp_dist;
 		if (vars->facing_direction == 1)
 			color = 0xc0c5ce;
@@ -161,8 +162,14 @@ void	raycast(t_vars *vars)
 			color = 0x65737e;
 		if (vars->facing_direction == 4)
 			color = 0xa7adba;
-		draw_square_tlc(vars->prjp, ceil(PRJP_W / FOV_DEG), height, \
-			i * ceil(PRJP_W / FOV_DEG) , \
+		// test 
+		if (dist == 0)
+		{
+			height = 20;
+			color = 0x00ff00;
+		}
+		draw_square_tlc(vars->prjp, (PRJP_W / FOV_DEG), height, \
+			i * (PRJP_W / FOV_DEG) , \
 			PRJP_H / 2 - height / 2, color);
 
 		ray_angle += FOV_RAD / FOV_DEG;
