@@ -12,11 +12,22 @@ MAIN = main.c
 
 CFILES_ALICE = \
 	parse.c \
-	parse_mapvals.c \
+	parse_map_chars.c \
 	parse_identifiers.c \
-	draw.c 
+	draw.c \
+	drawing_utils.c \
+	player.c \
+	minimap.c \
+	raycast.c
 
-CFILES_ANDI = mlx.c mlx_hooks.c parse_map.c check_map.c check_borders.c
+CFILES_ANDI = \
+	parse_map.c \
+	parse_map_check_map.c \
+	parse_map_check_borders.c \
+	mlx.c \
+	movement.c \
+	init_structs.c \
+	system_utils.c
 
 HEADERS = cub3D.h
 
@@ -67,13 +78,13 @@ compile_mlx:
 .PHONY: clean
 
 clean:
-	@ make clean -C $(LIBFT_PATH)
-	@ make clean -C $(MLX_PATH)
+#@ make clean -C $(LIBFT_PATH)
+#@ make clean -C $(MLX_PATH)
 	@ echo "$(RED)Removing object files$(NC)"
 	@ rm -rf $(OFILES)
 
 fclean: clean
-	@ make fclean -C $(LIBFT_PATH)
+#@ make fclean -C $(LIBFT_PATH)
 	@ echo "$(RED)Removing '$(NAME)'\nForce-removing object directory$(NC)"
 	@ rm -rf $(BUILD_DIR) *~ $(NAME)
 
