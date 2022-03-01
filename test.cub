@@ -212,3 +212,15 @@
 				// printf("HOR DIST: %f %d\n", hor_hit_player_dist_RW, (int)hor_hit_player_dist_RW);
 
 				// printf("VERT HIT! angle: %f, map block x, y: %d, %d\n", ray_angle, (int)(vert_hit_RW_x + x_increment_sign) / RW_UNIT, (int)(vert_hit_RW_y) / RW_UNIT);
+
+				
+				
+				
+				SQUARES in minimap
+						// not working in here
+		// draw_square_tlc(vars->mlx_vars->minimap, vars->minimap.scale, vars->minimap.scale, \
+		// ((int)ray->hor_hit.x / SCALE) * vars->minimap.scale, \
+		// (((int)ray->hor_hit.y + ray->y_increment_dir * (SCALE / 2)) / SCALE) * vars->minimap.scale, 0x00ff00);
+		// draw_square_tlc(vars->mlx_vars->minimap, vars->minimap.scale, vars->minimap.scale, \
+		// (((int)ray->vert_hit.x  + ray->x_increment_dir * (SCALE / 2)) / SCALE) * vars->minimap.scale, \
+		// (int)ray->vert_hit.y / SCALE * vars->minimap.scale, 0xffff00);

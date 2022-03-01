@@ -42,8 +42,8 @@ void	draw_player_minimap(t_vars *vars)
 	size = vars->minimap.scale / 10;
 	draw_square_tlc(vars->mlx_vars->minimap, size, size, \
 	// conversion RW coords to minimap coords
-		vars->player.pos.x * vars->minimap.scale / vars->scale - size / 2, \
-		vars->player.pos.y * vars->minimap.scale / vars->scale - size / 2, \
+		vars->player.pos.x * vars->minimap.scale / SCALE - size / 2, \
+		vars->player.pos.y * vars->minimap.scale / SCALE - size / 2, \
 	0xff0000);
 }
 
