@@ -18,15 +18,14 @@ int	cub_pixel_put(t_image *img, int x, int y, int color)
 	and position of its top left corner in the window (S_xtlc, S_ytlc) (values in pixel), and
 	returns a pointer to it.
 */
-t_image *new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc)
+t_image *new_image(t_vars *vars, int width, int height, t_int_vector2 pos)
 {
 	t_image	*new_image;
 
 	new_image = malloc(sizeof(t_image));
 	new_image->width = width;
 	new_image->height = height;
-	new_image->S_xtlc = S_xtlc;
-	new_image->S_ytlc = S_ytlc;
+	new_image->pos = pos;
 	new_image->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, new_image->width, new_image->height);
 	new_image->address = mlx_get_data_addr(new_image->img_ptr, &new_image->bits_per_pixel, &new_image->line_length, &new_image->endian);
 	return (new_image);

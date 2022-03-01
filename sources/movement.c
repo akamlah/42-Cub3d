@@ -211,6 +211,6 @@ void	player_move(t_vars *vars, t_player *player)
 		player->pos.x = newpos.x;
 	 if (player_check_y_pos(vars, newpos))
 		player->pos.y = newpos.y;
-	printf("posx: %d, posy: %d\n", player->pos.x, player->pos.y);
+	// printf("posx: %d, posy: %d\n", player->pos.x, player->pos.y);
 	return ;
 }

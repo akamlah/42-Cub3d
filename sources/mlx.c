@@ -1,5 +1,7 @@
 #include "../header/cub3d.h"
 
+
+
 /*
 *	Initializes MLX variables: connection to server, window.
 */
@@ -24,7 +26,8 @@ int	init_mlx_vars(t_vars *vars)
 		printf("Failed to initialize mlx window\n");
 		return (3);
 	}
-	// vars->main_img = new_image(vars, PRJP_W, PRJP_H, 20, 20);
+
+	// when splitting, use new_image functon.
 	vars->main_img = malloc(sizeof(t_image));
 	if (!vars->main_img)
 	{
@@ -33,13 +36,12 @@ int	init_mlx_vars(t_vars *vars)
 	}
 	vars->main_img->height = PRJP_H ;
 	vars->main_img->width = PRJP_W;
-	vars->main_img->S_xtlc = 20; // replace with vector
-	vars->main_img->S_ytlc = 20;
+	vars->main_img->pos.x = 20; // replace with vector
+	vars->main_img->pos.y = 20;
 	vars->main_img->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, vars->main_img->width, vars->main_img->height);
 	vars->main_img->address = mlx_get_data_addr(vars->main_img->img_ptr, \
 	&vars->main_img->bits_per_pixel, &vars->main_img->line_length, \
 	&vars->main_img->endian);
-
 
 	vars->mlx_vars->minimap = malloc(sizeof(t_image));
 	if (!vars->mlx_vars->minimap)
@@ -51,10 +53,16 @@ int	init_mlx_vars(t_vars *vars)
 	// vars->minimap.width = vars->minimap.scale * vars->map->max_width;
 	// printf("size: %d\n", vars->minimap.width);
 	vars->mlx_vars->minimap->height = vars->map->n_lines * vars->minimap.scale;
-	vars->minimap.p_pos.y = WH - vars->mlx_vars->minimap->height - 10;
 	vars->mlx_vars->minimap->width = (vars->map->max_width - 1) * vars->minimap.scale;
-	vars->mlx_vars->minimap->S_xtlc = vars->minimap.p_pos.x;
-	vars->mlx_vars->minimap->S_ytlc = vars->minimap.p_pos.y;
+	vars->minimap.p_pos.y = WH - vars->mlx_vars->minimap->height - 10;
+
+	vars->mlx_vars->minimap->pos = vars->minimap.p_pos;
+
+		// vars->mlx_vars->minimap = new_image(vars, \
+		// 	vars->mlx_vars->minimap->width, \
+		// 	vars->mlx_vars->minimap->height, \
+		// 	vars->minimap->p_pos.x, \
+		// 	vars->minimap->p_pos.y);
 	vars->mlx_vars->minimap->height = vars->mlx_vars->minimap->height;
 	vars->mlx_vars->minimap->width = vars->mlx_vars->minimap->width;
 	vars->mlx_vars->minimap->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, vars->mlx_vars->minimap->width, vars->mlx_vars->minimap->height);
@@ -76,8 +84,10 @@ int	mlx_hooks(t_vars *vars)
 	mlx_hook(vars->mlx_vars->win_ptr, 2, 0, &on_key_down, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 3, 0, &on_key_up, vars);
 
-	mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars);
-	// mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars); // memory consuming!
+	mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars); 
+	// if we put update only in key hooks framesonly get regenerated when pressing
+	// but it's not as smooth
+
 	mlx_loop(vars->mlx_vars->mlx_ptr);
 	return (0);
 }
@@ -98,6 +108,7 @@ int	on_key_down(int keycode, t_vars *vars)
 		vars->player.rotate_right = 1;
 	else if (keycode == key_esc)
 		free_and_exit(vars);
+	// update(vars);
 	return (0);
 }
 
@@ -115,6 +126,7 @@ int	on_key_up(int keycode, t_vars *vars)
 		vars->player.rotate_left = 0;
 	else if (keycode == key_right)
 		vars->player.rotate_right = 0;
+	// update(vars);
 	return (0);
 }
 
@@ -196,6 +208,7 @@ int	on_key_up(int keycode, t_vars *vars)
 int	update(t_vars *vars)
 {
 	player_move(vars, &vars->player);
+	get_fps(vars);
 	// mlx_clear_window(vars->mlx_vars->mlx_ptr, vars->mlx_vars->win_ptr);
 	// if (vars->mlx_vars->minimap)
 	// {

@@ -12,9 +12,11 @@ int main(int argc, char **argv)
 		free_and_exit(&vars);
 
 	init_mlx_vars(&vars);
+
 	// init_player(&vars); // moved to init structs
-	get_player_spawn(&vars);
 	// init_minimap(&vars); //dito
+	
+	get_player_spawn(&vars);
 
 	draw_all(&vars);
 	mlx_hooks(&vars);
@@ -53,17 +55,19 @@ void	free_and_exit(t_vars *vars)
 	if (vars->mlx_vars)
 		free(vars->mlx_vars);
 	
-	// player vars:
-	// if (vars->player)
-	// 	free(vars->player);
 
-	// minimap vars:
-	// if (vars->minimap)
-	// {
-	// 	if (vars->minimap->img)
-	// 		free(vars->minimap->img);
-	// 	free(vars->minimap);
-	// }
+		// NOW ON STACK
+		// player vars:
+		// if (vars->player)
+		// 	free(vars->player);
+
+		// minimap vars:
+		// if (vars->minimap)
+		// {
+		// 	if (vars->minimap->img)
+		// 		free(vars->minimap->img);
+		// 	free(vars->minimap);
+		// }
 
 	// system("leaks cub3D");
 	exit(0);

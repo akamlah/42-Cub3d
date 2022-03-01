@@ -15,16 +15,8 @@ int	is_wall_RW(t_vars *vars, double RW_x, double RW_y)
 	return (0);
 }
 
-				// hit == hor hit, else hit = vert hit and then perform checks and return only once for the found hit.
-				// closest_intersection_RW_x = ray->hor_hit.x;
-				// closest_intersection_RW_y = ray->hor_hit.y;
-
-	// double	closest_intersection_RW_x;
-	// double	closest_intersection_RW_y;
-
-double	ray_dist(t_vars *vars, t_ray *ray)
+void	ray_set_vars_to_start(t_vars *vars, t_ray *ray)
 {
-	ray->color_minimap = 0x83d0c9;
 	ray->hor_dx = vars->scale / tan(ray->angle);
 	ray->hor_dy = vars->scale;
 	ray->vert_dx = vars->scale;
@@ -36,11 +28,26 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 	ray->x_increment_dir = 1;
 	ray->y_increment_dir = 1;
 	ray->facing_direction = 0;
+	ray->hor_hit_player_dist_RW = 0;
+	ray->vert_hit_player_dist_RW = 0;
+}
 
-	double	hor_hit_player_dist_RW = 0;
-	double	vert_hit_player_dist_RW = 0;
+void	setup_first_ray(t_vars *vars, t_ray *ray)
+{
+	// init angle:
+	ray->angle = vars->player.angle - (FOV_RAD / 2);
+	if (ray->angle < 0)
+		ray->angle = (M_PI * 2) + ray->angle;
+	ray->color_minimap = 0x83d0c9;
+	ray_set_vars_to_start(vars, ray);
+}
 
 
+
+double	ray_dist(t_vars *vars, t_ray *ray)
+{
+
+	ray_set_vars_to_start(vars, ray);
 
 	// HORIZONTAL INIT
 	// // 1st quadrant && 2nd quadrant
@@ -49,18 +56,18 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 		if (ray->angle <= M_PI_2 && ray->angle >= M_PI_2) // 90 degs edge case for tan
 			ray->hor_hit.x = vars->player.pos.x;
 		else
-			ray->hor_hit.x = vars->player.pos.x + (vars->player.pos.y % vars->scale) / tan(ray->angle); // > 0 1st ioct, < 0 2nd oct
-		ray->hor_hit.y = vars->player.pos.y - (vars->player.pos.y % vars->scale);
+			ray->hor_hit.x = vars->player.pos.x + fmod(vars->player.pos.y, vars->scale) / tan(ray->angle); // > 0 1st ioct, < 0 2nd oct
+		ray->hor_hit.y = vars->player.pos.y - fmod(vars->player.pos.y, vars->scale);
 		ray->hor_dy *= -1;
 		ray->y_increment_dir *= -1;
 	}
 	// 3rd quadrant && 4th quadrant: 180+ to 0- | 270 edge case
 	if ((ray->angle > M_PI && ray->angle < (M_PI * 2)))
 	{
-		ray->hor_hit.x = vars->player.pos.x - ((vars->scale - vars->player.pos.y % vars->scale) / tan(ray->angle));
+		ray->hor_hit.x = vars->player.pos.x - ((vars->scale - fmod(vars->player.pos.y, vars->scale)) / tan(ray->angle));
 		if (ray->angle >= 3 * M_PI_2 && ray->angle <= 3 * M_PI_2) // 270 edge case
 			ray->hor_hit.x = vars->player.pos.x;
-		ray->hor_hit.y = vars->player.pos.y + vars->scale - vars->player.pos.y % vars->scale;
+		ray->hor_hit.y = vars->player.pos.y + vars->scale - fmod(vars->player.pos.y, vars->scale);
 		ray->hor_dx *= -1;
 	}
 
@@ -68,8 +75,8 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 	// 1st octant && 4th octantdegs
 	if (M_PI_2 > ray->angle || ray->angle > 3 * M_PI_2)
 	{
-		ray->vert_hit.x = vars->player.pos.x + vars->scale - (vars->player.pos.x % vars->scale);
-		ray->vert_hit.y = vars->player.pos.y - (vars->scale - (vars->player.pos.x % vars->scale)) * tan(ray->angle);
+		ray->vert_hit.x = vars->player.pos.x + vars->scale - fmod(vars->player.pos.x, vars->scale);
+		ray->vert_hit.y = vars->player.pos.y - (vars->scale - fmod(vars->player.pos.x, vars->scale)) * tan(ray->angle);
 		if (ray->angle < 0 || ray->angle > (M_PI * 2))
 			ray->vert_hit.y = vars->player.pos.y;
 		ray->vert_dy *= -1;
@@ -77,8 +84,8 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 	// 2nd octant && 3rd octant + 180 degs
 	if (M_PI_2 < ray->angle && ray->angle < 3 * M_PI_2)
 	{
-		ray->vert_hit.x = vars->player.pos.x - (vars->player.pos.x % vars->scale);
-		ray->vert_hit.y = vars->player.pos.y + (vars->player.pos.x % vars->scale) * tan(ray->angle);
+		ray->vert_hit.x = vars->player.pos.x - fmod(vars->player.pos.x, vars->scale);
+		ray->vert_hit.y = vars->player.pos.y + fmod(vars->player.pos.x, vars->scale) * tan(ray->angle);
 		if (ray->angle >= M_PI && ray->angle <= M_PI)
 			ray->vert_hit.y = vars->player.pos.y;
 		ray->x_increment_dir = -1;
@@ -88,9 +95,9 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 	while (point_is_in_map_RW(vars, ray->hor_hit.x, ray->hor_hit.y)
 		|| point_is_in_map_RW(vars, ray->vert_hit.x, ray->vert_hit.y))
 	{
-		hor_hit_player_dist_RW = (vars->player.pos.y - ray->hor_hit.y) / sin(ray->angle);
-		vert_hit_player_dist_RW = (ray->vert_hit.x - vars->player.pos.x) / cos(ray->angle);
-		if (hor_hit_player_dist_RW < vert_hit_player_dist_RW)
+		ray->hor_hit_player_dist_RW = (vars->player.pos.y - ray->hor_hit.y) / sin(ray->angle);
+		ray->vert_hit_player_dist_RW = (ray->vert_hit.x - vars->player.pos.x) / cos(ray->angle);
+		if (ray->hor_hit_player_dist_RW < ray->vert_hit_player_dist_RW)
 		{
 			// shorter code:
 			// hit == hor hit, else hit = vert hit and then perform checks and return only once for the found hit.
@@ -102,15 +109,16 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 					vars->player.pos.y * vars->minimap.scale / vars->scale, \
 					(int)ray->hor_hit.x * vars->minimap.scale / vars->scale, \
 					(int)ray->hor_hit.y * vars->minimap.scale / vars->scale, ray->color_minimap);
-				draw_square_tlc(vars->mlx_vars->minimap, vars->minimap.scale, vars->minimap.scale, \
-				((int)ray->hor_hit.x / vars->scale) * vars->minimap.scale, \
-				(((int)ray->hor_hit.y + ray->y_increment_dir * (vars->scale / 2)) / vars->scale) * vars->minimap.scale, 0x00ff00);
+				// draw_square_tlc(vars->mlx_vars->minimap, vars->minimap.scale, vars->minimap.scale, \
+				// ((int)ray->hor_hit.x / vars->scale) * vars->minimap.scale, \
+				// (((int)ray->hor_hit.y + ray->y_increment_dir * (vars->scale / 2)) / vars->scale) * vars->minimap.scale, 0x00ff00);
 
 				ray->facing_direction = 1;
 				if (ray->angle > M_PI)
 					ray->facing_direction = 3;
 
-				return (hor_hit_player_dist_RW);
+
+				return (ray->hor_hit_player_dist_RW);
 			}
 			ray->hor_hit.x += ray->hor_dx;
 			ray->hor_hit.y += ray->hor_dy;
@@ -125,14 +133,14 @@ double	ray_dist(t_vars *vars, t_ray *ray)
 					vars->player.pos.y * vars->minimap.scale / vars->scale, \
 					(int)ray->vert_hit.x * vars->minimap.scale / vars->scale, \
 					(int)ray->vert_hit.y * vars->minimap.scale / vars->scale, ray->color_minimap);
-				draw_square_tlc(vars->mlx_vars->minimap, vars->minimap.scale, vars->minimap.scale, \
-				(((int)ray->vert_hit.x  + ray->x_increment_dir * (vars->scale / 2)) / vars->scale) * vars->minimap.scale, \
-				(int)ray->vert_hit.y / vars->scale * vars->minimap.scale, 0xffff00);
+				// draw_square_tlc(vars->mlx_vars->minimap, vars->minimap.scale, vars->minimap.scale, \
+				// (((int)ray->vert_hit.x  + ray->x_increment_dir * (vars->scale / 2)) / vars->scale) * vars->minimap.scale, \
+				// (int)ray->vert_hit.y / vars->scale * vars->minimap.scale, 0xffff00);
 
 				ray->facing_direction = 2;
 				if (ray->angle > M_PI_2 * 3 || ray->angle < M_PI_2)
 					ray->facing_direction = 4;
-				return (vert_hit_player_dist_RW);
+				return (ray->vert_hit_player_dist_RW);
 			}
 			ray->vert_hit.x += ray->vert_dx;
 			ray->vert_hit.y += ray->vert_dy;
@@ -158,10 +166,7 @@ void	raycast(t_vars *vars)
 	draw_square_tlc(vars->main_img, PRJP_W, PRJP_H / 2, 0, PRJP_H / 2, 0x1b2d0d); // floor
 	draw_square_tlc(vars->main_img, PRJP_W, PRJP_H / 2, 0, 0, 0xb8dcfd);	// ceiling
 
-	// init angle:
-	ray.angle = vars->player.angle - (FOV_RAD / 2);
-	if (ray.angle < 0)
-		ray.angle = (M_PI * 2) + ray.angle;
+	setup_first_ray(vars, &ray);
 
 
 	double increment = FOV_RAD / PRJP_W;
@@ -174,9 +179,16 @@ void	raycast(t_vars *vars)
 		// printf("%d: ", i);
 		dist = ray_dist(vars, &ray);
 
+	if (dist == 0)
+		dist = 64;
+		height = (PRJP_H * 30) / dist;
+	if (height >= PRJP_H - 2)
+		height = PRJP_H - 2;
+
+		dist *= cos(((increment * i)));
+
 		prjp_dist = (int)((PRJP_W / 2) / tan(FOV_RAD / 2));
 		// printf ("PRJP DIST: %d\n", prjp_dist);
-		height = (PRJP_H * 30) / dist;
 		// height = (PRJP_H / dist) * prjp_dist;
 		if (ray.facing_direction == 1)
 			color = 0x6bf3fc; // light blue -> from N
@@ -193,15 +205,21 @@ void	raycast(t_vars *vars)
 			color = 0x00ff00;
 		}
 		draw_square_tlc(vars->main_img, 1, height, \
-			i, \
+			PRJP_W - i -1, \
 			PRJP_H / 2 - height / 2, color);
 		// draw_line(vars->main_img, i, PRJP_H / 2 + height / 2, i, PRJP_H / 2 - height / 2, color); // SIGSEGs near walls!
+
+
+		// TEXTURE
+		
+
 
 		if (ray.angle + increment > M_PI * 2)
 			ray.angle = -1 * ((M_PI * 2) - ray.angle + increment);
 		else 
 			ray.angle += increment;
 		i++;
+		//printf("player: %f , ray: %f\n", vars->player.angle, ray.angle);
 	}
 	// printf("%d\n", i);
 }
