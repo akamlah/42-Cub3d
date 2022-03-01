@@ -1,36 +1,27 @@
 #include "../header/cub3d.h"
 
-/*
-*	Set all pointers in main struct to null or allocate memory for them before using them
-*/
-void	vars_init(t_vars *vars)
-{
-	vars->map = NULL;
-	vars->mlx_vars = NULL;
-	vars->player = NULL;
-	vars->prjp = NULL;
-	vars->minimap = malloc(sizeof(t_minimap));
-	vars->minimap->img = NULL;
-}
 
 int main(int argc, char **argv)
 {
 	t_vars	vars;
 	int		error;
 
-	vars_init(&vars);
+	init_vars(&vars);
 	error = parse(&vars, argc, argv);
 	if (error)
 		free_and_exit(&vars);
 
 	init_mlx_vars(&vars);
-	init_player(&vars);
-
+	// init_player(&vars); // moved to init structs
+	get_player_spawn(&vars);
+	// init_minimap(&vars); //dito
 
 	draw_all(&vars);
 	mlx_hooks(&vars);
 	return (0);
 }
+
+
 
 /*
 *	ONLY EXITPOINT here.
@@ -63,16 +54,16 @@ void	free_and_exit(t_vars *vars)
 		free(vars->mlx_vars);
 	
 	// player vars:
-	if (vars->player)
-		free(vars->player);
+	// if (vars->player)
+	// 	free(vars->player);
 
 	// minimap vars:
-	if (vars->minimap)
-	{
-		if (vars->minimap->img)
-			free(vars->minimap->img);
-		free(vars->minimap);
-	}
+	// if (vars->minimap)
+	// {
+	// 	if (vars->minimap->img)
+	// 		free(vars->minimap->img);
+	// 	free(vars->minimap);
+	// }
 
 	// system("leaks cub3D");
 	exit(0);

@@ -15,14 +15,19 @@ CFILES_ALICE = \
 	parse_map_chars.c \
 	parse_identifiers.c \
 	draw.c \
+	drawing_utils.c \
 	player.c \
 	minimap.c \
 	raycast.c
 
-CFILES_ANDI = mlx.c \
+CFILES_ANDI = \
 	parse_map.c \
 	parse_map_check_map.c \
-	parse_map_check_borders.c
+	parse_map_check_borders.c \
+	mlx.c \
+	movement.c \
+	init_structs.c \
+	system_utils.c
 
 HEADERS = cub3D.h
 

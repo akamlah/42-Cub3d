@@ -9,6 +9,9 @@
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
 # include <limits.h>
+///////////////////////////REMOVE REMOVE REMOVE RFEMOVE REMOVE REMOVE REMOVE
+#include <sys/time.h> ///////////////////////////REMOVE REMOVE REMOVE RFEMOVE REMOVE REMOVE REMOVE
+///////////////////////////REMOVE REMOVE REMOVE RFEMOVE REMOVE REMOVE REMOVE
 
 // screen parameters
 // win_ptr size (WW width, WH heigth in pixel)
@@ -17,10 +20,6 @@
 // # define WH 1080
 # define WW 2000
 # define WH 800
-
-// defines how big a cube is in the 2D abstraction,
-// (this is just the abstract pace in the 2D grid, not pixels!)
-# define RW_UNIT 64
 
 // field of view (angle, in rad)
 # define FOV_DEG 60
@@ -46,6 +45,12 @@ typedef struct s_vector2
 	double		x;
 	double		y;
 }			t_vector2;
+
+typedef struct s_int_vector2
+{
+	int		x;
+	int		y;
+}			t_int_vector2;
 
 typedef struct s_map
 {
@@ -79,6 +84,7 @@ typedef struct	s_image
 	int		height;
 	int		S_xtlc;
 	int		S_ytlc;
+	t_int_vector2	pos;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -88,88 +94,168 @@ typedef struct mlx_vars
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+
+	t_image		*minimap;
+
 }			t_mlx_vars;
 
 typedef struct s_player
 {
-	int		RW_xspawn;
-	int		RW_yspawn;
-	double	th_spawn;
-	int		RW_x;
-	int		RW_y;
-	double	th;
+	// renamed:
+
+	// int		RW_xspawn;
+	// int		RW_yspawn;
+	// double	th_spawn;
+	// int		RW_x;
+	// int		RW_y;
+	// double	th;
+
+	t_int_vector2	pos; //actual player position in game world (grid)
+	t_int_vector2	spawn_pos;
+	double		spawn_angle;
+	double		angle; //player angle
+
+	double		rot_speed;
+	double		speed; //player movement speed;
+
+	char		move_forward;
+	char		move_backward;
+	char		move_left;
+	char		move_right;
+	char		rotate_left;
+	char		rotate_right;
+	double		fov;
+	t_vector2	dir;
 }				t_player;
 
 typedef struct s_minimap
 {
-	t_image	*img;
+	// t_image	*img;
 	int		scale;
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
+	t_int_vector2	p_pos;
 
 	// not used yet/;
 	char	wall_color;
 	char	floor_color;
 	char	background_color;
+	// int			scale;
+	// int			xwinoffset;
+	// int			ywinoffset;
+	// int			xframelen;
+	// int			yframelen;
+	// int			xframeoffset;
+	// int			yframeoffset;
+	// int			p_size;
 }				t_minimap;
 
-
-// typedef struct s_ray;
-// {
-// 	int facing_direction;
-	
-// } 				t_ray;
+typedef struct	s_ray
+{
+	t_vector2	hor_hit;
+	t_vector2	vert_hit;
+	int			x_increment_dir;
+	int			y_increment_dir;
+	double		distance;
+	double		angle;
+	int			color_minimap;
+	double		hor_dx;
+	double		hor_dy;
+	double		vert_dx;
+	double		vert_dy;
+	int			facing_direction;
+	// double		size_ratio;
+	// int			mid_y;
+}				t_ray;
 
 typedef struct s_vars
 {
-	//andi
-	t_mlx_vars *mlx_vars;
+	
+	int 		scale;
+	int			move_forward;
 
-	//alice
+	t_mlx_vars	*mlx_vars;
 	t_map		*map;
-	t_player	*player;
-	t_minimap	*minimap;
-	t_image		*prjp;
+	t_player	player;
+	t_minimap	minimap;
+	t_image		*main_img;
 
-	int facing_direction;
+
+
+	double		last_time_ms;
 
 }	t_vars;
 
 
 // FUNCTIONS
-//Andi
-int		init_mlx_vars(t_vars *vars);
-int		mlx_hooks(t_vars *vars);
-int		exit_hook(t_vars *vars);
-int		update(t_vars *vars);
-void	*loadimage(char *path, t_vars *vars);
+
+// parser
 int		parse_map_lines(t_vars *vars);
 int		check_map(t_vars *vars, char	**maplines);
 int		check_borders(t_vars *vars, char **maplines);
-
-// Alice
 int		parse(t_vars *vars, int argc, char **argv);
 int		is_whitespaces(char *line);
 int		get_texture(char *line, t_map *map, int i);
 int		get_color_id(char *line, t_map *map, int i);
 int		get_map(char *line, t_map *map, int i);
+
+// drawing_utils.c
+int		cub_pixel_put(t_image *img, int x, int y, int color);
+t_image	*new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc);
+void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
+void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color);
+void	*loadimage(char *path, t_vars *vars);
+
+// inits
+int		init_vars(t_vars *vars);
+int		init_mlx_vars(t_vars *vars);
+int		init_player(t_player *player);
+// int		init_minimap(t_vars *vars);
+int		init_minimap(t_minimap *minimap);
+
+// hooks
+int		mlx_hooks(t_vars *vars);
+int		update(t_vars *vars);
+int		on_key_down(int keycode, t_vars *vars);
+int		on_key_up(int keycode, t_vars *vars);
+int		exit_hook(t_vars *vars);
+
+int	get_player_spawn(t_vars *vars);
+
+// movement.c
+void		set_dir(double angle, t_vector2 *dir);
+double		correct_angle(double angle);
+void		player_set_speed_angle(t_player *player, int *speed_forward, double *angle_offs);
+t_vector2	player_get_newpos(t_player *player, int speed_forward, double new_angle);
+int			player_next_x_obj(t_vars *vars);
+int			player_next_y_obj(t_vars *vars);
+int			player_prev_y_obj(t_vars *vars);
+int			player_prev_x_obj(t_vars *vars);
+int			player_check_x_pos(t_vars *vars, t_vector2 newpos);
+int			player_check_y_pos(t_vars *vars, t_vector2 newpos);
+void		player_move(t_vars *vars, t_player *player);
+
+
+
+//system utils
+double	get_fps(t_vars *vars);
+
+
+// Alice
 void	free_and_exit(t_vars *vars);
 int		open_cubfile(t_map *map, char *path);
 
 int		cub_dealkey(int keycode, t_vars *vars);
 
-void	init_player(t_vars *vars);
-void	init_minimap(t_vars *vars);
+
 void	draw_minimap(t_vars *vars);
 void	draw_player_minimap(t_vars *vars);
 
 void	draw_all(t_vars *vars);
 
-// utils:
-int		cub_pixel_put(t_image *img, int x, int y, int color);
-t_image	*new_image(t_vars *vars, int width, int height, int S_xtlc, int S_ytlc);
-void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
-void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color);
+
+// merged
+
 
 
 # endif
