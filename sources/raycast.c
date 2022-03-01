@@ -221,10 +221,6 @@ void	raycast(t_vars *vars)
 		cast_ray(vars, &ray);
 		get_height(vars, &ray);
 		draw_wall(vars, &ray, i);
-
-		// TEXTURE
-
-
 		increment_ray_angle(vars, &ray);
 		i++;
 	}

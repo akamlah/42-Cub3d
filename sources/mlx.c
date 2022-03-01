@@ -1,7 +1,5 @@
 #include "../header/cub3d.h"
 
-
-
 /*
 *	Initializes MLX variables: connection to server, window.
 */
@@ -46,9 +44,29 @@ int	init_mlx_vars(t_vars *vars)
 	vars->mlx_vars->minimap = malloc(sizeof(t_image));
 	if (!vars->mlx_vars->minimap)
 	{
+		printf("Failed to initialize mlx minimap image\n");
+		return (5);
+	}
+
+	vars->mlx_vars->minimap = malloc(sizeof(t_image));
+	if (!vars->mlx_vars->minimap)
+	{
 		printf("Failed to initialize mlx main image\n");
 		return (5);
 	}
+
+	vars->tex_N = malloc(sizeof(t_image));
+	if (!vars->tex_N)
+	{
+		printf("Failed to initialize North Texture image\n");
+		return (6);
+	}
+	vars->tex_N->width = 0;
+	vars->tex_N->height = 0;
+	vars->tex_N->img_ptr = mlx_xpm_file_to_image(vars->mlx_vars->mlx_ptr, "/Users/agebert/Projects/cub3d_repo/sources/wall.xpm", &vars->tex_N->width, &vars->tex_N->height);
+	vars->tex_N->address = mlx_get_data_addr(vars->tex_N->img_ptr, &vars->tex_N->bits_per_pixel, \
+							&vars->tex_N->line_length, &vars->tex_N->endian);
+
 	// vars->mlx_vars->minimap->height = vars->minimap.scale * vars->map->n_lines;
 	// vars->minimap.width = vars->minimap.scale * vars->map->max_width;
 	// printf("size: %d\n", vars->minimap.width);
@@ -208,7 +226,7 @@ int	on_key_up(int keycode, t_vars *vars)
 int	update(t_vars *vars)
 {
 	player_move(vars, &vars->player);
-	get_fps(vars);
+//	get_fps(vars);
 	// mlx_clear_window(vars->mlx_vars->mlx_ptr, vars->mlx_vars->win_ptr);
 	// if (vars->mlx_vars->minimap)
 	// {

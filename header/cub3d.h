@@ -16,6 +16,7 @@
 // screen parameters
 // win_ptr size (WW width, WH heigth in pixel)
 // https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
+
 # define WW 1920
 # define WH 1080
 // # define WW 2000
@@ -173,6 +174,10 @@ typedef struct s_vars
 	t_player	player;
 	t_minimap	minimap;
 	t_image		*main_img;
+	t_image		*tex_N;
+	t_image		*tex_S;
+	t_image		*tex_E;
+	t_image		*tex_W;
 
 	double		last_time_ms;
 
@@ -247,7 +252,7 @@ void	draw_all(t_vars *vars);
 
 
 // merged
-
+void	draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
 
 
 # endif
