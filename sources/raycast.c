@@ -191,20 +191,21 @@ void	increment_ray_angle(t_vars *vars, t_ray *ray)
 
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
 {
-	int color;
-	if (ray->facing_direction == 1)
-		color = 0x6bf3fc; // light blue -> from N
-	if (ray->facing_direction == 2)
-		color = 0x9a2462; // purple -> from W
-	if (ray->facing_direction == 3)
-		color = 0x0098ff; // darker blue -> from S
-	if (ray->facing_direction == 4)
-		color = 0xe0bb1b; // yellow -> from EASt
+	// int color;
+	// if (ray->facing_direction == 1)
+	// 	color = 0x6bf3fc; // light blue -> from N
+	// if (ray->facing_direction == 2)
+	// 	color = 0x9a2462; // purple -> from W
+	// if (ray->facing_direction == 3)
+	// 	color = 0x0098ff; // darker blue -> from S
+	// if (ray->facing_direction == 4)
+	// 	color = 0xe0bb1b; // yellow -> from EASt
 	// color = 0xffffff;
 
-	draw_square_tlc(vars->main_img, 1, ray->wall_height, \
-		MAIN_IMG_W - i -1, \
-		MAIN_IMG_H / 2 - ray->wall_height / 2, color);
+	draw_tex_line(vars, ray, ray->wall_height, vars->tex_N, i);
+	// draw_square_tlc(vars->main_img, 1, ray->wall_height, \
+	// 	MAIN_IMG_W - i -1, \
+	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, color);
 	// draw_line(vars->main_img, i, MAIN_IMG_H / 2 + ray->wall_height / 2, i, MAIN_IMG_H / 2 - ray->wall_height / 2, color); // SIGSEGs near walls!
 }
 
@@ -222,7 +223,9 @@ void	raycast(t_vars *vars)
 		get_height(vars, &ray);
 		draw_wall(vars, &ray, i);
 		increment_ray_angle(vars, &ray);
+		// i += 2;
 		i++;
+		// i += 4;
 	}
 }
 
