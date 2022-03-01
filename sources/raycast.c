@@ -191,28 +191,41 @@ void	raycast(t_vars *vars)
 		// printf ("PRJP DIST: %d\n", prjp_dist);
 		// height = (PRJP_H / dist) * prjp_dist;
 		if (ray.facing_direction == 1)
-			color = 0x6bf3fc; // light blue -> from N
-		if (ray.facing_direction == 2)
-			color = 0x9a2462; // purple -> from W
-		if (ray.facing_direction == 3)
-			color = 0x0098ff; // darker blue -> from S
-		if (ray.facing_direction == 4)
-			color = 0xe0bb1b; // yellow -> from EASt
-		// test 
-		if (dist == 0)
 		{
-			height = 20;
-			color = 0x00ff00;
+			ray.closest_hit = ray.hor_hit;
+			color = 0x6bf3fc; // light blue -> from N
 		}
-		draw_square_tlc(vars->main_img, 1, height, \
-			PRJP_W - i -1, \
-			PRJP_H / 2 - height / 2, color);
+		if (ray.facing_direction == 2)
+		{
+			ray.closest_hit = ray.vert_hit;
+			color = 0x9a2462; // purple -> from W
+		}
+			
+		if (ray.facing_direction == 3)
+		{
+			ray.closest_hit = ray.hor_hit;
+			color = 0x0098ff; // darker blue -> from S
+		}
+			
+		if (ray.facing_direction == 4)
+		{
+			color = 0xe0bb1b; // yellow -> from EASt
+			ray.closest_hit = ray.vert_hit;
+		}
+		// test 
+		// if (dist == 0)
+		// {
+		// 	height = 20;
+		// 	color = 0x00ff00;
+		// }
+		// draw_square_tlc(vars->main_img, 1, height, \
+		// 	PRJP_W - i -1, \
+		// 	PRJP_H / 2 - height / 2, color);
 		// draw_line(vars->main_img, i, PRJP_H / 2 + height / 2, i, PRJP_H / 2 - height / 2, color); // SIGSEGs near walls!
-
 
 		// TEXTURE
 		
-
+		draw_tex_line(vars, &ray, height, vars->tex_N, i);
 
 		if (ray.angle + increment > M_PI * 2)
 			ray.angle = -1 * ((M_PI * 2) - ray.angle + increment);

@@ -27,7 +27,8 @@ CFILES_ANDI = \
 	mlx.c \
 	movement.c \
 	init_structs.c \
-	system_utils.c
+	system_utils.c \
+	texture_map.c
 
 HEADERS = cub3D.h
 
