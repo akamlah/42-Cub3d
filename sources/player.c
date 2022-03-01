@@ -20,8 +20,8 @@ int	get_player_spawn(t_vars *vars)
 		{
 			if (ft_isalpha(vars->map->nodes[i][j]))
 			{
-				vars->player.spawn_pos.x = j * vars->scale + vars->scale / 2;
-				vars->player.spawn_pos.y = i * vars->scale + vars->scale / 2;
+				vars->player.spawn_pos.x = j * SCALE + SCALE / 2;
+				vars->player.spawn_pos.y = i * SCALE + SCALE / 2;
 				vars->player.pos.x = vars->player.spawn_pos.x;
 				vars->player.pos.y = vars->player.spawn_pos.y;
 				if (vars->map->nodes[i][j] == 'N')
@@ -75,8 +75,8 @@ int	get_player_spawn(t_vars *vars)
 // 			{
 // 				vars->minimap.p_pos.x = j * vars->minimap.scale - vars->minimap.p_size / 2 + vars->minimap.scale * 0.5;
 // 				vars->minimap.p_pos.y = i * vars->minimap.scale - vars->minimap.p_size / 2 + vars->minimap.scale * 0.5;
-// 				vars->player.pos.x = (double)(j * vars->scale + vars->scale * 0.5);
-// 				vars->player.pos.y = (double)(i * vars->scale + vars->scale * 0.5);
+// 				vars->player.pos.x = (double)(j * SCALE + SCALE * 0.5);
+// 				vars->player.pos.y = (double)(i * SCALE + SCALE * 0.5);
 // 				vars->player.angle = M_PI * 0.5;
 // 				vars->map->nodes[i][j] = '0';
 // 			}
