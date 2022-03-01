@@ -34,8 +34,8 @@ int	init_mlx_vars(t_vars *vars)
 		printf("Failed to initialize mlx main image\n");
 		return (4);
 	}
-	vars->main_img->height = PRJP_H ;
-	vars->main_img->width = PRJP_W;
+	vars->main_img->height = MAIN_IMG_H ;
+	vars->main_img->width = MAIN_IMG_W;
 	vars->main_img->pos.x = 20; // replace with vector
 	vars->main_img->pos.y = 20;
 	vars->main_img->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, vars->main_img->width, vars->main_img->height);
@@ -140,16 +140,16 @@ int	on_key_up(int keycode, t_vars *vars)
 // 	// double th_rot_speed = FOV_RAD / FOV_DEG;
 // 	double diff = 0;
 // 	if (keycode == key_a && vars->player.pos.x - pace >= 0 
-// 		&& vars->map->nodes[vars->player.pos.y / vars->scale][(vars->player.pos.x - pace) / vars->scale] == '0')
+// 		&& vars->map->nodes[vars->player.pos.y / SCALE][(vars->player.pos.x - pace) / SCALE] == '0')
 // 		vars->player.pos.x -= pace;
-// 	if (keycode == key_d && vars->player.pos.x + pace < (vars->map->max_width - 1) * vars->scale
-// 		&& vars->map->nodes[vars->player.pos.y / vars->scale][(vars->player.pos.x + pace) / vars->scale] == '0')
+// 	if (keycode == key_d && vars->player.pos.x + pace < (vars->map->max_width - 1) * SCALE
+// 		&& vars->map->nodes[vars->player.pos.y / SCALE][(vars->player.pos.x + pace) / SCALE] == '0')
 // 		vars->player.pos.x += pace;
 // 	if (keycode == key_w && vars->player.pos.y - pace >= 0
-// 		&& vars->map->nodes[(vars->player.pos.y - pace) / vars->scale][vars->player.pos.x / vars->scale] == '0')
+// 		&& vars->map->nodes[(vars->player.pos.y - pace) / SCALE][vars->player.pos.x / SCALE] == '0')
 // 		vars->player.pos.y -= pace;
-// 	if (keycode == key_s && vars->player.pos.y + pace < vars->map->n_lines * vars->scale
-// 		&& vars->map->nodes[(vars->player.pos.y + pace) / vars->scale][vars->player.pos.x / vars->scale] == '0')
+// 	if (keycode == key_s && vars->player.pos.y + pace < vars->map->n_lines * SCALE
+// 		&& vars->map->nodes[(vars->player.pos.y + pace) / SCALE][vars->player.pos.x / SCALE] == '0')
 // 		vars->player.pos.y += pace;
 
 // 	if (keycode == key_up)

@@ -16,18 +16,22 @@
 // screen parameters
 // win_ptr size (WW width, WH heigth in pixel)
 // https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
-// # define WW 1920
-// # define WH 1080
-# define WW 2000
-# define WH 800
+# define WW 1920
+# define WH 1080
+// # define WW 2000
+// # define WH 800
+# define SCALE 64
+
+// width  and height of projection plane
+# define MAIN_IMG_W (WW - 40)
+# define MAIN_IMG_H (WH - 40)
 
 // field of view (angle, in rad)
 # define FOV_DEG 60
 # define FOV_RAD (M_PI / 3)
 
-// width  and height of projection plane
-# define PRJP_W (WW - 40)
-# define PRJP_H 760
+// angular distance between rays when casting within the field of view
+# define RAY_ANG_INCREMENT (FOV_RAD / MAIN_IMG_W)
 
 //keycodes
 # define key_left 123
@@ -45,12 +49,6 @@ typedef struct s_vector2
 	double		x;
 	double		y;
 }				t_vector2;
-
-typedef struct s_int_vector2
-{
-	double		x;
-	double		y;
-}				t_int_vector2;
 
 typedef struct s_map
 {
@@ -78,7 +76,7 @@ typedef struct	s_image
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
-	t_int_vector2	pos;
+	t_vector2	pos;
 	void			*img_ptr;
 	char			*address;
 	// int		S_xtlc;
@@ -92,7 +90,6 @@ typedef struct	s_ray
 	t_vector2	closest_hit;
 	int			x_increment_dir;
 	int			y_increment_dir;
-
 	double		distance; // use this
 
 	double		angle;
@@ -106,6 +103,8 @@ typedef struct	s_ray
 	// int			mid_y;
 	double	hor_hit_player_dist_RW;
 	double	vert_hit_player_dist_RW;
+
+	int			wall_height;
 }				t_ray;
 
 typedef struct mlx_vars
@@ -126,8 +125,8 @@ typedef struct s_player
 	// int		RW_y;
 	// double	th;
 
-	t_int_vector2	pos; //actual player position in game world (grid)
-	t_int_vector2	spawn_pos;
+	t_vector2	pos; //actual player position in game world (grid)
+	t_vector2	spawn_pos;
 	double		spawn_angle;
 	double		angle; //player angle
 
@@ -148,7 +147,7 @@ typedef struct s_minimap
 {
 	// t_image	*img; // need to alloc
 	int		scale;
-	t_int_vector2	p_pos;
+	t_vector2	p_pos;
 
 	// not used yet/;
 	char	wall_color;
@@ -166,7 +165,7 @@ typedef struct s_minimap
 typedef struct s_vars
 {
 	
-	int 		scale;
+	// int 		scale;
 	int			move_forward;
 
 	t_mlx_vars	*mlx_vars;
@@ -194,7 +193,7 @@ int		get_map(char *line, t_map *map, int i);
 
 // drawing_utils.c
 int		cub_pixel_put(t_image *img, int x, int y, int color);
-t_image *new_image(t_vars *vars, int width, int height, t_int_vector2 pos);
+t_image *new_image(t_vars *vars, int width, int height, t_vector2 pos);
 void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
 void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color);
 void	*loadimage(char *path, t_vars *vars);

@@ -18,7 +18,7 @@ int	cub_pixel_put(t_image *img, int x, int y, int color)
 	and position of its top left corner in the window (S_xtlc, S_ytlc) (values in pixel), and
 	returns a pointer to it.
 */
-t_image *new_image(t_vars *vars, int width, int height, t_int_vector2 pos)
+t_image *new_image(t_vars *vars, int width, int height, t_vector2 pos)
 {
 	t_image	*new_image;
 

@@ -42,7 +42,7 @@ int	init_vars(t_vars *vars)
 	init_player(&vars->player);
 	init_minimap(&vars->minimap);
 	vars->last_time_ms = 100;
-	vars->scale = 64;
+	// SCALE = 64;
 	vars->move_forward = 0;
 	vars->map = NULL;
 	vars->mlx_vars = NULL;

@@ -105,8 +105,8 @@ int	player_next_x_obj(t_vars *vars)
 	int p_grid_xpos;
 	int	i;
 
-	p_grid_xpos = ceil(vars->player.pos.x / vars->scale);
-	p_grid_ypos = ceil(vars->player.pos.y / vars->scale) - 1;
+	p_grid_xpos = ceil(vars->player.pos.x / SCALE);
+	p_grid_ypos = ceil(vars->player.pos.y / SCALE) - 1;
 	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_xpos;
 	while (vars->map->nodes[p_grid_ypos][i] && vars->map->nodes[p_grid_ypos][i] != '\n'
@@ -121,8 +121,8 @@ int	player_next_y_obj(t_vars *vars)
 	int p_grid_xpos;
 	int	i;
 
-	p_grid_xpos = ceil(vars->player.pos.x / vars->scale) - 1;
-	p_grid_ypos = ceil(vars->player.pos.y / vars->scale);
+	p_grid_xpos = ceil(vars->player.pos.x / SCALE) - 1;
+	p_grid_ypos = ceil(vars->player.pos.y / SCALE);
 	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_ypos;
 	while (vars->map->nodes[i][p_grid_xpos] && i < vars->map->n_lines - 1
@@ -139,8 +139,8 @@ int	player_prev_y_obj(t_vars *vars)
 	int p_grid_xpos;
 	int	i;
 
-	p_grid_xpos = ceil(vars->player.pos.x / vars->scale) - 1;
-	p_grid_ypos = ceil(vars->player.pos.y / vars->scale) - 1;
+	p_grid_xpos = ceil(vars->player.pos.x / SCALE) - 1;
+	p_grid_ypos = ceil(vars->player.pos.y / SCALE) - 1;
 	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_ypos;
 	while (vars->map->nodes[i][p_grid_xpos] && i > 0
@@ -157,8 +157,8 @@ int	player_prev_x_obj(t_vars *vars)
 	int p_grid_xpos;
 	int	i;
 
-	p_grid_xpos = ceil(vars->player.pos.x / vars->scale) - 1;
-	p_grid_ypos = ceil(vars->player.pos.y / vars->scale) - 1;
+	p_grid_xpos = ceil(vars->player.pos.x / SCALE) - 1;
+	p_grid_ypos = ceil(vars->player.pos.y / SCALE) - 1;
 	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_xpos;
 	while (vars->map->nodes[p_grid_ypos][i] && i > 0
@@ -171,7 +171,7 @@ int		player_check_x_pos(t_vars *vars, t_vector2 newpos)
 {
 	int	grid_pos_x;
 
-	grid_pos_x = ceil(newpos.x / vars->scale) - 1;
+	grid_pos_x = ceil(newpos.x / SCALE) - 1;
 	if (grid_pos_x <= player_prev_x_obj(vars)
 		|| grid_pos_x >= player_next_x_obj(vars))
 			return (0);
@@ -182,7 +182,7 @@ int		player_check_y_pos(t_vars *vars, t_vector2 newpos)
 {
 	int	grid_pos_y;
 
-	grid_pos_y = ceil(newpos.y / vars->scale) - 1;
+	grid_pos_y = ceil(newpos.y / SCALE) - 1;
 	if (grid_pos_y <= player_prev_y_obj(vars)
 		|| grid_pos_y >= player_next_y_obj(vars))
 			return (0);

@@ -6,6 +6,10 @@ void draw_all(t_vars *vars)
 {
 	draw_minimap(vars);
 
+	// background main img:
+	draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, MAIN_IMG_H / 2, 0x1b2d0d); // floor
+	draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, 0, 0xb8dcfd);	// ceiling
+
 	raycast(vars); // also draws to minimap img.
 	// // put to window raycasted
 
