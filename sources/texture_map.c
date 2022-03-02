@@ -4,16 +4,7 @@ int	get_pixel_color(t_image *img, double x, double y)
 {
 	char	*dst;
 
-	// if (x < 0)
-	// 	x = 0;
-	// if (y < 0)
-	// 	y = 0;
-	// if (x >= img->width)
-	// 	x = img->width - 1;
-	// if (y >= img->height)
-	// 	y = img->height - 1;
 	dst = img->address + ((int)floor(y) * img->line_length + (int)floor(x) * (img->bits_per_pixel / 8));
-	//printf("test: %p\n", dst);
 	return (*(unsigned int *)dst);
 }
 
