@@ -53,6 +53,12 @@ typedef struct s_vector2
 	double		y;
 }				t_vector2;
 
+typedef struct s_vector2_int
+{
+	int		x;
+	int		y;
+}				t_vector2_int;
+
 typedef struct s_map
 {
 	int		fd_cubfile;
