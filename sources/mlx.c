@@ -68,7 +68,7 @@ int on_mouse_move(int x, int y, t_vars *vars)
 		vars->player.angle -= vars->player.rot_speed;
 
 	vars->player.mouse_last_x = x;
-	printf("%f\n", vars->player.angle);
+	//printf("%f\n", vars->player.angle);
 	return (0);
 }
 
