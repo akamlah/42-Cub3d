@@ -41,7 +41,7 @@ int	mlx_hooks(t_vars *vars)
 {
 	mlx_hook(vars->mlx_vars->win_ptr, 17, 0, &exit_hook, vars);
 	// mlx_hook(vars->mlx_vars->win_ptr, 2, (1L<<13), &cub_dealkey, vars);
-
+	mlx_hook(vars->mlx_vars->win_ptr, 6, 0, &on_mouse_move, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 2, 0, &on_key_down, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 3, 0, &on_key_up, vars);
 
@@ -50,6 +50,25 @@ int	mlx_hooks(t_vars *vars)
 	// but it's not as smooth
 
 	mlx_loop(vars->mlx_vars->mlx_ptr);
+	return (0);
+}
+
+int on_mouse_move(int x, int y, t_vars *vars)
+{
+	int	temp;
+
+	temp = y;
+	if (vars->player.mouse_last_x > MAIN_IMG_W)
+		vars->player.mouse_last_x = MAIN_IMG_W;
+	if (vars->player.mouse_last_x < 0)
+		vars->player.mouse_last_x = 0;
+	if (x < vars->player.mouse_last_x + 3)
+		vars->player.angle += vars->player.rot_speed;
+	if (x > vars->player.mouse_last_x - 3)
+		vars->player.angle -= vars->player.rot_speed;
+
+	vars->player.mouse_last_x = x;
+	printf("%f\n", vars->player.angle);
 	return (0);
 }
 

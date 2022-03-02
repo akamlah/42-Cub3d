@@ -9,7 +9,7 @@ int	init_player(t_player *player)
 	player->speed = 12;
 	player->angle = 0;
 	// player->rot_speed = 0.05;
-		player->rot_speed = M_PI / 24;
+		player->rot_speed = M_PI / 64;
 
 	player->move_backward = 0;
 	player->move_forward = 0;
@@ -20,7 +20,7 @@ int	init_player(t_player *player)
 	// player->fov = 1.04;
 	player->dir.x = 0;
 	player->dir.y = 0;
-
+	player->mouse_last_x = 0;
 	return (0);
 }
 

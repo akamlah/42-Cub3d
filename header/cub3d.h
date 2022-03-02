@@ -148,6 +148,7 @@ typedef struct s_player
 	char		move_right;
 	char		rotate_left;
 	char		rotate_right;
+	int			mouse_last_x;
 	// double		fov;
 	t_vector2	dir;
 }				t_player;
@@ -263,5 +264,6 @@ void	draw_all(t_vars *vars);
 void		draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
 t_vector2	new_vector2(double x, double y);
 t_image 	*new_image_tex(t_vars *vars, char *tex_path);
+int			on_mouse_move(int x, int y, t_vars *vars);
 
 # endif
