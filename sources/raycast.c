@@ -161,23 +161,21 @@ void	cast_ray(t_vars *vars, t_ray *ray)
 	calculates the height of the wall to be drawn
 	consigering fisheye effect and player collision with wall.
 */
-void	get_height(t_vars *vars, t_ray *ray)
+void	get_height(t_vars *vars, t_ray *ray, int i)
 {
-// silence warnings
-	t_vars *yo = vars;
-	yo = NULL;
+	double	fisheye_correction_factor;
 
-	if (ray->distance == 0)
-		ray->distance = 64;
-	// ray->wall_height = (MAIN_IMG_H * 30) / ray->distance;
-	double dist_prj_plane = (MAIN_IMG_W / 2 / tan(FOV_RAD / 2));
-	// double normed_dist = dist_prj_plane / SCALE;
-	ray->wall_height = dist_prj_plane * SCALE / ray->distance;
+	if (i < MAIN_IMG_W / 2)
+		fisheye_correction_factor = cos(FOV_RAD / 2 - (i * RAY_ANG_INCREMENT));
+	else
+		fisheye_correction_factor = cos((i * RAY_ANG_INCREMENT) - (FOV_RAD / 2));
+	ray->wall_height = vars->prj_pane_dist * SCALE / (ray->distance * fisheye_correction_factor);
 
-	if (ray->wall_height >= MAIN_IMG_H - 2)
-		ray->wall_height = MAIN_IMG_H - 2;
 
-	// ray->distance *= cos(((RAY_ANG_INCREMENT * i)));
+
+	// if (ray->wall_height >= MAIN_IMG_H - 2)
+	// 	ray->wall_height = MAIN_IMG_H - 2;
+	
 }
 
 
@@ -191,6 +189,7 @@ void	increment_ray_angle(t_vars *vars, t_ray *ray)
 		ray->angle = -1 * ((M_PI * 2) - ray->angle + RAY_ANG_INCREMENT);
 	else 
 		ray->angle += RAY_ANG_INCREMENT;
+
 }
 
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
@@ -206,6 +205,7 @@ void	draw_wall(t_vars *vars, t_ray *ray, int i)
 	// draw_square_tlc(vars->main_img, 1, ray->wall_height, \
 	// 	MAIN_IMG_W - i -1, \
 	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, color);
+
 	// draw_line(vars->main_img, i, MAIN_IMG_H / 2 + ray->wall_height / 2, i, MAIN_IMG_H / 2 - ray->wall_height / 2, color); // SIGSEGs near walls!
 }
 
@@ -220,7 +220,7 @@ void	raycast(t_vars *vars)
 	while (i < MAIN_IMG_W)
 	{
 		cast_ray(vars, &ray);
-		get_height(vars, &ray);
+		get_height(vars, &ray, i);
 		draw_wall(vars, &ray, i);
 		increment_ray_angle(vars, &ray);
 		// i += 2;

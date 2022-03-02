@@ -17,8 +17,8 @@
 // win_ptr size (WW width, WH heigth in pixel)
 // https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
 
-# define WW 1920
-# define WH 1080
+# define WW 1280
+# define WH 1024
 // # define WW 2000
 // # define WH 800
 # define SCALE 64
@@ -189,6 +189,7 @@ typedef struct s_vars
 	t_image		*tex_W;
 
 	double		last_time_ms;
+	double		prj_pane_dist;
 
 }	t_vars;
 
