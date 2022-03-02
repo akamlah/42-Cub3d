@@ -6,10 +6,10 @@ int	init_player(t_player *player)
 	player->pos.x = 0;
 	player->pos.y = 0;
 	player->angle = 0;
-	player->speed = 12;
+	player->speed = 10;
 	player->angle = 0;
 	// player->rot_speed = 0.05;
-		player->rot_speed = M_PI / 24;
+		player->rot_speed = M_PI / 48;
 
 	player->move_backward = 0;
 	player->move_forward = 0;
@@ -42,6 +42,8 @@ int	init_vars(t_vars *vars)
 	init_player(&vars->player);
 	init_minimap(&vars->minimap);
 	vars->last_time_ms = 100;
+
+	vars->prj_pane_dist = (MAIN_IMG_W / 2 / tan(FOV_RAD / 2));
 	// SCALE = 64;
 	vars->move_forward = 0;
 	vars->map = NULL;
