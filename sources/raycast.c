@@ -163,13 +163,17 @@ void	cast_ray(t_vars *vars, t_ray *ray)
 */
 void	get_height(t_vars *vars, t_ray *ray)
 {
-	// silence warnings
+// silence warnings
 	t_vars *yo = vars;
 	yo = NULL;
 
 	if (ray->distance == 0)
 		ray->distance = 64;
-		ray->wall_height = (MAIN_IMG_H * 30) / ray->distance;
+	// ray->wall_height = (MAIN_IMG_H * 30) / ray->distance;
+	double dist_prj_plane = (MAIN_IMG_W / 2 / 0.57735026919);
+	// double normed_dist = dist_prj_plane / SCALE;
+	ray->wall_height = dist_prj_plane * SCALE / ray->distance;
+
 	if (ray->wall_height >= MAIN_IMG_H - 2)
 		ray->wall_height = MAIN_IMG_H - 2;
 

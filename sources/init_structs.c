@@ -6,7 +6,7 @@ int	init_player(t_player *player)
 	player->pos.x = 0;
 	player->pos.y = 0;
 	player->angle = 0;
-	player->speed = 3;
+	player->speed = 12;
 	player->angle = 0;
 	// player->rot_speed = 0.05;
 		player->rot_speed = M_PI / 24;
