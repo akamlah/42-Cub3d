@@ -53,6 +53,12 @@ typedef struct s_vector2
 	double		y;
 }				t_vector2;
 
+typedef struct s_vector2_int
+{
+	int		x;
+	int		y;
+}				t_vector2_int;
+
 typedef struct s_map
 {
 	int		fd_cubfile;
@@ -204,7 +210,7 @@ int		cub_pixel_put(t_image *img, int x, int y, int color);
 t_image *new_image(t_vars *vars, int width, int height, t_vector2 pos);
 void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
 void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color);
-void	*loadimage(char *path, t_vars *vars);
+void	*loadimage(char *path, t_vars *vars, t_image *img_memory);
 
 // inits
 int		init_vars(t_vars *vars);
@@ -255,7 +261,8 @@ void	draw_all(t_vars *vars);
 
 
 // merged
-void	draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
-
+void		draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
+t_vector2	new_vector2(double x, double y);
+t_image 	*new_image_tex(t_vars *vars, char *tex_path);
 
 # endif

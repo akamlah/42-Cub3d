@@ -28,7 +28,8 @@ CFILES_ANDI = \
 	movement.c \
 	init_structs.c \
 	system_utils.c \
-	texture_map.c
+	texture_map.c \
+	utils.c
 
 HEADERS = cub3D.h
 

@@ -28,9 +28,36 @@ t_image *new_image(t_vars *vars, int width, int height, t_vector2 pos)
 	new_image->pos = pos;
 	new_image->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, new_image->width, new_image->height);
 	new_image->address = mlx_get_data_addr(new_image->img_ptr, &new_image->bits_per_pixel, &new_image->line_length, &new_image->endian);
+	if (!new_image->address)
+	{
+		printf("Error: Failed to retrieve image address\n");
+		free_and_exit(vars);
+	}
 	return (new_image);
 }
 
+/*
+	This function allocates memory for a new image and initialises it with the given size
+	and position of its top left corner in the window (S_xtlc, S_ytlc) (values in pixel), and
+	returns a pointer to it.
+*/
+t_image *new_image_tex(t_vars *vars, char *tex_path)
+{
+	t_image	*new_image;
+
+	new_image = malloc(sizeof(t_image));
+	new_image->width = 0;
+	new_image->height = 0;
+
+	new_image->img_ptr = loadimage(tex_path, vars, new_image);
+	new_image->address = mlx_get_data_addr(new_image->img_ptr, &new_image->bits_per_pixel, &new_image->line_length, &new_image->endian);
+	if (!new_image->address)
+	{
+		printf("Error: Failed to retrieve image address\n");
+		free_and_exit(vars);
+	}
+	return (new_image);
+}
 /*
 	Draws a square sized 'xsize' * 'ysize' pixels given:
 	- width and height in pixels
@@ -57,7 +84,6 @@ void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc
 		i++;
 	}
 }
-
 
 /*
 	Draws a line with Bresenham algorithm from point o to point end
@@ -95,35 +121,31 @@ void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int col
 	}
 }
 
-
-
 /*
 *Loads an image from path and returns MLX-Image as void pointer.
 *Returns NULL Pointer if file invalid
 */
-void	*loadimage(char *path, t_vars *vars)
+void	*loadimage(char *path, t_vars *vars, t_image *img_memory)
 {
 	void	*img;
 	int		fd;
-	int		width;
-	int		height;
 
 	if (!path)
 	{
 		printf("Error: Empty image file name.\n");
-		return(NULL);
+		free_and_exit(vars);
 	}
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
 		perror(path);
-		return (NULL);
+		free_and_exit(vars);
 	}
-	img = mlx_xpm_file_to_image(vars->mlx_vars->mlx_ptr, path, &width, &height);
+	img = mlx_xpm_file_to_image(vars->mlx_vars->mlx_ptr, path, &img_memory->width, &img_memory->height);
 	if (!img)
 	{
 		printf("Error: Image file could not be opened. Please make sure it exists and is in .xpm format.\n");
-		return(NULL);
+		free_and_exit(vars);
 	}
 	close (fd);
 	return (img);
