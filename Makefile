@@ -79,13 +79,13 @@ compile_mlx:
 .PHONY: clean
 
 clean:
-#@ make clean -C $(LIBFT_PATH)
-#@ make clean -C $(MLX_PATH)
+# @ make clean -C $(LIBFT_PATH)
+# @ make clean -C $(MLX_PATH)
 	@ echo "$(RED)Removing object files$(NC)"
 	@ rm -rf $(OFILES)
 
 fclean: clean
-#@ make fclean -C $(LIBFT_PATH)
+# @ make fclean -C $(LIBFT_PATH)
 	@ echo "$(RED)Removing '$(NAME)'\nForce-removing object directory$(NC)"
 	@ rm -rf $(BUILD_DIR) *~ $(NAME)
 

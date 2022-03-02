@@ -161,19 +161,24 @@ void	cast_ray(t_vars *vars, t_ray *ray)
 	calculates the height of the wall to be drawn
 	consigering fisheye effect and player collision with wall.
 */
-void	get_height(t_vars *vars, t_ray *ray)
+void	get_height(t_vars *vars, t_ray *ray, int i)
 {
-	// silence warnings
-	t_vars *yo = vars;
-	yo = NULL;
+	double	fisheye_correction_factor;
 
-	if (ray->distance == 0)
-		ray->distance = 64;
-		ray->wall_height = (MAIN_IMG_H * 30) / ray->distance;
-	if (ray->wall_height >= MAIN_IMG_H - 2)
-		ray->wall_height = MAIN_IMG_H - 2;
+	if (i < MAIN_IMG_W / 2)
+		fisheye_correction_factor = cos(FOV_RAD / 2 - (i * RAY_ANG_INCREMENT));
+	else
+		fisheye_correction_factor = cos((i * RAY_ANG_INCREMENT) - (FOV_RAD / 2));
+	ray->wall_height = vars->prj_pane_dist * SCALE / (ray->distance * fisheye_correction_factor);
 
-	// ray->distance *= cos(((RAY_ANG_INCREMENT * i)));
+
+	// if (ray->distance == 0)
+	// 	ray->distance = 64;
+
+
+	// if (ray->wall_height >= MAIN_IMG_H - 2)
+	// 	ray->wall_height = MAIN_IMG_H - 2;
+	
 }
 
 
@@ -187,11 +192,12 @@ void	increment_ray_angle(t_vars *vars, t_ray *ray)
 		ray->angle = -1 * ((M_PI * 2) - ray->angle + RAY_ANG_INCREMENT);
 	else 
 		ray->angle += RAY_ANG_INCREMENT;
+
 }
 
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
 {
-	// int color;
+	int color;
 	// if (ray->facing_direction == 1)
 	// 	color = 0x6bf3fc; // light blue -> from N
 	// if (ray->facing_direction == 2)
@@ -200,12 +206,15 @@ void	draw_wall(t_vars *vars, t_ray *ray, int i)
 	// 	color = 0x0098ff; // darker blue -> from S
 	// if (ray->facing_direction == 4)
 	// 	color = 0xe0bb1b; // yellow -> from EASt
-	// color = 0xffffff;
+
+	color = 0xffffff;
 
 	draw_tex_line(vars, ray, ray->wall_height, vars->tex_N, i);
+
 	// draw_square_tlc(vars->main_img, 1, ray->wall_height, \
 	// 	MAIN_IMG_W - i -1, \
 	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, color);
+
 	// draw_line(vars->main_img, i, MAIN_IMG_H / 2 + ray->wall_height / 2, i, MAIN_IMG_H / 2 - ray->wall_height / 2, color); // SIGSEGs near walls!
 }
 
@@ -220,7 +229,7 @@ void	raycast(t_vars *vars)
 	while (i < MAIN_IMG_W)
 	{
 		cast_ray(vars, &ray);
-		get_height(vars, &ray);
+		get_height(vars, &ray, i);
 		draw_wall(vars, &ray, i);
 		increment_ray_angle(vars, &ray);
 		// i += 2;
