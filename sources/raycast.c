@@ -170,7 +170,7 @@ void	get_height(t_vars *vars, t_ray *ray)
 	if (ray->distance == 0)
 		ray->distance = 64;
 	// ray->wall_height = (MAIN_IMG_H * 30) / ray->distance;
-	double dist_prj_plane = (MAIN_IMG_W / 2 / 0.57735026919);
+	double dist_prj_plane = (MAIN_IMG_W / 2 / tan(FOV_RAD / 2));
 	// double normed_dist = dist_prj_plane / SCALE;
 	ray->wall_height = dist_prj_plane * SCALE / ray->distance;
 
@@ -195,18 +195,14 @@ void	increment_ray_angle(t_vars *vars, t_ray *ray)
 
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
 {
-	// int color;
-	// if (ray->facing_direction == 1)
-	// 	color = 0x6bf3fc; // light blue -> from N
-	// if (ray->facing_direction == 2)
-	// 	color = 0x9a2462; // purple -> from W
-	// if (ray->facing_direction == 3)
-	// 	color = 0x0098ff; // darker blue -> from S
-	// if (ray->facing_direction == 4)
-	// 	color = 0xe0bb1b; // yellow -> from EASt
-	// color = 0xffffff;
-
-	draw_tex_line(vars, ray, ray->wall_height, vars->tex_N, i);
+	if (ray->facing_direction == 1)
+		draw_tex_line(vars, ray, ray->wall_height, vars->tex_N, i);
+	if (ray->facing_direction == 2)
+		draw_tex_line(vars, ray, ray->wall_height, vars->tex_E, i);
+	if (ray->facing_direction == 3)
+		draw_tex_line(vars, ray, ray->wall_height, vars->tex_S, i);
+	if (ray->facing_direction == 4)
+		draw_tex_line(vars, ray, ray->wall_height, vars->tex_W, i);
 	// draw_square_tlc(vars->main_img, 1, ray->wall_height, \
 	// 	MAIN_IMG_W - i -1, \
 	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, color);
