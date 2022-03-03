@@ -32,6 +32,7 @@
 # define FOV_DEG 60
 # define FOV_RAD (M_PI / 3)
 
+# define PLAYER_SIZE_RW (SCALE / 10)
 
 // angular distance between rays when casting within the field of view
 // # define RAY_ANG_INCREMENT (2 * (FOV_RAD / MAIN_IMG_W))

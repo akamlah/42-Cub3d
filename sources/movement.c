@@ -169,22 +169,26 @@ int	player_prev_x_obj(t_vars *vars)
 
 int		player_check_x_pos(t_vars *vars, t_vector2 newpos)
 {
-	int	grid_pos_x;
+	int	grid_pos_x_left;
+	int	grid_pos_x_right;
 
-	grid_pos_x = ceil(newpos.x / SCALE) - 1;
-	if (grid_pos_x <= player_prev_x_obj(vars)
-		|| grid_pos_x >= player_next_x_obj(vars))
+	grid_pos_x_left = ceil((newpos.x - PLAYER_SIZE_RW) / SCALE) - 1;
+	grid_pos_x_right = ceil((newpos.x + PLAYER_SIZE_RW) / SCALE) - 1;
+	if (grid_pos_x_left <= player_prev_x_obj(vars)
+		|| grid_pos_x_right >= player_next_x_obj(vars))
 			return (0);
 	return (1);
 }
 
 int		player_check_y_pos(t_vars *vars, t_vector2 newpos)
 {
-	int	grid_pos_y;
+	int	grid_pos_y_top;
+	int	grid_pos_y_bot;
 
-	grid_pos_y = ceil(newpos.y / SCALE) - 1;
-	if (grid_pos_y <= player_prev_y_obj(vars)
-		|| grid_pos_y >= player_next_y_obj(vars))
+	grid_pos_y_top = ceil((newpos.y - PLAYER_SIZE_RW) / SCALE) - 1;
+	grid_pos_y_bot = ceil((newpos.y + PLAYER_SIZE_RW) / SCALE) - 1;
+	if (grid_pos_y_top <= player_prev_y_obj(vars)
+		|| grid_pos_y_bot >= player_next_y_obj(vars))
 			return (0);
 	return (1);
 }
