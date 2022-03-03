@@ -10,9 +10,9 @@ int main(int argc, char **argv)
 	error = parse(&vars, argc, argv);
 	if (error)
 		free_and_exit(&vars);
-
+	
 	init_mlx_vars(&vars);
-
+	mlx_mouse_hide();
 	// init_player(&vars); // moved to init structs
 	// init_minimap(&vars); //dito
 	

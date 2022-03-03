@@ -61,9 +61,9 @@ int on_mouse_move(int x, int y, t_vars *vars)
 		vars->player.mouse_last_x = MAIN_IMG_W;
 	if (vars->player.mouse_last_x < 0)
 		vars->player.mouse_last_x = 0;
-	if (x < vars->player.mouse_last_x + 3)
+	if (x < vars->player.mouse_last_x + 1)
 		vars->player.angle += vars->player.rot_speed;
-	if (x > vars->player.mouse_last_x - 3)
+	if (x > vars->player.mouse_last_x - 1)
 		vars->player.angle -= vars->player.rot_speed;
 
 	vars->player.mouse_last_x = x;
