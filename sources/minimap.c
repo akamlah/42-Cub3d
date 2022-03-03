@@ -1,6 +1,12 @@
 #include "../header/cub3d.h"
 
-
+void	create_minimap(t_vars *vars)
+{
+	vars->minimap.p_pos.y = WH - vars->map->n_lines * vars->minimap.scale - 10;
+	vars->minimap.p_pos.x = 10;
+	vars->mlx_vars->minimap = new_image(vars, (vars->map->max_width - 1) * vars->minimap.scale, \
+	vars->map->n_lines * vars->minimap.scale, vars->minimap.p_pos);
+}
 
 /*
 *	Draw the blocks of the 2d world in the minimap

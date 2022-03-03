@@ -25,8 +25,7 @@ int	init_mlx_vars(t_vars *vars)
 		return (3);
 	}
 	vars->main_img = new_image(vars, MAIN_IMG_W, MAIN_IMG_H, new_vector2(20, 20));
-	vars->minimap.p_pos.y = WH - vars->map->n_lines * vars->minimap.scale - 10;
-	vars->mlx_vars->minimap = new_image(vars, (vars->map->max_width - 1) * vars->minimap.scale, vars->map->n_lines * vars->minimap.scale, vars->minimap.p_pos);
+	create_minimap(vars);
 	vars->tex_N = new_image_tex(vars, vars->map->textr_n);
 	vars->tex_S = new_image_tex(vars, vars->map->textr_s);
 	vars->tex_E = new_image_tex(vars, vars->map->textr_e);
