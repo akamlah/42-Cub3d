@@ -8,8 +8,8 @@ int	init_player(t_player *player)
 	player->angle = 0;
 	player->speed = 8;
 	player->angle = 0;
-	// player->rot_speed = 0.05;
-	player->rot_speed = M_PI / 24;
+	player->rot_speed = 0.04;
+	// player->rot_speed = M_PI / 128;
 
 	player->move_backward = 0;
 	player->move_forward = 0;
