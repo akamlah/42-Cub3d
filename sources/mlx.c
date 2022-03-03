@@ -25,8 +25,7 @@ int	init_mlx_vars(t_vars *vars)
 		return (3);
 	}
 	vars->main_img = new_image(vars, MAIN_IMG_W, MAIN_IMG_H, new_vector2(20, 20));
-	vars->minimap.p_pos.y = WH - vars->map->n_lines * vars->minimap.scale - 10;
-	vars->mlx_vars->minimap = new_image(vars, (vars->map->max_width - 1) * vars->minimap.scale, vars->map->n_lines * vars->minimap.scale, vars->minimap.p_pos);
+	create_minimap(vars);
 	vars->tex_N = new_image_tex(vars, vars->map->textr_n);
 	vars->tex_S = new_image_tex(vars, vars->map->textr_s);
 	vars->tex_E = new_image_tex(vars, vars->map->textr_e);
@@ -46,8 +45,6 @@ int	mlx_hooks(t_vars *vars)
 	mlx_hook(vars->mlx_vars->win_ptr, 3, 0, &on_key_up, vars);
 
 	mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars); 
-	// if we put update only in key hooks framesonly get regenerated when pressing
-	// but it's not as smooth
 
 	mlx_loop(vars->mlx_vars->mlx_ptr);
 	return (0);
@@ -68,7 +65,7 @@ int on_mouse_move(int x, int y, t_vars *vars)
 		vars->player.angle -= vars->player.rot_speed;
 
 	vars->player.mouse_last_x = x;
-	printf("%f\n", vars->player.angle);
+	// printf("%f\n", vars->player.angle);
 	return (0);
 }
 
@@ -116,7 +113,7 @@ int	on_key_up(int keycode, t_vars *vars)
 int	update(t_vars *vars)
 {
 	player_move(vars, &vars->player);
-	//get_fps(vars);
+	// get_fps(vars);
 	draw_all(vars);
 	return (0);
 }

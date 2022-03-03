@@ -17,19 +17,21 @@
 // win_ptr size (WW width, WH heigth in pixel)
 // https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
 
-# define WW 1280
-# define WH 1024
+# define MAIN_IMG_W 1280
+# define MAIN_IMG_H 1024
+
+# define WW (MAIN_IMG_W + 40)
+# define WH (MAIN_IMG_H + 40)
 // # define WW 2000
 // # define WH 800
 # define SCALE 64
 
 // width  and height of projection plane
-# define MAIN_IMG_W (WW - 40)
-# define MAIN_IMG_H (WH - 40)
 
 // field of view (angle, in rad)
 # define FOV_DEG 60
 # define FOV_RAD (M_PI / 3)
+
 
 // angular distance between rays when casting within the field of view
 // # define RAY_ANG_INCREMENT (2 * (FOV_RAD / MAIN_IMG_W))
@@ -256,6 +258,9 @@ int		cub_dealkey(int keycode, t_vars *vars);
 
 
 void	draw_minimap(t_vars *vars);
+
+void	create_minimap(t_vars *vars);
+
 void	draw_player_minimap(t_vars *vars);
 
 void	draw_all(t_vars *vars);

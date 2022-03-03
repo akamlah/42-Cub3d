@@ -105,7 +105,7 @@ int	hit_horizontal_wall(t_vars *vars, t_ray *ray)
 		&& (is_wall_RW(vars, (ray->hor_hit.y + ray->y_increment_dir), ray->hor_hit.x)))
 	{
 		ray->closest_hit = ray->hor_hit;
-		draw_ray_minimap(vars, ray);
+		// draw_ray_minimap(vars, ray);
 		ray->facing_direction = 1;
 		if (ray->angle > M_PI)
 			ray->facing_direction = 3;
@@ -121,7 +121,7 @@ int	hit_vertical_wall(t_vars *vars, t_ray *ray)
 		&& (is_wall_RW(vars, ray->vert_hit.y, ray->vert_hit.x + ray->x_increment_dir)))
 	{
 		ray->closest_hit = ray->vert_hit;
-		draw_ray_minimap(vars, ray);
+		// draw_ray_minimap(vars, ray);
 		ray->facing_direction = 2;
 		if (ray->angle > M_PI_2 * 3 || ray->angle < M_PI_2)
 			ray->facing_direction = 4;
@@ -159,7 +159,7 @@ void	cast_ray(t_vars *vars, t_ray *ray)
 
 /*
 	calculates the height of the wall to be drawn
-	consigering fisheye effect and player collision with wall.
+	consigering fisheye effect.
 */
 void	get_height(t_vars *vars, t_ray *ray, int i)
 {
@@ -171,25 +171,17 @@ void	get_height(t_vars *vars, t_ray *ray, int i)
 		fisheye_correction_factor = cos((i * RAY_ANG_INCREMENT) - (FOV_RAD / 2));
 	ray->wall_height = vars->prj_pane_dist * SCALE / (ray->distance * fisheye_correction_factor);
 
-
-
 	// if (ray->wall_height >= MAIN_IMG_H - 2)
 	// 	ray->wall_height = MAIN_IMG_H - 2;
-	
 }
 
 
-void	increment_ray_angle(t_vars *vars, t_ray *ray)
+void	increment_ray_angle(t_ray *ray)
 {
-	// silence warnings
-	t_vars *yo = vars;
-	yo = NULL;
-
 	if (ray->angle + RAY_ANG_INCREMENT > M_PI * 2)
 		ray->angle = -1 * ((M_PI * 2) - ray->angle + RAY_ANG_INCREMENT);
 	else 
 		ray->angle += RAY_ANG_INCREMENT;
-
 }
 
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
@@ -220,9 +212,11 @@ void	raycast(t_vars *vars)
 	while (i < MAIN_IMG_W)
 	{
 		cast_ray(vars, &ray);
+		if (i % 40 == 0)
+			draw_ray_minimap(vars, &ray);
 		get_height(vars, &ray, i);
 		draw_wall(vars, &ray, i);
-		increment_ray_angle(vars, &ray);
+		increment_ray_angle(&ray);
 		// i += 2;
 		i++;
 		// i += 4;
