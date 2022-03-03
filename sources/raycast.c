@@ -200,11 +200,31 @@ void	draw_wall(t_vars *vars, t_ray *ray, int i)
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_W, i);
 	// draw_square_tlc(vars->main_img, 1, ray->wall_height, \
 	// 	MAIN_IMG_W - i -1, \
-	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, color);
+	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, 0xffffff);
 
 	// draw_line(vars->main_img, i, MAIN_IMG_H / 2 + ray->wall_height / 2, i, MAIN_IMG_H / 2 - ray->wall_height / 2, color); // SIGSEGs near walls!
 }
 
+// experimental, non optimized.
+// one should scale the sun according to window size.
+// width is given by angular distance between first ray and last ray that enters 
+// the if statement, this range should also not be hardcoded.
+// height and y pos should follow.
+void draw_sun(t_vars *vars, t_ray *ray, int i)
+{
+	if (ray->angle > 4.6687557 - 0.0174533 / 2 && ray->angle < 4.7560222 + 0.0174533 / 2)
+		draw_square_tlc(vars->main_img, 1, 115, \
+			MAIN_IMG_W - i -1, \
+			10, 0xc7e3fd); // ecf5fe super light, ecf5fe middle 
+	if (ray->angle > 4.6687557 && ray->angle < 4.7560222) // 267.5 - 272.5 degs
+		draw_square_tlc(vars->main_img, 1, 95, \
+			MAIN_IMG_W - i -1, \
+			20, 0xdbedfd);
+	if (ray->angle > 4.6687557 + 0.0174533 / 2 && ray->angle < 4.7560222 - 0.0174533 / 2)
+		draw_square_tlc(vars->main_img, 1, 75, \
+			MAIN_IMG_W - i -1, \
+			30, 0xffffff); // ecf5fe super light, ecf5fe middle 
+}
 
 void	raycast(t_vars *vars)
 {
@@ -219,6 +239,7 @@ void	raycast(t_vars *vars)
 		if (i % 40 == 0)
 			draw_ray_minimap(vars, &ray);
 		get_height(vars, &ray, i);
+		draw_sun(vars, &ray, i);
 		draw_wall(vars, &ray, i);
 		increment_ray_angle(&ray);
 		// i += 2;
@@ -226,4 +247,3 @@ void	raycast(t_vars *vars)
 		// i += 4;
 	}
 }
-

@@ -34,5 +34,6 @@ void draw_all(t_vars *vars)
 		vars->mlx_vars->minimap->img_ptr, \
 		vars->mlx_vars->minimap->pos.x, \
 		vars->mlx_vars->minimap->pos.y);
+
 }
 

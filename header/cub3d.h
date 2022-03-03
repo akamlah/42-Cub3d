@@ -26,6 +26,9 @@
 // # define WH 800
 # define SCALE 64
 
+# define MIMIMAP_FRAME_W (MAIN_IMG_W / 10)
+# define MINIMAP_FRAME_H (MAIN_IMG_W / 10)
+
 // width  and height of projection plane
 
 // field of view (angle, in rad)
