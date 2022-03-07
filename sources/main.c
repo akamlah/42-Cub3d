@@ -50,7 +50,12 @@ void	free_and_exit(t_vars *vars)
 			free(vars->map->ceiling_color);
 		free(vars->map);
 	}
-
+	if (vars->mario_dance)
+	{
+		if (vars->mario_dance->frames)
+			free(vars->mario_dance->frames);
+		free(vars->mario_dance);
+	}
 	// free mlx vars:
 	if (vars->mlx_vars)
 		free(vars->mlx_vars);
