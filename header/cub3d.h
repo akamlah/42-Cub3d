@@ -98,6 +98,14 @@ typedef struct	s_image
 	// int		S_ytlc;
 }				t_image;
 
+typedef	struct	s_anim_sprite
+{
+	t_image **frames;
+	double	last_time_ms;
+	int		frame_count;
+	int		anim_count;
+}				t_anim_sprite;
+
 typedef struct	s_ray
 {
 	t_vector2	hor_hit;
@@ -184,15 +192,16 @@ typedef struct s_vars
 	// int 		scale;
 	int			move_forward;
 
-	t_mlx_vars	*mlx_vars;
-	t_map		*map;
-	t_player	player;
-	t_minimap	minimap;
-	t_image		*main_img;
-	t_image		*tex_N;
-	t_image		*tex_S;
-	t_image		*tex_E;
-	t_image		*tex_W;
+	t_mlx_vars		*mlx_vars;
+	t_map			*map;
+	t_player		player;
+	t_minimap		minimap;
+	t_image			*main_img;
+	t_image			*tex_N;
+	t_image			*tex_S;
+	t_image			*tex_E;
+	t_image			*tex_W;
+	t_anim_sprite	*mario_dance;
 
 	double		last_time_ms;
 	double		prj_pane_dist;
@@ -271,9 +280,10 @@ void	draw_all(t_vars *vars);
 
 
 // merged
-void		draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
-t_vector2	new_vector2(double x, double y);
-t_image 	*new_image_tex(t_vars *vars, char *tex_path);
-int			on_mouse_move(int x, int y, t_vars *vars);
-
+void			draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
+t_vector2		new_vector2(double x, double y);
+t_image 		*new_image_tex(t_vars *vars, char *tex_path);
+int				on_mouse_move(int x, int y, t_vars *vars);
+t_anim_sprite	*init_anim_sprite(t_vars *vars, char *path, int frame_count);
+void			anim_sprite(t_anim_sprite *anim_sprite, int frame_speed_ms);
 # endif
