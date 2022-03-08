@@ -233,7 +233,7 @@ void	free_and_exit(t_vars *vars);
 int		is_whitespaces(char *line);
 int		get_texture(char *line, t_map *map, int i);
 int		get_color_id(char *line, t_map *map, int i);
-//			parse_map.c (+1 statics) stil too long:
+//			parse_map.c (+1 statics):
 int		parse_map_lines(t_vars *vars);
 //			parse.c (+2 statics):
 int		parse(t_vars *vars, char **argv);

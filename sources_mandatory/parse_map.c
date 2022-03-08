@@ -15,6 +15,23 @@ static int	set_fd(t_vars *vars)
 	return (fd);
 }
 
+static char	**linebuff_error(int i, int *fd, char ***maplines)
+{
+	printf("reached end of file %d\n", i);
+	free(*maplines);
+	close(*fd);
+	return (NULL);
+}
+
+static void	dup_linebuff(char ***maplines, char **linebuff, int *linecount)
+{
+	int	i;
+
+	(*maplines)[*linecount] = ft_strdup(*linebuff);
+	*linecount += 1;
+	i = *linecount;
+}
+
 static char	**get_map_lines(t_vars *vars)
 {
 	int		fd;
@@ -32,17 +49,9 @@ static char	**get_map_lines(t_vars *vars)
 	{
 		linebuff = get_next_line(fd);
 		if (!linebuff)
-		{
-			printf("reached end of file %d\n", i);
-			free(maplines);
-			close(fd);
-			return (0);
-		}
+			return (linebuff_error(i, &fd, &maplines));
 		if (i >= vars->map->startline - 1)
-		{
-			maplines[linecount] = ft_strdup(linebuff);
-			linecount++;
-		}
+			dup_linebuff(&maplines, &linebuff, &linecount);
 		free(linebuff);
 		i++;
 	}
