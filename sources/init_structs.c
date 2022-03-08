@@ -80,6 +80,7 @@ int	init_vars(t_vars *vars)
 	vars->map = NULL;
 	vars->mlx_vars = NULL;
 	vars->main_img = NULL;
+	vars->mario_dance = NULL;
 	// NOW IT IS ON STACK
 	// vars->minimap = NULL;
 	// vars->minimap = malloc(sizeof(t_minimap));

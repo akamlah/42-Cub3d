@@ -197,6 +197,7 @@ typedef struct s_vars
 	t_map			*map;
 	t_player		player;
 	t_minimap		minimap;
+	t_full_map		full_map;
 	t_image			*main_img;
 	t_image			*tex_N;
 	t_image			*tex_S;
