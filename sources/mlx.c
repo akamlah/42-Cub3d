@@ -25,7 +25,11 @@ int	init_mlx_vars(t_vars *vars)
 		return (3);
 	}
 	vars->main_img = new_image(vars, MAIN_IMG_W, MAIN_IMG_H, new_vector2(20, 20));
-	create_minimap(vars);
+	if (!create_minimap(vars))
+		return (4);
+	if (!create_fullmap(vars))
+		return (4);
+
 	vars->tex_N = new_image_tex(vars, vars->map->textr_n);
 	vars->tex_S = new_image_tex(vars, vars->map->textr_s);
 	vars->tex_E = new_image_tex(vars, vars->map->textr_e);
@@ -40,15 +44,10 @@ int	init_mlx_vars(t_vars *vars)
 int	mlx_hooks(t_vars *vars)
 {
 	mlx_hook(vars->mlx_vars->win_ptr, 17, 0, &exit_hook, vars);
-	// mlx_hook(vars->mlx_vars->win_ptr, 2, (1L<<13), &cub_dealkey, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 6, 0, &on_mouse_move, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 2, 0, &on_key_down, vars);
 	mlx_hook(vars->mlx_vars->win_ptr, 3, 0, &on_key_up, vars);
-
 	mlx_loop_hook(vars->mlx_vars->mlx_ptr, &update, vars); 
-	// if we put update only in key hooks framesonly get regenerated when pressing
-	// but it's not as smooth
-
 	mlx_loop(vars->mlx_vars->mlx_ptr);
 	return (0);
 }
@@ -66,9 +65,7 @@ int on_mouse_move(int x, int y, t_vars *vars)
 		vars->player.angle += vars->player.rot_speed;
 	if (x > vars->player.mouse_last_x - 1)
 		vars->player.angle -= vars->player.rot_speed;
-
 	vars->player.mouse_last_x = x;
-	//printf("%f\n", vars->player.angle);
 	return (0);
 }
 
@@ -88,7 +85,12 @@ int	on_key_down(int keycode, t_vars *vars)
 		vars->player.rotate_right = 1;
 	else if (keycode == key_esc)
 		free_and_exit(vars);
-	// update(vars);
+	else if (keycode == key_tab)
+		vars->display_full_map = 1;
+	else if (keycode == key_space)
+		vars->player.speed = vars->player.sprinting_speed;
+	else if (keycode == key_shift)
+		vars->player.rot_speed = vars->player.rot_fast_speed;
 	return (0);
 }
 
@@ -106,7 +108,12 @@ int	on_key_up(int keycode, t_vars *vars)
 		vars->player.rotate_left = 0;
 	else if (keycode == key_right)
 		vars->player.rotate_right = 0;
-	// update(vars);
+	else if (keycode == key_tab)
+		vars->display_full_map = 0;
+	else if (keycode == key_space)
+		vars->player.speed = vars->player.basic_speed;
+	else if (keycode == key_shift)
+		vars->player.rot_speed = vars->player.rot_slow_speed;
 	return (0);
 }
 
@@ -117,7 +124,7 @@ int	update(t_vars *vars)
 {
 	player_move(vars, &vars->player);
 	//get_fps(vars);
-	draw_all(vars);
+	render(vars);
 	return (0);
 }
 

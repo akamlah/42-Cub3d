@@ -104,6 +104,8 @@ void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int col
 	err = dx + dy;
 	while (1)
 	{
+		if ((I_xo >= 0 && I_xo < img->width)// && I_xend >= 0 && I_xend < img->width)
+			&& (I_yo >= 0 && I_yo < img->height))// && I_yend >= 0 && I_yend < img->height))
 		cub_pixel_put(img, I_xo, I_yo, color);
 		if (I_xo == I_xend && I_yo == I_yend)
 			break ;

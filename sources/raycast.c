@@ -38,7 +38,6 @@ void	setup_first_ray(t_vars *vars, t_ray *ray)
 	ray->angle = vars->player.angle - (FOV_RAD / 2);
 	if (ray->angle < 0)
 		ray->angle = (M_PI * 2) + ray->angle;
-	ray->color_minimap = 0x83d0c9;
 	ray_set_vars_to_start(ray);
 }
 
@@ -91,14 +90,6 @@ void	get_first_vert_grid_hit(t_vars *vars, t_ray *ray)
 	}	
 }
 
-void	draw_ray_minimap(t_vars *vars, t_ray *ray)
-{
-	draw_line(vars->mlx_vars->minimap, \
-		vars->player.pos.x * vars->minimap.scale / SCALE, \
-		vars->player.pos.y * vars->minimap.scale / SCALE, \
-		(int)ray->closest_hit.x * vars->minimap.scale / SCALE, \
-		(int)ray->closest_hit.y * vars->minimap.scale / SCALE, ray->color_minimap);
-}
 int	hit_horizontal_wall(t_vars *vars, t_ray *ray)
 {
 	if ((is_point_in_map(vars, ray->hor_hit))
@@ -170,12 +161,6 @@ void	get_height(t_vars *vars, t_ray *ray, int i)
 	else
 		fisheye_correction_factor = cos((i * RAY_ANG_INCREMENT) - (FOV_RAD / 2));
 	ray->wall_height = vars->prj_pane_dist * SCALE / (ray->distance * fisheye_correction_factor);
-
-
-
-	// if (ray->wall_height >= MAIN_IMG_H - 2)
-	// 	ray->wall_height = MAIN_IMG_H - 2;
-	
 }
 
 
@@ -185,7 +170,6 @@ void	increment_ray_angle(t_ray *ray)
 		ray->angle = -1 * ((M_PI * 2) - ray->angle + RAY_ANG_INCREMENT);
 	else 
 		ray->angle += RAY_ANG_INCREMENT;
-
 }
 
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
@@ -198,11 +182,6 @@ void	draw_wall(t_vars *vars, t_ray *ray, int i)
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_S, i);
 	if (ray->facing_direction == 4)
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_W, i);
-	// draw_square_tlc(vars->main_img, 1, ray->wall_height, \
-	// 	MAIN_IMG_W - i -1, \
-	// 	MAIN_IMG_H / 2 - ray->wall_height / 2, 0xffffff);
-
-	// draw_line(vars->main_img, i, MAIN_IMG_H / 2 + ray->wall_height / 2, i, MAIN_IMG_H / 2 - ray->wall_height / 2, color); // SIGSEGs near walls!
 }
 
 // experimental, non optimized.
@@ -237,7 +216,11 @@ void	raycast(t_vars *vars)
 	{
 		cast_ray(vars, &ray);
 		if (i % 40 == 0)
+		{
 			draw_ray_minimap(vars, &ray);
+			if (vars->display_full_map == 1)
+				draw_ray_fullmap(vars, &ray);
+		}
 		get_height(vars, &ray, i);
 		draw_sun(vars, &ray, i);
 		draw_wall(vars, &ray, i);

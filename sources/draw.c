@@ -2,7 +2,7 @@
 
 void	raycast(t_vars *vars);
 
-void draw_all(t_vars *vars)
+void render(t_vars *vars)
 {
 	anim_sprite(vars->mario_dance, 50000);
 	draw_minimap(vars);
@@ -15,12 +15,16 @@ void draw_all(t_vars *vars)
 	draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, 0, 0xb8dcfd);	// ceiling perfect sky blue
 	// draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, 0, 0xcfe3d4); // f3f6f4
 
-	raycast(vars); // also draws to minimap img.
+	if (vars->display_full_map == 1)
+		draw_full_map(vars);
+
+	raycast(vars); // also draws to minimap img. and full map
 	// // put to window raycasted
 
 	draw_player_minimap(vars);
-
-
+	draw_player_full_map(vars);
+	
+	display_data_sidebar(vars);
 
 
 	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
@@ -30,11 +34,25 @@ void draw_all(t_vars *vars)
 		vars->main_img->pos.y);
 		
 	// // put to window minimap
-	mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
-		vars->mlx_vars->win_ptr, \
-		vars->mlx_vars->minimap->img_ptr, \
-		vars->mlx_vars->minimap->pos.x, \
-		vars->mlx_vars->minimap->pos.y);
+
+	if (vars->display_full_map == 0)
+	{
+		mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
+			vars->mlx_vars->win_ptr, \
+			vars->mlx_vars->minimap->img_ptr, \
+			vars->mlx_vars->minimap->pos.x, \
+			vars->mlx_vars->minimap->pos.y);
+	}
+
+	if (vars->display_full_map == 1)
+	{
+		// draw_full_map(vars);
+		mlx_put_image_to_window(vars->mlx_vars->mlx_ptr, \
+			vars->mlx_vars->win_ptr, \
+			vars->full_map.img->img_ptr, \
+			vars->full_map.img->pos.x, \
+			vars->full_map.img->pos.y);
+	}
 
 }
 
