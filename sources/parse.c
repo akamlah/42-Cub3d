@@ -5,14 +5,14 @@ void	print_usage_message(int msg)
 	if (msg == 1)
 		printf("Usage:\t./cub3D <path to `.cub' file>\n");
 	if (msg == 2)
-	printf("Valid identifiers:\n\
-	NO ./path_to_the_north_texture\n\
-	SO ./path_to_the_south_texture\n\
-	WE ./path_to_the_west_texture\n\
-	EA ./path_to_the_east_texture\n\
-	F [floor color R,G,B]\n\
-	C [ceiling color R,G,B]\n\
-	or lines of the map\n");
+		printf("Valid identifiers:\n\
+		NO ./path_to_the_north_texture\n\
+		SO ./path_to_the_south_texture\n\
+		WE ./path_to_the_west_texture\n\
+		EA ./path_to_the_east_texture\n\
+		F [floor color R,G,B]\n\
+		C [ceiling color R,G,B]\n\
+		or lines of the map\n");
 }
 
 int	open_cubfile(t_map *map, char *path)
@@ -22,12 +22,12 @@ int	open_cubfile(t_map *map, char *path)
 	{
 		perror(path);
 		print_usage_message(1);
-		return(0);
+		return (0);
 	}
 	return (1);
 }
 
-void	map_init(t_map *map)
+static void	map_init(t_map *map)
 {
 	map->fd_cubfile = 0;
 	map->subf_error = 0;
@@ -44,18 +44,19 @@ void	map_init(t_map *map)
 	map->ceiling_color = NULL;
 }
 
-// parses line by line
-int	parse_line(char *tmp, int i, t_vars *vars)
+/*
+	Goes through whole .cub file fline by line and checks the format
+*/
+static int	parse_line(char *tmp, int i, t_vars *vars)
 {
-	char *line;
+	char	*line;
 
 	line = ft_strtrim(tmp, "\n");
-		free(tmp);
-	// printf("LINE: |%s|\n", line);
+	free(tmp);
 	if (!get_texture(line, vars->map, i)
 		&& !get_color_id(line, vars->map, i)
 		&& !is_whitespaces(line)
-		&& !get_map(line, vars->map, i)) // && !is_whitespaces(line)try if this solves order issue...)
+		&& !get_map(line, vars->map, i))
 	{
 		if (!vars->map->subf_error)
 		{
@@ -69,8 +70,10 @@ int	parse_line(char *tmp, int i, t_vars *vars)
 	return (0);
 }
 
-// main parser
-int	parse(t_vars *vars, int argc, char **argv)
+/*
+	MAIN PARSER
+*/
+int	parse(t_vars *vars, char **argv)
 {
 	t_map	*map;
 	int		i;
@@ -79,11 +82,6 @@ int	parse(t_vars *vars, int argc, char **argv)
 	map = malloc(sizeof(t_map));
 	vars->map = map;
 	map_init(map);
-	if (argc != 2)
-	{
-		print_usage_message(1);
-		return (1);
-	}
 	map->path = argv[1];
 	if (!open_cubfile(map, map->path))
 		return (1);
@@ -97,7 +95,6 @@ int	parse(t_vars *vars, int argc, char **argv)
 			return (1);
 		i++;
 	}
-	//1 = fehlermeldung 0 = Gut
 	close (vars->map->fd_cubfile);
 	return (parse_map_lines(vars));
 }

@@ -6,16 +6,18 @@ int main(int argc, char **argv)
 	t_vars	vars;
 	int		error;
 
+	if (argc != 2)
+	{
+		print_usage_message(1);
+		return (1);
+	}
 	init_vars(&vars);
-	error = parse(&vars, argc, argv);
+	error = parse(&vars, argv);
 	if (error)
 		free_and_exit(&vars);
 	
 	init_mlx_vars(&vars);
 	// mlx_mouse_hide();
-	// init_player(&vars); // moved to init structs
-	// init_minimap(&vars); //dito
-	
 	get_player_spawn(&vars);
 	draw_sidebar_start(&vars);
 	render(&vars);

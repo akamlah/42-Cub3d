@@ -1,23 +1,32 @@
 #include "../header/cub3d.h"
 
-char	**get_map_lines(t_vars *vars)
+static int	set_fd(t_vars *vars)
 {
-	int		fd;
-	int		i;
-	int		linecount;
-	char	*linebuff;
-	char	**maplines = NULL;
+	int	fd;
 
 	if (vars->map->max_width < 3 || vars->map->n_lines < 3)
 	{
 		printf("Error\nInvaliid map size!\n");
 		return (0);
 	}
-	i = 0;
-	linecount = 0;
 	fd = open(vars->map->path, O_RDONLY);
 	if (fd < 0)
 		return (0);
+	return (fd);
+}
+
+static char	**get_map_lines(t_vars *vars)
+{
+	int		fd;
+	int		i;
+	int		linecount;
+	char	*linebuff;
+	char	**maplines;
+
+	maplines = NULL;
+	fd = set_fd(vars);
+	i = 0;
+	linecount = 0;
 	maplines = malloc((vars->map->max_width + 2) * (vars->map->n_lines + 2));
 	while (i < vars->map->startline + vars->map->n_lines - 1)
 	{

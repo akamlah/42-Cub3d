@@ -2,7 +2,7 @@
 
 int	is_whitespaces(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -14,8 +14,18 @@ int	is_whitespaces(char *line)
 	return (1);
 }
 
-int	handle_tex_id(int i, char *id, char **map_ptr, char *line, t_map *map)
+static int	handle_tex_id(int i, char *id, char *line, t_map *map)
 {
+	char	**map_ptr;
+
+	if (id[0] == 'N')
+		map_ptr = &(map->textr_n);
+	if (id[0] == 'S')
+		map_ptr = &(map->textr_s);
+	if (id[0] == 'W')
+		map_ptr = &(map->textr_w);
+	if (id[0] == 'E')
+		map_ptr = &(map->textr_e);
 	if (*map_ptr)
 	{
 		printf("Error\nLine %d: Duplicate: identifier `%s'\n", i + 1, id);
@@ -33,17 +43,17 @@ int	get_texture(char *line, t_map *map, int i)
 	if (line [2] != ' ')
 		return (0);
 	if (line[0] == 'N' && line[1] == 'O')
-		return (handle_tex_id(i, "NO", &(map->textr_n), line, map));
+		return (handle_tex_id(i, "NO", line, map));
 	if (line[0] == 'S' && line[1] == 'O')
-		return (handle_tex_id(i, "SO", &(map->textr_s), line, map));
+		return (handle_tex_id(i, "SO", line, map));
 	if (line[0] == 'W' && line[1] == 'E')
-		return (handle_tex_id(i, "WE", &(map->textr_w), line, map));
+		return (handle_tex_id(i, "WE", line, map));
 	if (line[0] == 'E' && line[1] == 'A')
-		return (handle_tex_id(i, "EA", &(map->textr_e), line, map));
+		return (handle_tex_id(i, "EA", line, map));
 	return (0);
 }
 
-int	error_duplicate_color_id(t_map *map, int i, char *id)
+static int	error_duplicate_color_id(t_map *map, int i, char *id)
 {
 	printf("Error\nLine %d: Duplicate: identifier `%s'\n", i + 1, id);
 	map->subf_error = 1;

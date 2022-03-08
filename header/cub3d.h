@@ -221,20 +221,39 @@ typedef struct s_vars
 
 }	t_vars;
 
-
+//--------------------------------------------------------------------------------------
 // FUNCTIONS
+//--------------------------------------------------------------------------------------
 
+//			main.c
 void	free_and_exit(t_vars *vars);
-// parser
-int		open_cubfile(t_map *map, char *path);
-int		parse_map_lines(t_vars *vars);
-int		check_map(t_vars *vars, char	**maplines);
-int		check_borders(t_vars *vars, char **maplines);
-int		parse(t_vars *vars, int argc, char **argv);
+
+//	PARSER ----------------------------------------------------------------------------
+//			parse_identifiers.c (+2 statics):
 int		is_whitespaces(char *line);
 int		get_texture(char *line, t_map *map, int i);
 int		get_color_id(char *line, t_map *map, int i);
+//			parse_map.c (+1 statics) stil too long:
+int		parse_map_lines(t_vars *vars);
+//			parse.c (+2 statics):
+int		parse(t_vars *vars, char **argv);
+void	print_usage_message(int msg);
+int		open_cubfile(t_map *map, char *path);
+//			parse_map_chars.c (+2 statics):
 int		get_map(char *line, t_map *map, int i);
+int		is_valid_c(char c);
+//			parse_map_check_borders.c (+3 statics):
+int		check_borders(t_vars *vars, char **maplines);
+//		parse_map_check_map.c (+4 statics):
+int		check_map(t_vars *vars, char	**maplines);
+//			parse_map_checkers.c:
+int		check_top(char **maplines, t_vector2_int pos, char checkchar);
+int		check_bot(t_vars *vars, char **maplines, t_vector2_int pos, char checkchar);
+int		check_lr(char **maplines, t_vector2_int pos, char checkchar);
+int		check_top_space(char **maplines, t_vector2_int pos);
+int		check_bot_space(t_vars *vars, char **maplines, t_vector2_int pos);
+//--------------------------------------------------------------------------------------
+
 
 // drawing_utils.c
 int		cub_pixel_put(t_image *img, int x, int y, int color);

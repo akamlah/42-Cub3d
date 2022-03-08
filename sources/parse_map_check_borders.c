@@ -1,9 +1,9 @@
 #include "../header/cub3d.h"
 
-int	check_top_bot(t_vars *vars, char **maplines)
+static int	check_top_bot(t_vars *vars, char **maplines)
 {
 	int	y;
-	int x;
+	int	x;
 
 	y = vars->map->n_lines - 1;
 	x = 0;
@@ -11,7 +11,7 @@ int	check_top_bot(t_vars *vars, char **maplines)
 	{
 		if (maplines[0][x] != '1' && maplines[0][x] != ' ')
 		{
-			printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", x, 0);
+			printf("Error\nMap: not inclosed in walls (x: %d, y: %d)\n", x, 0);
 			return (1);
 		}
 		x++;
@@ -21,7 +21,7 @@ int	check_top_bot(t_vars *vars, char **maplines)
 	{
 		if (maplines[y][x] != '1' && maplines[y][x] != ' ')
 		{
-			printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", x, y);
+			printf("Error\nMap: not inclosed in walls (x: %d, y: %d)\n", x, y);
 			return (1);
 		}
 		x++;
@@ -29,7 +29,7 @@ int	check_top_bot(t_vars *vars, char **maplines)
 	return (0);
 }
 
-int	check_front(char **maplines, int y)
+static int	check_front(char **maplines, int y)
 {
 	int	x;
 
@@ -38,24 +38,26 @@ int	check_front(char **maplines, int y)
 			x++;
 	if (maplines[y][x] != '1')
 	{
-		printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", x, y);
+		printf("Error\nMap: not inclosed in walls (x: %d, y: %d)\n", x, y);
 		return (1);
 	}
 	return (0);
 }
 
-int	check_back(char **maplines, int y)
+static int	check_back(char **maplines, int y)
 {
 	int	i;
 	int	line_len;
 
 	i = 0;
 	line_len = (int)ft_strlen(maplines[y]);
-	while (maplines[y][line_len - 2 - i] && maplines[y][line_len - 2 - i] == ' ')
+	while (maplines[y][line_len - 2 - i]
+		&& maplines[y][line_len - 2 - i] == ' ')
 			i++;
 	if (maplines[y][line_len - 2 - i] != '1')
 	{
-		printf("Error\nMap: Map not inclosed in walls (x: %d, y: %d)\n", line_len - 2 - i, y);
+		printf("Error\nMap: not inclosed in walls (x: %d, y: %d)\n", \
+		line_len - 2 - i, y);
 		return (1);
 	}
 	return (0);

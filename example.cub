@@ -1,6 +1,6 @@
-SO ./textures_xpm/naturalbricks_hd_verydark.xpm
-WE ./textures_xpm/naturalbricks_hd_middle.xpm
-EA ./textures_xpm/naturalbricks_hd_middle.xpm
+SO ./textures_xpm/naturalbricks_hd.xpm
+WE ./textures_xpm/naturalbricks_hd.xpm
+EA ./textures_xpm/naturalbricks_hd.xpm
 NO ./textures_xpm/naturalbricks_hd.xpm
 
 F 220,100,0

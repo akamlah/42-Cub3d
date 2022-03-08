@@ -26,6 +26,7 @@ CFILES_ANDI = \
 	parse_map.c \
 	parse_map_check_map.c \
 	parse_map_check_borders.c \
+	parse_map_checkers.c \
 	mlx.c \
 	movement.c \
 	init_structs.c \

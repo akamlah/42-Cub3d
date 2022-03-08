@@ -51,7 +51,7 @@ void	draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, 
 		if (y + y_offs >= 0 && y + y_offs < MAIN_IMG_H)
 		{
 			color = get_pixel_color(src_img, tex_x, y * incr);
-			// color = shade_color(ray, color);
+			color = shade_color(ray, color);
 			*(unsigned int *)(vars->main_img->address + (int)((y + y_offs) * vars->main_img->line_length + img_addr_offs)) = color;
 		}
 		y++;
