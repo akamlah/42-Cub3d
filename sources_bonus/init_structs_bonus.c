@@ -25,6 +25,7 @@ int	init_player(t_player *player)
 	player->dir.x = 0;
 	player->dir.y = 0;
 	player->mouse_last_x = 0;
+	player->action_set = -1;
 	return (0);
 }
 

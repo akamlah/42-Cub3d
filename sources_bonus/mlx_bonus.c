@@ -92,6 +92,8 @@ int	on_key_down(int keycode, t_vars *vars)
 		vars->player.speed = vars->player.sprinting_speed;
 	else if (keycode == key_Lshift || keycode == key_Rshift)
 		vars->player.rot_speed = vars->player.rot_fast_speed;
+	if (keycode == key_f)
+		vars->player.action_set = 1;
 	return (0);
 }
 

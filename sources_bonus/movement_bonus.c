@@ -107,10 +107,10 @@ int	player_next_x_obj(t_vars *vars)
 
 	p_grid_xpos = ceil(vars->player.pos.x / SCALE);
 	p_grid_ypos = ceil(vars->player.pos.y / SCALE) - 1;
-	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_xpos;
 	while (vars->map->nodes[p_grid_ypos][i] && vars->map->nodes[p_grid_ypos][i] != '\n'
-		&& vars->map->nodes[p_grid_ypos][i] < '1')
+		&& (vars->map->nodes[p_grid_ypos][i] < '1'
+			|| vars->map->nodes[p_grid_ypos][i] == DOOR_OPEN))
 		i++;
 	return (i);
 }
@@ -123,12 +123,12 @@ int	player_next_y_obj(t_vars *vars)
 
 	p_grid_xpos = ceil(vars->player.pos.x / SCALE) - 1;
 	p_grid_ypos = ceil(vars->player.pos.y / SCALE);
-	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_ypos;
 	while (vars->map->nodes[i][p_grid_xpos] && i < vars->map->n_lines - 1
 		&& (int)ft_strlen(vars->map->nodes[i + 1]) >= p_grid_xpos
 		&& vars->map->nodes[i][p_grid_xpos] != '\n'
-		&& vars->map->nodes[i][p_grid_xpos] < '1')
+		&& (vars->map->nodes[i][p_grid_xpos] < '1'
+		|| vars->map->nodes[i][p_grid_xpos] == DOOR_OPEN))
 		i++;
 	return (i);
 }
@@ -141,12 +141,12 @@ int	player_prev_y_obj(t_vars *vars)
 
 	p_grid_xpos = ceil(vars->player.pos.x / SCALE) - 1;
 	p_grid_ypos = ceil(vars->player.pos.y / SCALE) - 1;
-	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_ypos;
 	while (vars->map->nodes[i][p_grid_xpos] && i > 0
 		&& (int)ft_strlen(vars->map->nodes[i - 1]) >= p_grid_xpos
 		&& vars->map->nodes[i][p_grid_xpos] != '\n'
-		&& vars->map->nodes[i][p_grid_xpos] == '0')
+		&& (vars->map->nodes[i][p_grid_xpos] == '0'
+		|| vars->map->nodes[i][p_grid_xpos] == DOOR_OPEN))
 			i--;
 	return (i);
 }
@@ -159,10 +159,10 @@ int	player_prev_x_obj(t_vars *vars)
 
 	p_grid_xpos = ceil(vars->player.pos.x / SCALE) - 1;
 	p_grid_ypos = ceil(vars->player.pos.y / SCALE) - 1;
-	// printf("xpos: %d\n", p_grid_xpos);
 	i = p_grid_xpos;
 	while (vars->map->nodes[p_grid_ypos][i] && i > 0
-		&& vars->map->nodes[p_grid_ypos][i] == '0')
+		&& (vars->map->nodes[p_grid_ypos][i] == '0'
+		|| vars->map->nodes[p_grid_ypos][i] == DOOR_OPEN))
 		i--;
 	return (i);
 }
@@ -215,6 +215,5 @@ void	player_move(t_vars *vars, t_player *player)
 		player->pos.x = newpos.x;
 	 if (player_check_y_pos(vars, newpos))
 		player->pos.y = newpos.y;
-	// printf("posx: %d, posy: %d\n", player->pos.x, player->pos.y);
 	return ;
 }

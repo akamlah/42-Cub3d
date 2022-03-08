@@ -50,6 +50,10 @@
 //Maximum map-square number value for parsing
 # define MAX_OBJ_CHAR '2'
 
+//char value for doors
+# define DOOR_CLOSED '2'
+# define DOOR_OPEN '3'
+
 //keycodes
 # define key_left 123
 # define key_right 124
@@ -64,6 +68,7 @@
 # define key_space 49
 # define key_Lshift 258
 # define key_Rshift 257
+# define key_f 3
 
 typedef struct s_vector2
 {
@@ -163,6 +168,7 @@ typedef struct s_player
 	char		rotate_right;
 	int			mouse_last_x;
 	t_vector2	dir;
+	int			action_set;
 }				t_player;
 
 typedef struct s_minimap

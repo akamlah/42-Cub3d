@@ -16,7 +16,16 @@ int		is_wall_RW(t_vars *vars, double RW_x, double RW_y, t_ray *ray)
 	if (mapchar > '0')
 	{
 		ray->hit_char = mapchar;
-		return (1);
+		if (vars->player.action_set == 1)
+		{
+			if (ray->hit_char == DOOR_OPEN)
+				vars->map->nodes[(int)RW_x / SCALE][(int)RW_y / SCALE] = DOOR_CLOSED;
+			else if (ray->hit_char == DOOR_CLOSED)
+				vars->map->nodes[(int)RW_x / SCALE][(int)RW_y / SCALE] = DOOR_OPEN;
+			vars->player.action_set = -1;
+		}
+		if (mapchar != DOOR_OPEN)
+			return (1);
 	}
 	return (0);
 }
@@ -245,7 +254,10 @@ void	raycast(t_vars *vars)
 		}
 		get_height(vars, &ray, i);
 		draw_sun(vars, &ray, i);
-		draw_wall(vars, &ray, i);
+		if (ray.hit_char == '1')
+			draw_wall(vars, &ray, i);
+		if (ray.hit_char == DOOR_CLOSED)
+			draw_tex_line(vars, &ray, ray.wall_height, vars->tex_door, i);
 		increment_ray_angle(&ray);
 		i++;
 	}

@@ -1,4 +1,4 @@
-#include "../header/cub3d.h"
+#include "../header_mandatory/cub3d.h"
 
 int	is_whitespaces(char *line)
 {

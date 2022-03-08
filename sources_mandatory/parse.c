@@ -1,4 +1,4 @@
-#include "../header/cub3d.h"
+#include "../header_mandatory/cub3d.h"
 
 void	print_usage_message(int msg)
 {
