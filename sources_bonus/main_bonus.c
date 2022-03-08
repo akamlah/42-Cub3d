@@ -70,11 +70,16 @@ void	free_and_exit(t_vars *vars)
 		// minimap vars:
 		// if (vars->minimap)
 		// {
-		// 	if (vars->minimap->img)
-		// 		free(vars->minimap->img);
+		if (vars->mlx_vars)
+			if (vars->mlx_vars->minimap)
+				free(vars->mlx_vars->minimap);
 		// 	free(vars->minimap);
 		// }
+			if (vars->full_map.img)
+				free(vars->full_map.img);
 
-	// system("leaks cub3D");
+			if (vars->main_img)
+				free(vars->main_img);
+	system("leaks cub3D");
 	exit(0);
 }

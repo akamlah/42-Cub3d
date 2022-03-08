@@ -11,6 +11,7 @@ int	init_mlx_vars(t_vars *vars)
 		printf("Failed to allocate mlx_vars memory.\n");
 		return (1);
 	}
+	vars->mlx_vars->minimap = NULL;
 	vars->mlx_vars->mlx_ptr = mlx_init();
 	if (!vars->mlx_vars->mlx_ptr)
 	{
