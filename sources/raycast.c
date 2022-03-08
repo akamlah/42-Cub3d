@@ -8,10 +8,16 @@ int	is_point_in_map(t_vars *vars, t_vector2	point)
 	return (0);
 }
 
-int	is_wall_RW(t_vars *vars, double RW_x, double RW_y)
+int		is_wall_RW(t_vars *vars, double RW_x, double RW_y, t_ray *ray)
 {
-	if (vars->map->nodes[(int)RW_x / SCALE][(int)RW_y / SCALE] == '1')
+	char	mapchar;
+
+	mapchar = vars->map->nodes[(int)RW_x / SCALE][(int)RW_y / SCALE];
+	if (mapchar > '0')
+	{
+		ray->hit_char = mapchar;
 		return (1);
+	}
 	return (0);
 }
 
@@ -30,6 +36,7 @@ void	ray_set_vars_to_start(t_ray *ray)
 	ray->facing_direction = 0;
 	ray->hor_hit_player_dist_RW = 0;
 	ray->vert_hit_player_dist_RW = 0;
+	ray->hit_char = 0;
 }
 
 void	setup_first_ray(t_vars *vars, t_ray *ray)
@@ -93,7 +100,7 @@ void	get_first_vert_grid_hit(t_vars *vars, t_ray *ray)
 int	hit_horizontal_wall(t_vars *vars, t_ray *ray)
 {
 	if ((is_point_in_map(vars, ray->hor_hit))
-		&& (is_wall_RW(vars, (ray->hor_hit.y + ray->y_increment_dir), ray->hor_hit.x)))
+		&& (is_wall_RW(vars, (ray->hor_hit.y + ray->y_increment_dir), ray->hor_hit.x, ray)))
 	{
 		ray->closest_hit = ray->hor_hit;
 		// draw_ray_minimap(vars, ray);
@@ -109,7 +116,7 @@ int	hit_horizontal_wall(t_vars *vars, t_ray *ray)
 int	hit_vertical_wall(t_vars *vars, t_ray *ray)
 {
 	if ((is_point_in_map(vars, ray->vert_hit)) 
-		&& (is_wall_RW(vars, ray->vert_hit.y, ray->vert_hit.x + ray->x_increment_dir)))
+		&& (is_wall_RW(vars, ray->vert_hit.y, ray->vert_hit.x + ray->x_increment_dir, ray)))
 	{
 		ray->closest_hit = ray->vert_hit;
 		// draw_ray_minimap(vars, ray);

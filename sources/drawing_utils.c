@@ -132,6 +132,7 @@ void	*loadimage(char *path, t_vars *vars, t_image *img_memory)
 	void	*img;
 	int		fd;
 
+	printf("%s\n", path);
 	if (!path)
 	{
 		printf("Error: Empty image file name.\n");

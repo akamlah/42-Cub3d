@@ -30,6 +30,7 @@ int	init_mlx_vars(t_vars *vars)
 	if (!create_fullmap(vars))
 		return (4);
 
+	vars->tex_door = new_image_tex(vars, "./textures_xpm/door_rust.xpm");
 	vars->tex_N = new_image_tex(vars, vars->map->textr_n);
 	vars->tex_S = new_image_tex(vars, vars->map->textr_s);
 	vars->tex_E = new_image_tex(vars, vars->map->textr_e);

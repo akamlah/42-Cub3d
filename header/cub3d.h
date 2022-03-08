@@ -44,6 +44,9 @@
 // angular distance between rays when casting within the field of view
 # define RAY_ANG_INCREMENT (FOV_RAD / MAIN_IMG_W)
 
+//Maximum map-square number value for parsing
+# define MAX_OBJ_CHAR '2'
+
 //keycodes
 # define key_left 123
 # define key_right 124
@@ -124,6 +127,7 @@ typedef struct	s_ray
 	double		hor_hit_player_dist_RW;
 	double		vert_hit_player_dist_RW;
 	int			wall_height;
+	char		hit_char;
 }				t_ray;
 
 typedef struct mlx_vars
@@ -204,6 +208,7 @@ typedef struct s_vars
 	t_image			*tex_E;
 	t_image			*tex_W;
 	t_anim_sprite	*mario_dance;
+	t_image			*tex_door;
 	int			display_full_map;
 
 	double		last_time_ms;
