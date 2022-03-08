@@ -182,13 +182,25 @@ void	increment_ray_angle(t_ray *ray)
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
 {
 	if (ray->facing_direction == 1)
+	{
+		ray->darkening_factor = 1;
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_N, i);
+	}
 	if (ray->facing_direction == 2)
+	{
+		ray->darkening_factor = 0.6;
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_E, i);
+	}
 	if (ray->facing_direction == 3)
+	{
+		ray->darkening_factor = 0.3;
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_S, i);
+	}
 	if (ray->facing_direction == 4)
+	{
+		ray->darkening_factor = 0.6;
 		draw_tex_line(vars, ray, ray->wall_height, vars->tex_W, i);
+	}
 }
 
 // experimental, non optimized.
@@ -198,15 +210,18 @@ void	draw_wall(t_vars *vars, t_ray *ray, int i)
 // height and y pos should follow.
 void draw_sun(t_vars *vars, t_ray *ray, int i)
 {
-	if (ray->angle > 4.6687557 - 0.0174533 / 2 && ray->angle < 4.7560222 + 0.0174533 / 2)
+	int lightest = 0xc7e3fd;
+	int middle = 0xdbedfd;
+
+	if (ray->angle > 4.6687557 - ONE_DEG_RAD / 2 && ray->angle < 4.7560222 + ONE_DEG_RAD / 2)
 		draw_square_tlc(vars->main_img, 1, 115, \
 			MAIN_IMG_W - i -1, \
-			10, 0xc7e3fd); // ecf5fe super light, ecf5fe middle 
+			10, lightest); // ecf5fe super light, ecf5fe middle 
 	if (ray->angle > 4.6687557 && ray->angle < 4.7560222) // 267.5 - 272.5 degs
 		draw_square_tlc(vars->main_img, 1, 95, \
 			MAIN_IMG_W - i -1, \
-			20, 0xdbedfd);
-	if (ray->angle > 4.6687557 + 0.0174533 / 2 && ray->angle < 4.7560222 - 0.0174533 / 2)
+			20, middle); // l = WW * 5 / 60 = 107
+	if (ray->angle > 4.6687557 + ONE_DEG_RAD / 2 && ray->angle < 4.7560222 - ONE_DEG_RAD / 2)
 		draw_square_tlc(vars->main_img, 1, 75, \
 			MAIN_IMG_W - i -1, \
 			30, 0xffffff); // ecf5fe super light, ecf5fe middle 
@@ -232,8 +247,6 @@ void	raycast(t_vars *vars)
 		draw_sun(vars, &ray, i);
 		draw_wall(vars, &ray, i);
 		increment_ray_angle(&ray);
-		// i += 2;
 		i++;
-		// i += 4;
 	}
 }

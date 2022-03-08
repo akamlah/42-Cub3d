@@ -90,7 +90,7 @@ int	on_key_down(int keycode, t_vars *vars)
 		vars->display_full_map = 1;
 	else if (keycode == key_space)
 		vars->player.speed = vars->player.sprinting_speed;
-	else if (keycode == key_shift)
+	else if (keycode == key_Lshift || keycode == key_Rshift)
 		vars->player.rot_speed = vars->player.rot_fast_speed;
 	return (0);
 }
@@ -113,7 +113,7 @@ int	on_key_up(int keycode, t_vars *vars)
 		vars->display_full_map = 0;
 	else if (keycode == key_space)
 		vars->player.speed = vars->player.basic_speed;
-	else if (keycode == key_shift)
+	else if (keycode == key_Lshift || keycode == key_Rshift)
 		vars->player.rot_speed = vars->player.rot_slow_speed;
 	return (0);
 }

@@ -44,6 +44,9 @@
 // angular distance between rays when casting within the field of view
 # define RAY_ANG_INCREMENT (FOV_RAD / MAIN_IMG_W)
 
+// one degree in radians
+# define ONE_DEG_RAD 0.0174533
+
 //Maximum map-square number value for parsing
 # define MAX_OBJ_CHAR '2'
 
@@ -59,7 +62,8 @@
 # define key_esc 53
 # define key_tab 48
 # define key_space 49
-# define key_shift 258
+# define key_Lshift 258
+# define key_Rshift 257
 
 typedef struct s_vector2
 {
@@ -128,6 +132,7 @@ typedef struct	s_ray
 	double		vert_hit_player_dist_RW;
 	int			wall_height;
 	char		hit_char;
+	double		darkening_factor;
 }				t_ray;
 
 typedef struct mlx_vars
