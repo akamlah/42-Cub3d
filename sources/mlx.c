@@ -34,6 +34,7 @@ int	init_mlx_vars(t_vars *vars)
 	vars->tex_S = new_image_tex(vars, vars->map->textr_s);
 	vars->tex_E = new_image_tex(vars, vars->map->textr_e);
 	vars->tex_W = new_image_tex(vars, vars->map->textr_w);
+	vars->mario_dance = init_anim_sprite(vars, "./mario_frames/", 22);
 	return (0);
 }
 

@@ -31,7 +31,8 @@ CFILES_ANDI = \
 	init_structs.c \
 	system_utils.c \
 	texture_map.c \
-	utils.c
+	utils.c \
+	init_anim_sprites.c
 
 HEADERS = cub3D.h
 

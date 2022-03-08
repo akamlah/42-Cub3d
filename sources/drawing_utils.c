@@ -28,7 +28,7 @@ t_image *new_image(t_vars *vars, int width, int height, t_vector2 pos)
 	new_image->pos = pos;
 	new_image->img_ptr = mlx_new_image(vars->mlx_vars->mlx_ptr, new_image->width, new_image->height);
 	new_image->address = mlx_get_data_addr(new_image->img_ptr, &new_image->bits_per_pixel, &new_image->line_length, &new_image->endian);
-	if (!new_image->address)
+	if (!new_image->address || !new_image->img_ptr)
 	{
 		printf("Error: Failed to retrieve image address\n");
 		free_and_exit(vars);
@@ -51,7 +51,7 @@ t_image *new_image_tex(t_vars *vars, char *tex_path)
 
 	new_image->img_ptr = loadimage(tex_path, vars, new_image);
 	new_image->address = mlx_get_data_addr(new_image->img_ptr, &new_image->bits_per_pixel, &new_image->line_length, &new_image->endian);
-	if (!new_image->address)
+	if (!new_image->address || !new_image->img_ptr)
 	{
 		printf("Error: Failed to retrieve image address\n");
 		free_and_exit(vars);

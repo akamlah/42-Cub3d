@@ -4,11 +4,12 @@ void	raycast(t_vars *vars);
 
 void render(t_vars *vars)
 {
+	anim_sprite(vars->mario_dance, 50000);
 	draw_minimap(vars);
 
 	// background main img:
 	// draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, MAIN_IMG_H / 2, 0xb2924e); // floor beige
-		draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, MAIN_IMG_H / 2, 0x5b5b5b); // floor  0x455447
+	draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, MAIN_IMG_H / 2, 0x5b5b5b); // floor  0x455447
 
 	
 	draw_square_tlc(vars->main_img, MAIN_IMG_W, MAIN_IMG_H / 2, 0, 0, 0xb8dcfd);	// ceiling perfect sky blue
