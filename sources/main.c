@@ -12,13 +12,13 @@ int main(int argc, char **argv)
 		free_and_exit(&vars);
 	
 	init_mlx_vars(&vars);
-	mlx_mouse_hide();
+	// mlx_mouse_hide();
 	// init_player(&vars); // moved to init structs
 	// init_minimap(&vars); //dito
 	
 	get_player_spawn(&vars);
-
-	draw_all(&vars);
+	draw_sidebar_start(&vars);
+	render(&vars);
 	mlx_hooks(&vars);
 	return (0);
 }
