@@ -8,34 +8,31 @@ CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 # **************************************************************************** #
 # source code
 
-MAIN = main.c
-
-CFILES_ALICE = \
+CFILES = main.c \
 	parse.c \
 	parse_map_chars.c \
 	parse_identifiers.c \
 	draw.c \
 	drawing_utils.c \
-	player.c \
-	minimap.c \
-	raycast.c \
-	fullmap.c \
-	sidebar.c
-
-CFILES_ANDI = \
+	player_spawn.c \
+	raycaster_cast_ray.c \
+	raycaster_utils.c \
+	raycaster.c \
+	sidebar.c \
 	parse_map.c \
 	parse_map_check_map.c \
 	parse_map_check_borders.c \
 	parse_map_checkers.c \
 	mlx.c \
 	movement.c \
-	init_structs.c \
-	system_utils.c \
+	movement_newpos.c \
+	movement_checkpos.c \
+	inits.c \
+	vector_utils.c \
 	texture_map.c \
-	utils.c \
-	init_anim_sprites.c
+	parse_colors.c 
 
-HEADERS_MANDATORY = cub3D.h
+HEADERS_MANDATORY = cub3D_mandatory.h
 BONUS_HEADERS = cub3D_bonus.h
 
 BONUS_CFILES = \
@@ -78,8 +75,6 @@ MLX_PATH = ./minilibx_macos
 
 # **************************************************************************** #
 # internal setups
-
-CFILES := $(CFILES_ALICE) $(CFILES_ANDI) $(MAIN)
 
 SOURCES := $(addprefix $(SOURCE_DIR)/,$(CFILES))
 OFILES := $(addprefix $(BUILD_DIR)/, $(patsubst %.c, %.o, $(CFILES)))
@@ -146,3 +141,7 @@ fclean: clean
 
 re: fclean
 	@ make
+
+re_bonus: fclean
+	@ bonus
+
