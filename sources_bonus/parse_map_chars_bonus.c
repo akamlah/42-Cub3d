@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_chars_bonus.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 00:03:34 by agebert           #+#    #+#             */
+/*   Updated: 2022/03/09 01:23:47 by agebert          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header_bonus/cub3d_bonus.h"
 
 /*
@@ -45,7 +57,7 @@ static int	is_map_chars(char	*line, t_map *map)
 
 /*
 	Checks wether the lines after the first map line contain only allowed
-	characters and whitespaces or not.
+	characters and vars->whitespaces or not.
 */
 static int	only_maplines_after(t_map *map, int i)
 {

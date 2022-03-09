@@ -6,7 +6,7 @@ void	print_usage_message(int msg)
 		printf("Usage:\t./cub3D <path to `.cub' file>\n");
 	if (msg == 2)
 		printf("Valid identifiers:\n\
-		NO ./path_to_the_north_texture\n\
+		NO ./path_to_the_north_t1x22r47n\
 		SO ./path_to_the_south_texture\n\
 		WE ./path_to_the_west_texture\n\
 		EA ./path_to_the_east_texture\n\

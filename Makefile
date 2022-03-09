@@ -2,7 +2,7 @@
 NAME = cub3D
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror# -g -fsanitize=address
 
 
 # **************************************************************************** #
@@ -45,9 +45,11 @@ BONUS_CFILES = \
 	parse_identifiers_bonus.c \
 	draw_bonus.c \
 	drawing_utils_bonus.c \
-	player_bonus.c \
+	player_spawn_bonus.c \
 	minimap_bonus.c \
-	raycast_bonus.c \
+	raycaster_bonus.c \
+	raycaster_cast_ray_bonus.c \
+	raycaster_utils_bonus.c \
 	fullmap_bonus.c \
 	sidebar_bonus.c \
 	parse_map_bonus.c \
@@ -61,6 +63,11 @@ BONUS_CFILES = \
 	texture_map_bonus.c \
 	utils_bonus.c \
 	init_anim_sprites_bonus.c \
+	draw_line_bonus.c \
+	minimap_utils_bonus.c \
+	input_bonus.c \
+	movement_checkpos_bonus.c \
+	movement_newpos_bonus.c
 
 # **************************************************************************** #
 # loctaions
