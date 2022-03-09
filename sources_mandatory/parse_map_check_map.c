@@ -1,4 +1,16 @@
-#include "../header/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_check_map.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 23:31:05 by akamlah           #+#    #+#             */
+/*   Updated: 2022/03/09 14:50:16 by akamlah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header_mandatory/cub3d_mandatory.h"
 
 static int	check_lr_space(char **maplines, t_vector2_int pos)
 {

@@ -1,4 +1,16 @@
-#include "../header/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_chars.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 23:30:59 by akamlah           #+#    #+#             */
+/*   Updated: 2022/03/09 14:52:44 by akamlah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header_mandatory/cub3d_mandatory.h"
 
 /*
 	checks if a character is a spawn indicator

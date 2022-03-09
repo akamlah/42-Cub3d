@@ -1,4 +1,16 @@
-#include "../header/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_checkers.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 23:31:07 by akamlah           #+#    #+#             */
+/*   Updated: 2022/03/08 23:42:21 by akamlah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header_mandatory/cub3d_mandatory.h"
 
 int	check_top(char **maplines, t_vector2_int pos, char checkchar)
 {

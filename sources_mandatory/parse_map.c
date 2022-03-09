@@ -1,4 +1,16 @@
-#include "../header/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 23:32:18 by akamlah           #+#    #+#             */
+/*   Updated: 2022/03/09 15:10:04 by akamlah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../header_mandatory/cub3d_mandatory.h"
 
 static int	set_fd(t_vars *vars)
 {
@@ -6,7 +18,7 @@ static int	set_fd(t_vars *vars)
 
 	if (vars->map->max_width < 3 || vars->map->n_lines < 3)
 	{
-		printf("Error\nInvaliid map size!\n");
+		printf("Error\nInvalid map size!\n");
 		return (0);
 	}
 	fd = open(vars->map->path, O_RDONLY);

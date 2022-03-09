@@ -1,59 +1,58 @@
-#include "../header/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture_map.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 23:02:34 by akamlah           #+#    #+#             */
+/*   Updated: 2022/03/09 14:50:16 by akamlah          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	get_pixel_color(t_image *img, double x, double y)
+#include "../header_mandatory/cub3d_mandatory.h"
+
+static int	get_pixel_color(t_image *img, double x, double y)
 {
 	char	*dst;
 
-	dst = img->address + ((int)floor(y) * img->line_length + (int)floor(x) * (img->bits_per_pixel / 8));
+	dst = img->address + ((int)floor(y) * img->line_length + \
+		(int)floor(x) * (img->bits_per_pixel / 8));
 	return (*(unsigned int *)dst);
 }
 
-int	shade_color(t_ray *ray, int color)
+static double	set_tex_x(t_ray *ray, t_image *src_img)
 {
-	int	r;
-	int	g;
-	int	b;
-
-	r = ((color >> 16) & 255) * ray->darkening_factor;
-	g = ((color >> 8) & 255) * ray->darkening_factor;
-	b = (color & 255)  * ray->darkening_factor;
-	color = (r << 16) + (g << 8) + b;
-	return (color);
-}
-
-void	draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i)
-{
-	int		y;
-	double	incr;
-	int		color;
 	double	tex_x;
-	double	y_offs;
-	int		img_addr_offs;
-	int		lim;
 
-	lim = line_height;
-	img_addr_offs = (MAIN_IMG_W - i - 1) * (vars->main_img->bits_per_pixel / 8);
-	color = 0;
-	y = 0;
-	y_offs = (vars->main_img->height / 2) - line_height / 2;
 	if (ray->facing_direction == 1 || ray->facing_direction == 3)
 		tex_x = (fmod(ray->closest_hit.x, SCALE) / SCALE) * src_img->width ;
 	else
 		tex_x = (fmod(ray->closest_hit.y, SCALE) / SCALE) * src_img->width;
-	incr = (double)src_img->height / line_height;
-	if (line_height > MAIN_IMG_H)
-	{
-		y = (line_height - MAIN_IMG_H) / 2;
-		lim = MAIN_IMG_H + y;
-	}
-	while (y < line_height)
+	return (tex_x);
+}
+
+void	draw_tex_line(t_vars *vars, t_ray *ray, t_image *src_img, int i)
+{
+	int		y;
+	double	incr;
+	double	tex_x;
+	double	y_offs;
+	int		img_addr_offs;
+
+	img_addr_offs = (MAIN_IMG_W - i - 1) * (vars->main_img->bits_per_pixel / 8);
+	y = 0;
+	y_offs = (vars->main_img->height / 2) - ray->wall_height / 2;
+	tex_x = set_tex_x(ray, src_img);
+	incr = (double)src_img->height / ray->wall_height;
+	if (ray->wall_height > MAIN_IMG_H)
+		y = (ray->wall_height - MAIN_IMG_H) / 2;
+	while (y < ray->wall_height)
 	{
 		if (y + y_offs >= 0 && y + y_offs < MAIN_IMG_H)
-		{
-			color = get_pixel_color(src_img, tex_x, y * incr);
-			color = shade_color(ray, color);
-			*(unsigned int *)(vars->main_img->address + (int)((y + y_offs) * vars->main_img->line_length + img_addr_offs)) = color;
-		}
+			*(unsigned int *)(vars->main_img->address + (int)((y + y_offs) \
+				* vars->main_img->line_length + img_addr_offs)) \
+				= get_pixel_color(src_img, tex_x, y * incr);
 		y++;
 	}
 }
