@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:16:04 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 00:50:53 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:03:18 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	render(t_vars *vars)
 	draw_minimap(vars);
 	draw_square_tlc(vars->main_img, \
 				new_vector2(MAIN_IMG_W, MAIN_IMG_H / 2), \
-				new_vector2(0, MAIN_IMG_H / 2), 0x5b5b5b);
+				new_vector2(0, MAIN_IMG_H / 2), vars->floor_color);
 	draw_square_tlc(vars->main_img, \
 				new_vector2(MAIN_IMG_W, MAIN_IMG_H / 2), \
-				new_vector2(0, 0), 0xb8dcfd);
+				new_vector2(0, 0), vars->ceiling_color);
 	if (vars->display_full_map == 1)
 		draw_full_map(vars);
 	raycast(vars);

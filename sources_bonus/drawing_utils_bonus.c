@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:17:06 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:57:10 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ t_image	*new_image(t_vars *vars, int width, int height, t_vector2 pos)
 	t_image	*new_image;
 
 	new_image = malloc(sizeof(t_image));
+	if (!new_image)
+	{
+		printf("Error\n failed to allocate memory\n");
+		exit_cub();
+	}
 	new_image->width = width;
 	new_image->height = height;
 	new_image->pos = pos;
@@ -47,8 +52,9 @@ t_image	*new_image(t_vars *vars, int width, int height, t_vector2 pos)
 						&new_image->endian);
 	if (!new_image->address || !new_image->img_ptr)
 	{
-		printf("bres_vars.error: Failed to retrieve image address\n");
-		free_and_exit(vars);
+		free(new_image);
+		printf("Error\n Failed to retrieve image address\n");
+		exit_cub();
 	}
 	return (new_image);
 }
@@ -73,8 +79,8 @@ t_image	*new_image_tex(t_vars *vars, char *tex_path)
 						&new_image->line_length, &new_image->endian);
 	if (!new_image->address || !new_image->img_ptr)
 	{
-		printf("bres_vars.error: Failed to retrieve image address\n");
-		free_and_exit(vars);
+		printf("Error\n\n Failed to retrieve image address\n");
+		exit_cub();
 	}
 	return (new_image);
 }
@@ -122,22 +128,22 @@ void	*loadimage(char *path, t_vars *vars, t_image *img_memory)
 
 	if (!path)
 	{
-		printf("bres_vars.error: Empty image file name.\n");
-		free_and_exit(vars);
+		printf("Error\n Empty image file name.\n");
+		exit_cub();
 	}
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
 		perror(path);
-		free_and_exit(vars);
+		exit_cub();
 	}
 	img = mlx_xpm_file_to_image(vars->mlx_vars->mlx_ptr, path, \
 							&img_memory->width, &img_memory->height);
 	if (!img)
 	{
-		printf("bres_vars.error: Image file could not be opened. \
+		printf("Error\n Image file could not be opened. \
 Please make sure it exists and is in .xpm format.\n");
-		free_and_exit(vars);
+		exit_cub();
 	}
 	close (fd);
 	return (img);

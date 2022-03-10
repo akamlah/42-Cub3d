@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:59:20 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 14:14:13 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	create_fullmap(t_vars *vars)
 	vars->full_map.height = vars->full_map.blocksize * vars->map->n_lines;
 	vars->full_map.player_size = vars->full_map.blocksize / 3;
 	vars->full_map.img = new_image(vars, \
-		vars->full_map.width, \
-		vars->full_map.height, \
-		vars->full_map.top_left_corner_pos);
+	vars->full_map.width, \
+	vars->full_map.height, \
+	vars->full_map.top_left_corner_pos);
 	if (!vars->full_map.img)
 		return (0);
 	return (1);

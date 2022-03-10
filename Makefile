@@ -64,7 +64,8 @@ BONUS_CFILES = \
 	minimap_utils_bonus.c \
 	input_bonus.c \
 	movement_checkpos_bonus.c \
-	movement_newpos_bonus.c
+	movement_newpos_bonus.c \
+	parse_colors_bonus.c 
 
 # **************************************************************************** #
 # loctaions
@@ -134,14 +135,14 @@ $(BONUS_BUILD_DIR)/%.o : $(BONUS_SOURCE_DIR)/%.c
 .PHONY: clean
 
 clean:
-#@ make clean -C $(LIBFT_PATH)
-#@ make clean -C $(MLX_PATH)
+	@ make clean -C $(LIBFT_PATH)
+	@ make clean -C $(MLX_PATH)
 	@ echo "$(RED)Removing object files$(NC)"
 	@ rm -rf $(OFILES)
 	@ rm -rf $(BONUS_OFILES)
 
 fclean: clean
-#@ make fclean -C $(LIBFT_PATH)
+	@ make fclean -C $(LIBFT_PATH)
 	@ echo "$(RED)Removing '$(NAME)'\nForce-removing object directory$(NC)"
 	@ rm -rf $(BUILD_DIR) *~ $(NAME)
 	@ rm -rf $(BONUS_BUILD_DIR) *~ $(NAME)
@@ -149,6 +150,6 @@ fclean: clean
 re: fclean
 	@ make
 
-re_bonus: fclean
-	@ bonus
+bonus_re: fclean
+	@ make bonus
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:35:46 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 15:04:45 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/10 15:57:53 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	mlx_hooks(t_vars *vars)
 /*
 *Exits window when "x" is pressed
 */
-int	exit_hook(t_vars *vars)
+int	exit_hook(void)
 {
-	free_and_exit(vars);
+	exit_cub();
 	return (0);
 }
 
@@ -49,7 +49,7 @@ int	on_key_down(int keycode, t_vars *vars)
 	else if (keycode == KEY_RIGHT)
 		vars->player.rotate_right = 1;
 	else if (keycode == KEY_ESC)
-		free_and_exit(vars);
+		exit_cub();
 	else if (keycode == KEY_SPACE)
 		vars->player.speed = vars->player.sprinting_speed;
 	else if (keycode == KEY_LSHIFT || keycode == KEY_RSHIFT)

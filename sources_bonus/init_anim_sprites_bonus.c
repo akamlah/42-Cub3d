@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:03:28 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:07:10 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ t_anim_sprite	*init_localvars(t_vars *vars, \
 					struct s_variables *local_vars, \
 					int frame_count)
 {
-	t_anim_sprite		*anim_sprite;
+	t_anim_sprite	*anim_sprite;
+	void			*ftheflags;
 
+	ftheflags = vars;
 	local_vars->i = 1;
 	anim_sprite = malloc(sizeof(t_anim_sprite));
 	local_vars->image = malloc(sizeof(t_image) * (frame_count));
 	if (!anim_sprite || !local_vars->image)
 	{
 		printf("Failed to allocate memory for animated sprite.\n");
-		free_and_exit(vars);
+		exit_cub();
 	}
 	gettimeofday(&local_vars->curr_time, NULL);
 	anim_sprite->last_time_ms = \

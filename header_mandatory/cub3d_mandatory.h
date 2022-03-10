@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_mandatory.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:05:28 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 15:16:46 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/10 15:57:48 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ typedef struct s_vars
 int			parse_colors(t_vars *vars);
 
 //			main.c
-void		free_and_exit(t_vars *vars);
+void		exit_cub(void);
 
 //	PARSER ---------------------------------------------------------------------
 //			parse_identifiers.c (+2 statics):
@@ -251,7 +251,7 @@ void		draw_tex_line(t_vars *vars, t_ray *ray, t_image *src_img, int i);
 int			mlx_hooks(t_vars *vars);
 int			on_key_down(int keycode, t_vars *vars);
 int			on_key_up(int keycode, t_vars *vars);
-int			exit_hook(t_vars *vars);
+int			exit_hook(void);
 
 //	movement.c (+4 statics)
 void		player_move(t_vars *vars, t_player *player);

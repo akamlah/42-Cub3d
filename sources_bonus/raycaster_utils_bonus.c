@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:18:57 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 01:09:06 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:33:40 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int	point_iswall(t_vars *vars, double RW_x, double RW_y, t_ray *ray)
 void	draw_wall(t_vars *vars, t_ray *ray, int i)
 {
 	if (ray->facing_direction == 1)
-		draw_tex_line(vars, ray, vars->tex_N, i);
+		draw_tex_line(vars, ray, vars->tex_n, i);
 	if (ray->facing_direction == 2)
-		draw_tex_line(vars, ray, vars->tex_E, i);
+		draw_tex_line(vars, ray, vars->tex_e, i);
 	if (ray->facing_direction == 3)
-		draw_tex_line(vars, ray, vars->tex_S, i);
+		draw_tex_line(vars, ray, vars->tex_s, i);
 	if (ray->facing_direction == 4)
-		draw_tex_line(vars, ray, vars->tex_W, i);
+		draw_tex_line(vars, ray, vars->tex_w, i);
 }
 
 void	draw_sun(t_vars *vars, t_ray *ray, int i)

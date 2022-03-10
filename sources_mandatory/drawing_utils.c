@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:37:05 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 15:12:25 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:56:29 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ t_image	*new_image(t_vars *vars, int width, int height, t_vector2 pos)
 		&new_image->endian);
 	if (!new_image->address || !new_image->img_ptr)
 	{
-		printf("Error: Failed to retrieve image address\n");
-		free_and_exit(vars);
+		printf("Error\n Failed to retrieve image address\n");
+		exit_cub();
 	}
 	return (new_image);
 }
@@ -69,8 +69,8 @@ t_image	*new_image_tex(t_vars *vars, char *tex_path)
 			&new_image->endian);
 	if (!new_image->address || !new_image->img_ptr)
 	{
-		printf("Error: Failed to retrieve image address\n");
-		free_and_exit(vars);
+		printf("Error\n Failed to retrieve image address\n");
+		exit_cub();
 	}
 	return (new_image);
 }
@@ -117,22 +117,22 @@ void	*loadimage(char *path, t_vars *vars, t_image *img_memory)
 
 	if (!path)
 	{
-		printf("Error: Empty image file name.\n");
-		free_and_exit(vars);
+		printf("Error\n Empty image file name.\n");
+		exit_cub();
 	}
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
 		perror(path);
-		free_and_exit(vars);
+		exit_cub();
 	}
 	img = mlx_xpm_file_to_image(vars->mlx_vars->mlx_ptr, path, \
 		&img_memory->width, &img_memory->height);
 	if (!img)
 	{
-		printf("Error: Image file could not be opened. \
+		printf("Error\n Image file could not be opened. \
 			Please make sure it exists and is in .xpm format.\n");
-		free_and_exit(vars);
+		exit_cub();
 	}
 	close (fd);
 	return (img);

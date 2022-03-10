@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:29:56 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:22:30 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	setup_first_ray(t_vars *vars, t_ray *ray)
 	ray_set_vars_to_start(ray);
 }
 
-void	increment_ray_angle(t_ray *ray)
+void	increment_ray_angle(t_vars *vars, t_ray *ray)
 {
-	if (ray->angle + RAY_ANG_INCREMENT > M_PI * 2)
-		ray->angle = -1 * ((M_PI * 2) - ray->angle + RAY_ANG_INCREMENT);
+	if (ray->angle + vars->ray_ang_incr > M_PI * 2)
+		ray->angle = -1 * ((M_PI * 2) - ray->angle + vars->ray_ang_incr);
 	else
-		ray->angle += RAY_ANG_INCREMENT;
+		ray->angle += vars->ray_ang_incr;
 }
 
 /*
@@ -55,10 +55,10 @@ void	get_height(t_vars *vars, t_ray *ray, int i)
 	double	fisheye_correction_factor;
 
 	if (i < MAIN_IMG_W / 2)
-		fisheye_correction_factor = cos(FOV_RAD / 2 - (i * RAY_ANG_INCREMENT));
+		fisheye_correction_factor = cos(FOV_RAD / 2 - (i * vars->ray_ang_incr));
 	else
 		fisheye_correction_factor \
-			= cos((i * RAY_ANG_INCREMENT) - (FOV_RAD / 2));
+			= cos((i * vars->ray_ang_incr) - (FOV_RAD / 2));
 	ray->wall_height = vars->prj_pane_dist * SCALE \
 		/ (ray->distance * fisheye_correction_factor);
 }
@@ -84,7 +84,7 @@ void	raycast(t_vars *vars)
 			draw_tex_line(vars, &ray, \
 			vars->door_sprites->frames[vars->door_sprites->anim_count], i);
 		draw_ray_minimap(vars, &ray);
-		increment_ray_angle(&ray);
+		increment_ray_angle(vars, &ray);
 		i++;
 	}
 }

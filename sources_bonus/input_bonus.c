@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.c                                            :+:      :+:    :+:   */
+/*   input_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:53:52 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/08 23:53:52 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:13:14 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,50 +31,50 @@ int	on_mouse_move(int x, int y, t_vars *vars)
 
 int	on_key_down(int keycode, t_vars *vars)
 {
-	if (keycode == key_w)
+	if (keycode == KEY_W)
 		vars->player.move_forward = 1;
-	else if (keycode == key_s)
+	else if (keycode == KEY_S)
 		vars->player.move_backward = 1;
-	else if (keycode == key_a)
+	else if (keycode == KEY_A)
 		vars->player.move_left = 1;
-	else if (keycode == key_d)
+	else if (keycode == KEY_D)
 		vars->player.move_right = 1;
-	else if (keycode == key_left)
+	else if (keycode == KEY_LEFT)
 		vars->player.rotate_left = 1;
-	else if (keycode == key_right)
+	else if (keycode == KEY_RIGHT)
 		vars->player.rotate_right = 1;
-	else if (keycode == key_esc)
-		free_and_exit(vars);
-	else if (keycode == key_tab)
+	else if (keycode == KEY_ESC)
+		exit_cub();
+	else if (keycode == KEY_TAB)
 		vars->display_full_map = 1;
-	else if (keycode == key_space)
+	else if (keycode == KEY_SPACE)
 		vars->player.speed = vars->player.sprinting_speed;
-	else if (keycode == key_Lshift || keycode == key_Rshift)
+	else if (keycode == KEY_LSHIFT || keycode == KEY_RSHIFT)
 		vars->player.rot_speed = vars->player.rot_fast_speed;
-	if (keycode == key_f)
+	if (keycode == KEY_F)
 		vars->player.action_set = 1;
 	return (0);
 }
 
 int	on_key_up(int keycode, t_vars *vars)
 {
-	if (keycode == key_w)
+	if (keycode == KEY_W)
 		vars->player.move_forward = 0;
-	else if (keycode == key_s)
+	else if (keycode == KEY_S)
 		vars->player.move_backward = 0;
-	else if (keycode == key_a)
+	else if (keycode == KEY_A)
 		vars->player.move_left = 0;
-	else if (keycode == key_d)
+	else if (keycode == KEY_D)
 		vars->player.move_right = 0;
-	else if (keycode == key_left)
+	else if (keycode == KEY_LEFT)
 		vars->player.rotate_left = 0;
-	else if (keycode == key_right)
+	else if (keycode == KEY_RIGHT)
 		vars->player.rotate_right = 0;
-	else if (keycode == key_tab)
+	else if (keycode == KEY_TAB)
 		vars->display_full_map = 0;
-	else if (keycode == key_space)
+	else if (keycode == KEY_SPACE)
 		vars->player.speed = vars->player.basic_speed;
-	else if (keycode == key_Lshift || keycode == key_Rshift)
+	else if (keycode == KEY_LSHIFT || keycode == KEY_RSHIFT)
 		vars->player.rot_speed = vars->player.rot_slow_speed;
 	return (0);
 }

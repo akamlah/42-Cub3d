@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:17:28 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:22:03 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:33:40 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	init_player(t_player *player)
 	player->dir.y = 0;
 	player->mouse_last_x = 0;
 	player->action_set = -1;
+	player->size = SCALE / 10;
 	return (0);
 }
 
@@ -57,10 +58,11 @@ int	init_minimap(t_vars *vars, t_minimap *minimap)
 
 void	init_full_map(t_full_map *full_map)
 {
+	full_map->win_offset = (MAIN_IMG_WIN_OFFSET + FUL_MAP_MAIN_IMG_OFFSET);
 	full_map->max_width = MAIN_IMG_W - FUL_MAP_MAIN_IMG_OFFSET * 2;
 	full_map->max_height = MAIN_IMG_H - FUL_MAP_MAIN_IMG_OFFSET * 2;
-	full_map->top_left_corner_pos.x = FULL_MAP_WIN_OFFSET;
-	full_map->top_left_corner_pos.y = FULL_MAP_WIN_OFFSET;
+	full_map->top_left_corner_pos.x = full_map->win_offset;
+	full_map->top_left_corner_pos.y = full_map->win_offset;
 	full_map->blocksize = 0;
 	full_map->player_size = 0;
 	full_map->img = NULL;
@@ -76,8 +78,6 @@ int	init_vars(t_vars *vars)
 	vars->wh = (MAIN_IMG_H + MAIN_IMG_WIN_OFFSET * 2);
 	vars->full_map_win_offs = (MAIN_IMG_WIN_OFFSET + FUL_MAP_MAIN_IMG_OFFSET);
 	vars->fov_rad = M_PI / 3;
-	vars->player_size_rw = (SCALE / 10);
-	vars->ray_ang_incr = (FOV_RAD / MAIN_IMG_W);
 	init_player(&vars->player);
 	init_minimap(vars, &vars->minimap);
 	init_full_map(&vars->full_map);
@@ -87,7 +87,15 @@ int	init_vars(t_vars *vars)
 	vars->move_forward = 0;
 	vars->map = NULL;
 	vars->mlx_vars = NULL;
+	vars->full_map.img = NULL;
 	vars->main_img = NULL;
 	vars->door_sprites = NULL;
+	vars->tex_e = NULL;
+	vars->tex_n = NULL;
+	vars->tex_s = NULL;
+	vars->tex_w = NULL;
+	vars->ceiling_color = 0;
+	vars->floor_color = 0;
+	vars->ray_ang_incr = (FOV_RAD / MAIN_IMG_W);
 	return (0);
 }

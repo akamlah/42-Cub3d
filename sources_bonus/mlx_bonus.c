@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:49:35 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:21:54 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:33:40 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	init_images(t_vars *vars)
 	vars->main_img
 		= new_image(vars, MAIN_IMG_W, MAIN_IMG_H, new_vector2(20, 20));
 	if (!create_minimap(vars))
-		return (4);
+		exit_cub();
 	if (!create_fullmap(vars))
-		return (4);
+		exit_cub();
 	vars->door_sprites = init_anim_sprite(vars, "./door_frames/", 24);
-	vars->tex_N = new_image_tex(vars, vars->map->textr_n);
-	vars->tex_S = new_image_tex(vars, vars->map->textr_s);
-	vars->tex_E = new_image_tex(vars, vars->map->textr_e);
-	vars->tex_W = new_image_tex(vars, vars->map->textr_w);
+	vars->tex_n = new_image_tex(vars, vars->map->textr_n);
+	vars->tex_s = new_image_tex(vars, vars->map->textr_s);
+	vars->tex_e = new_image_tex(vars, vars->map->textr_e);
+	vars->tex_w = new_image_tex(vars, vars->map->textr_w);
 	return (0);
 }
 
@@ -85,8 +85,8 @@ int	update(t_vars *vars)
 /*
 *Exits window vars->when "x" is pressed
 */
-int	exit_hook(t_vars *vars)
+int	exit_hook(void)
 {
-	free_and_exit(vars);
+	exit_cub();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:19:20 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:22:20 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:58:23 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,24 @@ int	main(int argc, char **argv)
 	init_vars(&vars);
 	error = parse(&vars, argv);
 	if (error)
-		free_and_exit(&vars);
+		exit_cub();
+	if (!parse_colors(&vars))
+		exit_cub();
 	init_mlx_vars(&vars);
 	get_player_spawn(&vars);
 	draw_sidebar_start(&vars);
 	render(&vars);
 	mlx_hooks(&vars);
 	return (0);
+}
+
+void	free_image(t_vars *vars, t_image *image)
+{
+	if (image)
+	{
+		mlx_destroy_image(vars->mlx_vars->mlx_ptr, image->img_ptr);
+		free(image);
+	}
 }
 
 void	free_map_nodes(t_vars *vars)
@@ -73,25 +84,17 @@ void	free_map_textures(t_vars *vars)
 		if (vars->map->ceiling_color)
 			free(vars->map->ceiling_color);
 	}
+	free_image(vars, vars->tex_n);
+	free_image(vars, vars->tex_s);
+	free_image(vars, vars->tex_e);
+	free_image(vars, vars->tex_w);
 }
 
 /*
 *	ONLY EXITPOINT here.
 *	Checks for any variable to be freed.
 */
-void	free_and_exit(t_vars *vars)
+void	exit_cub(void)
 {
-	free_map_textures(vars);
-	free_map_nodes(vars);
-	if (vars->mlx_vars)
-		if (vars->mlx_vars->minimap)
-			free(vars->mlx_vars->minimap);
-	if (vars->mlx_vars)
-		free(vars->mlx_vars);
-	if (vars->full_map.img)
-		free(vars->full_map.img);
-	if (vars->main_img)
-		free(vars->main_img);
-	system("leaks cub3D");
 	exit(0);
 }

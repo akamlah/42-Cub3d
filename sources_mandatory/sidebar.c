@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sidebar.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:17:01 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 14:53:42 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/10 16:46:36 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ void	draw_sidebar_start(t_vars *vars)
 	distance_lines = 30;
 	pos_first_line = vars->winh / 2;
 	color = 0x66b2b2;
-	mlx_string_put(vars->mlx_vars->mlx_ptr, \
-		vars->mlx_vars->win_ptr, vars->winw - SIDEBAR_W, \
-		pos_first_line, color, "Press TAB to desplay full map");
 	mlx_string_put(vars->mlx_vars->mlx_ptr, \
 		vars->mlx_vars->win_ptr, vars->winw - SIDEBAR_W, \
 		pos_first_line + distance_lines, color, "Move head with R/L arrows");
