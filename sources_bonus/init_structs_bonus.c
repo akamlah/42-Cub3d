@@ -1,5 +1,16 @@
-#include "../header_bonus/cub3d_bonus.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_structs_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 23:17:28 by agebert           #+#    #+#             */
+/*   Updated: 2022/03/09 01:22:03 by agebert          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../header_bonus/cub3d_bonus.h"
 
 int	init_player(t_player *player)
 {
@@ -13,9 +24,6 @@ int	init_player(t_player *player)
 	player->rot_slow_speed = 0.04;
 	player->rot_fast_speed = 0.08;
 	player->rot_speed = player->rot_slow_speed;
-
-	// player->rot_speed = M_PI / 128;
-
 	player->move_backward = 0;
 	player->move_forward = 0;
 	player->move_left = 0;
@@ -31,22 +39,19 @@ int	init_player(t_player *player)
 
 // int	init_minimap(t_vars *vars)
 // {
-int	init_minimap(t_minimap *minimap)
+int	init_minimap(t_vars *vars, t_minimap *minimap)
 {
 	minimap->scale = 10;
 	minimap->p_pos.x = 0;
 	minimap->p_pos.y = 0;
-	minimap->width = WW / 6;
-	minimap->height = WH / 6;
-
+	minimap->width = vars->ww / 6;
+	minimap->height = vars->wh / 6;
 	minimap->player_size = minimap->scale / 2;
-
 	minimap->wall_color = 0xece2e0;
 	minimap->floor_color = 0x200000;
 	minimap->background_color = 0x400000;
 	minimap->player_color = 0xdde663;
 	minimap->ray_color = 0xa0a37e;
-
 	return (0);
 }
 
@@ -62,28 +67,27 @@ void	init_full_map(t_full_map *full_map)
 }
 
 /*
-*	Set all pointers in main struct to null or allocate memory for them before using them
+*	Set all pointers in main struct to null
+*	or allocate memory for them before using them
 */
 int	init_vars(t_vars *vars)
 {
+	vars->ww = (MAIN_IMG_W + SIDEBAR_W + MAIN_IMG_WIN_OFFSET * 2);
+	vars->wh = (MAIN_IMG_H + MAIN_IMG_WIN_OFFSET * 2);
+	vars->full_map_win_offs = (MAIN_IMG_WIN_OFFSET + FUL_MAP_MAIN_IMG_OFFSET);
+	vars->fov_rad = M_PI / 3;
+	vars->player_size_rw = (SCALE / 10);
+	vars->ray_ang_incr = (FOV_RAD / MAIN_IMG_W);
 	init_player(&vars->player);
-
-	init_minimap(&vars->minimap);
-
+	init_minimap(vars, &vars->minimap);
 	init_full_map(&vars->full_map);
 	vars->display_full_map = 0;
-
 	vars->last_time_ms = 100;
-
 	vars->prj_pane_dist = (MAIN_IMG_W / 2 / tan(FOV_RAD / 2));
-	// SCALE = 64;
 	vars->move_forward = 0;
 	vars->map = NULL;
 	vars->mlx_vars = NULL;
 	vars->main_img = NULL;
-	vars->mario_dance = NULL;
-	// NOW IT IS ON STACK
-	// vars->minimap = NULL;
-	// vars->minimap = malloc(sizeof(t_minimap));
+	vars->door_sprites = NULL;
 	return (0);
 }

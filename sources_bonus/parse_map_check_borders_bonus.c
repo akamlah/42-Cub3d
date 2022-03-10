@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_check_borders_bonus.c                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 00:03:36 by agebert           #+#    #+#             */
+/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header_bonus/cub3d_bonus.h"
 
 static int	check_top_bot(t_vars *vars, char **maplines)

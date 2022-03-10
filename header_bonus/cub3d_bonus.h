@@ -1,5 +1,17 @@
-#ifndef CUB3D_H
-# define CUB3D_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 00:58:28 by agebert           #+#    #+#             */
+/*   Updated: 2022/03/09 01:21:06 by agebert          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <stdio.h>
 # include <math.h>
@@ -9,51 +21,31 @@
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
 # include <limits.h>
-///////////////////////////REMOVE REMOVE REMOVE RFEMOVE REMOVE REMOVE REMOVE
-#include <sys/time.h> ///////////////////////////REMOVE REMOVE REMOVE RFEMOVE REMOVE REMOVE REMOVE
-///////////////////////////REMOVE REMOVE REMOVE RFEMOVE REMOVE REMOVE REMOVE
-
-// screen parameters
-// win_ptr size (WW width, WH heigth in pixel)
-// https://support.microsoft.com/en-us/windows/getting-the-best-display-on-your-monitor-c7e01f63-9b51-2b23-0a0f-6b965af015a9
-
+# include <sys/time.h>
 # define MAIN_IMG_W 1280
 # define MAIN_IMG_H 1024
-
-
 // distance from window border of game window.
-#define MAIN_IMG_WIN_OFFSET 20
-
+# define MAIN_IMG_WIN_OFFSET 20
 # define SIDEBAR_W	250
-# define WW (MAIN_IMG_W + SIDEBAR_W + MAIN_IMG_WIN_OFFSET * 2)
 # define WH (MAIN_IMG_H + MAIN_IMG_WIN_OFFSET * 2)
-
 // the size of one element of the map, ie. a wall or floor tile, in real world coordinates.
 # define SCALE 64
-
 // parameters for the positionig of the full map on screen
 # define FUL_MAP_MAIN_IMG_OFFSET 100
 # define FULL_MAP_WIN_OFFSET (MAIN_IMG_WIN_OFFSET + FUL_MAP_MAIN_IMG_OFFSET)
-
 // field of view (angle, in rad)
 # define FOV_DEG 60
-# define FOV_RAD (M_PI / 3)
-
+# define FOV_RAD M_PI / 3
 # define PLAYER_SIZE_RW (SCALE / 10)
-
 // angular distance between rays when casting within the field of view
 # define RAY_ANG_INCREMENT (FOV_RAD / MAIN_IMG_W)
-
 // one degree in radians
 # define ONE_DEG_RAD 0.0174533
-
 //Maximum map-square number value for parsing
 # define MAX_OBJ_CHAR '2'
-
 //char value for doors
 # define DOOR_CLOSED '2'
 # define DOOR_OPEN '3'
-
 //keycodes
 # define key_left 123
 # define key_right 124
@@ -69,6 +61,16 @@
 # define key_Lshift 258
 # define key_Rshift 257
 # define key_f 3
+
+typedef struct	s_bresenheim
+{
+	int	sx;
+	int	sy;
+	int	err;
+	int	dx;
+	int	dy;
+	int	e2;
+}				t_bresenheim;
 
 typedef struct s_vector2
 {
@@ -133,8 +135,8 @@ typedef struct	s_ray
 	double		vert_dx;
 	double		vert_dy;
 	int			facing_direction;
-	double		hor_hit_player_dist_RW;
-	double		vert_hit_player_dist_RW;
+	double		hor_hit_player_dist;
+	double		vert_hit_player_dist;
 	int			wall_height;
 	char		hit_char;
 	double		darkening_factor;
@@ -218,12 +220,16 @@ typedef struct s_vars
 	t_image			*tex_S;
 	t_image			*tex_E;
 	t_image			*tex_W;
-	t_anim_sprite	*mario_dance;
-	t_image			*tex_door;
+	t_anim_sprite	*door_sprites;
 	int			display_full_map;
-
 	double		last_time_ms;
 	double		prj_pane_dist;
+	int			ww;
+	int			wh;
+	int			full_map_win_offs;
+	double		fov_rad;
+	double		player_size_rw;
+	double		ray_ang_incr;
 
 }	t_vars;
 
@@ -264,16 +270,15 @@ int		check_bot_space(t_vars *vars, char **maplines, t_vector2_int pos);
 // drawing_utils.c
 int		cub_pixel_put(t_image *img, int x, int y, int color);
 t_image *new_image(t_vars *vars, int width, int height, t_vector2 pos);
-void	draw_square_tlc(t_image *img, int width, int height, int I_xtlc, int I_ytlc, int color);
-void	draw_line(t_image *img, int I_xo, int I_yo, int I_xend, int I_yend, int color);
+void	draw_square_tlc(t_image *img, t_vector2 size, t_vector2 top_left_pos, int color);
+void	draw_line(t_image *img, t_vector2_int begin, t_vector2_int end, int color);
 void	*loadimage(char *path, t_vars *vars, t_image *img_memory);
 
 // inits
-int		init_vars(t_vars *vars);
-int		init_mlx_vars(t_vars *vars);
-int		init_player(t_player *player);
-// int		init_minimap(t_vars *vars);
-int		init_minimap(t_minimap *minimap);
+int			init_vars(t_vars *vars);
+int			init_mlx_vars(t_vars *vars);
+int			init_player(t_player *player);
+int			init_minimap(t_vars *vars, t_minimap *minimap);
 
 
 // hooks
@@ -286,9 +291,6 @@ int		exit_hook(t_vars *vars);
 int		get_player_spawn(t_vars *vars);
 
 // movement.c
-void		set_dir(double angle, t_vector2 *dir);
-double		correct_angle(double angle);
-void		player_set_speed_angle(t_player *player, int *speed_forward, double *angle_offs);
 t_vector2	player_get_newpos(t_player *player, int speed_forward, double new_angle);
 int			player_next_x_obj(t_vars *vars);
 int			player_next_y_obj(t_vars *vars);
@@ -296,7 +298,6 @@ int			player_prev_y_obj(t_vars *vars);
 int			player_prev_x_obj(t_vars *vars);
 int			player_check_x_pos(t_vars *vars, t_vector2 newpos);
 int			player_check_y_pos(t_vars *vars, t_vector2 newpos);
-void		player_move(t_vars *vars, t_player *player);
 
 //system utils
 double	get_fps(t_vars *vars);
@@ -328,10 +329,28 @@ void	display_data_sidebar(t_vars *vars);
 
 
 // merged
-void			draw_tex_line(t_vars *vars, t_ray *ray, int line_height, t_image *src_img, int i);
+void			draw_tex_line(t_vars *vars, t_ray *ray, t_image *src_img, int i);
 t_vector2		new_vector2(double x, double y);
 t_image 		*new_image_tex(t_vars *vars, char *tex_path);
 int				on_mouse_move(int x, int y, t_vars *vars);
 t_anim_sprite	*init_anim_sprite(t_vars *vars, char *path, int frame_count);
 void			anim_sprite(t_anim_sprite *anim_sprite, int frame_speed_ms);
-# endif
+t_vector2_int	new_vector2_int(int x, int y);
+void			draw_blocks(t_vars *vars, t_image *map_img, \
+							int blocksize, t_vector2_int iter);
+int				on_mouse_move(int x, int y, t_vars *vars);
+int				on_key_down(int keycode, t_vars *vars);
+int				on_key_up(int keycode, t_vars *vars);
+void			draw_blocks_minimap(t_vars *vars, t_image *map_img, int blocksize);
+void			player_move(t_vars *vars, t_player *player);
+void			cast_ray(t_vars *vars, t_ray *ray);
+void			draw_sun(t_vars *vars, t_ray *ray, int i);
+void			draw_wall(t_vars *vars, t_ray *ray, int i);
+int				is_point_in_map(t_vars *vars, t_vector2	point);
+int				point_iswall(t_vars *vars, double RW_x, double RW_y, t_ray *ray);
+void			draw_wall(t_vars *vars, t_ray *ray, int i);
+void			draw_sun(t_vars *vars, t_ray *ray, int i);
+void			ray_set_vars_to_start(t_ray *ray);
+void			raycast(t_vars *vars);
+
+#endif

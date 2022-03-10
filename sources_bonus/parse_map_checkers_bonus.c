@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map_checkers_bonus.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/09 00:03:41 by agebert           #+#    #+#             */
+/*   Updated: 2022/03/09 00:03:41 by agebert          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header_bonus/cub3d_bonus.h"
 
 int	check_top(char **maplines, t_vector2_int pos, char checkchar)
