@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"__functional_base": "c",
-		"functional": "c",
-		"memory": "c",
-		"chrono": "c"
-	}
-}

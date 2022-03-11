@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:30:59 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 14:52:44 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/10 17:27:49 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static int	is_map_chars(char	*line, t_map *map)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] > MAX_OBJ_CHAR && ft_isdigit(line[i])
+		if (line[i] != '0'
+			&& line[i] != '1'
 			&& line[i] != ' '
 			&& line[i] != 'N' && line[i] != 'S'
 			&& line[i] != 'W' && line[i] != 'E'
