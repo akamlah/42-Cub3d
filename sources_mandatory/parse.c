@@ -6,34 +6,33 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:32:23 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 14:52:44 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/11 17:00:47 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_mandatory/cub3d_mandatory.h"
 
-void	print_usage_message(int msg)
-{
-	if (msg == 1)
-		printf("Usage:\t./cub3D <path to `.cub' file>\n");
-	if (msg == 2)
-		printf("Valid identifiers:\n\
-		NO ./path_to_the_north_texture\n\
-		SO ./path_to_the_south_texture\n\
-		WE ./path_to_the_west_texture\n\
-		EA ./path_to_the_east_texture\n\
-		F [floor color R,G,B]\n\
-		C [ceiling color R,G,B]\n\
-		or lines of the map\n");
-}
-
 int	open_cubfile(t_map *map, char *path)
 {
+	char	*extension;
+
 	map->fd_cubfile = open(path, O_RDONLY);
 	if (map->fd_cubfile < 0)
 	{
+		printf("Error\n");
 		perror(path);
 		print_usage_message(1);
+		return (0);
+	}
+	extension = ft_strchr(path, '.');
+	if (!extension)
+	{
+		printf("Errror\nWrong file format, must be .cub\n");
+		return (0);
+	}
+	if (ft_strncmp(extension, ".cub", 4))
+	{
+		printf("Errror\nWrong file format, must be .cub\n");
 		return (0);
 	}
 	return (1);
@@ -54,6 +53,31 @@ static void	map_init(t_map *map)
 	map->textr_e = NULL;
 	map->floor_color = NULL;
 	map->ceiling_color = NULL;
+}
+
+static int	got_all_data(t_vars *vars)
+{
+	if (!vars->map->ceiling_color || !vars->map->floor_color
+		|| !vars->map->textr_w || !vars->map->textr_e
+		|| !vars->map->textr_n || !vars->map->textr_s)
+	{
+		printf("Error\n");
+		if (!vars->map->ceiling_color)
+			printf("Missing color identifier for ceiling\n");
+		if (!vars->map->floor_color)
+			printf("Missing color identifier for floor\n");
+		if (!vars->map->textr_s)
+			printf("Missing texture for south\n");
+		if (!vars->map->textr_n)
+			printf("Missing texture for north\n");
+		if (!vars->map->textr_e)
+			printf("Missing texture for east\n");
+		if (!vars->map->textr_w)
+			printf("Missing texture for west\n");
+		print_usage_message(2);
+		return (0);
+	}
+	return (1);
 }
 
 /*
@@ -108,5 +132,7 @@ int	parse(t_vars *vars, char **argv)
 		i++;
 	}
 	close (vars->map->fd_cubfile);
+	if (!got_all_data(vars))
+		return (1);
 	return (parse_map_lines(vars));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:19:20 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/10 16:58:23 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/11 16:29:39 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	}
 	init_vars(&vars);
 	error = parse(&vars, argv);
-	if (error)
+	if (error || vars.map->nodes == NULL)
 		exit_cub();
 	if (!parse_colors(&vars))
 		exit_cub();

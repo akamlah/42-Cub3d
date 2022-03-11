@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:03:32 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/11 16:59:26 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,15 @@ static int	set_fd(t_vars *vars)
 {
 	int	fd;
 
+	if (vars->map->max_width == 0 || vars->map->n_lines == 0)
+	{
+		printf("Error\nProvide a map\n");
+		print_usage_message(2);
+		return (0);
+	}
 	if (vars->map->max_width < 3 || vars->map->n_lines < 3)
 	{
-		printf("Error\nInvaliid map size!\n");
+		printf("Error\nInvalid map size, must be at least 3x3\n");
 		return (0);
 	}
 	fd = open(vars->map->path, O_RDONLY);
@@ -44,16 +50,14 @@ static void	dup_linebuff(char ***maplines, char **linebuff, int *linecount)
 	i = *linecount;
 }
 
-static char	**get_map_lines(t_vars *vars)
+static char	**get_map_lines(t_vars *vars, int fd)
 {
-	int		fd;
 	int		i;
 	int		linecount;
 	char	*linebuff;
 	char	**maplines;
 
 	maplines = NULL;
-	fd = set_fd(vars);
 	i = 0;
 	linecount = 0;
 	maplines = malloc((vars->map->max_width + 2) * (vars->map->n_lines + 2));
@@ -77,10 +81,14 @@ int	parse_map_lines(t_vars *vars)
 	int		x;
 	int		y;
 	char	**maplines;
+	int		fd;
 
 	x = 0;
 	y = 0;
-	maplines = get_map_lines(vars);
+	fd = set_fd(vars);
+	if (fd <= 0)
+		return (1);
+	maplines = get_map_lines(vars, fd);
 	if (!maplines)
 		return (1);
 	if (check_borders(vars, maplines)

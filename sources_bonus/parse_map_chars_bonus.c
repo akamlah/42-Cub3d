@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_chars_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:03:34 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:47 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/11 16:52:16 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_bonus/cub3d_bonus.h"
+
+void	print_usage_message(int msg)
+{
+	if (msg == 1)
+		printf("Usage:\t./cub3D <path to `.cub' file>\n");
+	if (msg == 2)
+		printf("\nProvide following identifiers:\n\n\
+		NO ./path_to_the_north_texture\n\
+		SO ./path_to_the_south_texture\n\
+		WE ./path_to_the_west_texture\n\
+		EA ./path_to_the_east_texture\n\n\
+		F [floor color R,G,B]\n\
+		C [ceiling color R,G,B]\n\n\
+		Map\n");
+}
 
 /*
 	checks if a character is a spawn indicator

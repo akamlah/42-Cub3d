@@ -6,11 +6,26 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:30:59 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/10 17:27:49 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/11 16:51:42 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_mandatory/cub3d_mandatory.h"
+
+void	print_usage_message(int msg)
+{
+	if (msg == 1)
+		printf("Usage:\t./cub3D <path to `.cub' file>\n");
+	if (msg == 2)
+		printf("\nProvide following identifiers:\n\n\
+		NO ./path_to_the_north_texture\n\
+		SO ./path_to_the_south_texture\n\
+		WE ./path_to_the_west_texture\n\
+		EA ./path_to_the_east_texture\n\n\
+		F [floor color R,G,B]\n\
+		C [ceiling color R,G,B]\n\n\
+		Map\n");
+}
 
 /*
 	checks if a character is a spawn indicator

@@ -6,7 +6,7 @@
 #    By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/10 17:29:48 by akamlah           #+#    #+#              #
-#    Updated: 2022/03/10 17:29:49 by akamlah          ###   ########.fr        #
+#    Updated: 2022/03/11 16:49:34 by akamlah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = cub3D
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 
 # **************************************************************************** #
