@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:29:56 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/10 16:22:30 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/15 11:53:56 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	raycast(t_vars *vars)
 			draw_tex_line(vars, &ray, \
 			vars->door_sprites->frames[vars->door_sprites->anim_count], i);
 		draw_ray_minimap(vars, &ray);
+		if (vars->display_full_map)
+			draw_ray_fullmap(vars, &ray);
 		increment_ray_angle(vars, &ray);
 		i++;
 	}
