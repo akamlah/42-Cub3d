@@ -6,7 +6,7 @@
 /*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:58:28 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/10 17:10:53 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/15 12:24:20 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,7 @@ int				create_minimap(t_vars *vars);
 void			draw_minimap(t_vars *vars);
 void			draw_player_minimap(t_vars *vars);
 void			draw_ray_minimap(t_vars *vars, t_ray *ray);
+void			adjust_minimap_size(t_vars *vars);
 
 // fullmap
 int				create_fullmap(t_vars *vars);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:24:05 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/10 14:14:02 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/15 12:24:32 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,7 @@ int	create_minimap(t_vars *vars)
 		vars->minimap.scale = 20;
 	else if (vars->minimap.scale < 5)
 		vars->minimap.scale = 5;
-	vars->minimap.width = vars->minimap.width \
-		/ vars->minimap.scale * vars->minimap.scale;
-	vars->minimap.height = vars->minimap.height \
-		/ vars->minimap.scale * vars->minimap.scale;
-	vars->minimap.total_width = \
-		(vars->map->max_width - 1) * vars->minimap.scale;
-	vars->minimap.total_height = \
-		vars->map->n_lines * vars->minimap.scale;
+	adjust_minimap_size(vars);
 	vars->minimap.p_pos.y = vars->wh - vars->minimap.height - 25;
 	vars->minimap.p_pos.x = 25;
 	vars->mlx_vars->minimap = new_image(vars, vars->minimap.width, \
@@ -56,25 +49,25 @@ void	minimap_set_offsets(t_vars *vars)
 {
 	vars->minimap.h_offs = vars->player.pos.y / SCALE \
 							- (vars->minimap.height / 2 / vars->minimap.scale);
-	if (vars->minimap.h_offs < 0)
-		vars->minimap.h_offs = 0;
 	if (vars->minimap.h_offs > \
 			(vars->minimap.total_height - vars->minimap.height) \
 			/ vars->minimap.scale)
 		vars->minimap.h_offs = \
 			(vars->minimap.total_height - vars->minimap.height) \
 			/ vars->minimap.scale;
+	if (vars->minimap.h_offs < 0)
+		vars->minimap.h_offs = 0;
 	vars->minimap.w_offs = \
 		vars->player.pos.x / SCALE - \
 		(vars->minimap.width / 2 / vars->minimap.scale);
-	if (vars->minimap.w_offs < 0)
-		vars->minimap.w_offs = 0;
 	if (vars->minimap.w_offs > \
 			(vars->minimap.total_width - vars->minimap.width) \
 			/ vars->minimap.scale)
 		vars->minimap.w_offs = \
 			(vars->minimap.total_width - vars->minimap.width) \
 			/ vars->minimap.scale;
+	if (vars->minimap.w_offs < 0)
+		vars->minimap.w_offs = 0;
 }
 
 void	draw_minimap(t_vars *vars)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:47:56 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/15 12:25:45 by akamlah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,20 @@ void	draw_blocks_minimap(t_vars *vars, t_image *map_img, int blocksize)
 		}
 		i++;
 	}
+}
+
+void	adjust_minimap_size(t_vars *vars)
+{
+	vars->minimap.width = vars->minimap.width \
+		/ vars->minimap.scale * vars->minimap.scale;
+	vars->minimap.height = vars->minimap.height \
+		/ vars->minimap.scale * vars->minimap.scale;
+	vars->minimap.total_width = \
+		(vars->map->max_width - 1) * vars->minimap.scale;
+	vars->minimap.total_height = \
+		vars->map->n_lines * vars->minimap.scale;
+	if (vars->minimap.total_height < vars->minimap.height)
+		vars->minimap.height = vars->minimap.total_height;
+	if (vars->minimap.total_width < vars->minimap.width)
+		vars->minimap.width = vars->minimap.total_width;
 }
