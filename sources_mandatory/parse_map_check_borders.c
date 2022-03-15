@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_check_borders.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:31:02 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/09 14:50:16 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/14 19:41:22 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,17 @@ static int	check_back(char **maplines, int y)
 	int	line_len;
 
 	i = 0;
-	line_len = (int)ft_strlen(maplines[y]);
-	while (maplines[y][line_len - 2 - i]
-		&& maplines[y][line_len - 2 - i] == ' ')
+	line_len = (int)ft_strlen(maplines[y]) - 1;
+	while (maplines[y][line_len - i]
+		&& maplines[y][line_len - i] == '\n')
 			i++;
-	if (maplines[y][line_len - 2 - i] != '1')
+	while (maplines[y][line_len - i]
+		&& maplines[y][line_len - i] == ' ')
+			i++;
+	if (maplines[y][line_len - i] != '1')
 	{
 		printf("Error\nMap: not inclosed in walls (x: %d, y: %d)\n", \
-		line_len - 2 - i, y);
+		line_len - i, y);
 		return (1);
 	}
 	return (0);

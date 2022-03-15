@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_mandatory.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:05:28 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/10 17:27:26 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/14 17:59:35 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define ONE_DEG_RAD 0.0174533
 
 //Maximum map-square number value for parsing
-# define MAX_OBJ_CHAR '2'
+// # define MAX_OBJ_CHAR '1'
 
 //keycodes
 # define KEY_LEFT 123

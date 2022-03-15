@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:03:28 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/10 16:07:10 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/15 00:37:22 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_anim_sprite	*init_localvars(t_vars *vars, \
 	local_vars->image = malloc(sizeof(t_image) * (frame_count));
 	if (!anim_sprite || !local_vars->image)
 	{
-		printf("Failed to allocate memory for animated sprite.\n");
+		printf("Error\nFailed to allocate memory for animated sprite.\n");
 		exit_cub();
 	}
 	gettimeofday(&local_vars->curr_time, NULL);

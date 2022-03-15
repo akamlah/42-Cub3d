@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+         #
+#    By: agebert <agebert@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 14:46:21 by akamlah           #+#    #+#              #
-#    Updated: 2022/01/26 11:58:41 by akamlah          ###   ########.fr        #
+#    Updated: 2022/03/14 21:47:47 by agebert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c ft_strrchr.c ft_strnstr.c ft_s
 ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memchr.c ft_memcmp.c ft_memmove.c ft_calloc.c ft_strdup.c \
 ft_substr.c ft_strjoin.c ft_strtrim.c ft_itoa.c ft_split.c \
 ft_putnbr_fd.c ft_putstr_fd.c ft_putchar_fd.c ft_putendl_fd.c ft_strmapi.c \
-ft_putnbr_chex_fd.c ft_putnbr_hex_fd.c ft_atohex.c \
+ft_putnbr_chex_fd.c ft_putnbr_hex_fd.c ft_atohex.c ft_strchr_rev.c\
 get_next_line.c \
 ft_putarr_2d_fd.c \
 ft_get_first_word.c \

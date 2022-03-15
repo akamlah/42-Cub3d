@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:49:35 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/10 16:33:40 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/15 00:37:37 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_mlx_vars(t_vars *vars)
 	vars->mlx_vars = malloc(sizeof(t_mlx_vars));
 	if (!vars->mlx_vars)
 	{
-		printf("Failed to allocate mlx_vars memory.\n");
+		printf("Error\nailed to allocate mlx_vars memory.\n");
 		return (1);
 	}
 	vars->mlx_vars->minimap = NULL;
@@ -50,7 +50,7 @@ int	init_mlx_vars(t_vars *vars)
 		= mlx_new_window(vars->mlx_vars->mlx_ptr, vars->ww, vars->wh, "cub3d");
 	if (!vars->mlx_vars->win_ptr)
 	{
-		printf("Failed to initialize mlx window\n");
+		printf("Error\nFailed to initialize mlx window\n");
 		return (3);
 	}
 	if (init_images(vars))

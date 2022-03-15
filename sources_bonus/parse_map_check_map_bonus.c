@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:03:39 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:23:13 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/14 22:21:19 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static int	check_lr_space(char **maplines, t_vector2_int pos)
 {
 	int	length_middle;
 
-	length_middle = (int)ft_strlen(maplines[pos.y]);
+	length_middle = (int)ft_strlen(maplines[pos.y]) - 2;
 	if ((pos.x != 0 \
 		&& maplines[pos.y][pos.x - 1] != '1' \
 		&& maplines[pos.y][pos.x - 1] != ' ') \
-		|| ((pos.x + 1 < length_middle
+		|| ((pos.x < length_middle
 		&& maplines[pos.y][pos.x + 1] != '1' \
 		&& maplines[pos.y][pos.x + 1] != ' ') \
-		&& pos.x < length_middle - 2))
+		))
 		return (1);
 	else
 		return (0);
@@ -41,9 +41,9 @@ static int	check_valid_chars(t_vars *vars, char **maplines, t_vector2_int pos)
 			i++;
 			continue ;
 		}
-		if (check_bot(vars, maplines, pos, i) \
-		|| check_top(maplines, pos, i) \
-		|| check_lr(maplines, pos, i))
+		if (!check_bot(vars, maplines, pos, i) \
+		&& !check_top(maplines, pos, i) \
+		&& !check_lr(maplines, pos, i))
 			return (0);
 		i++;
 	}
@@ -81,7 +81,7 @@ static int	check_square(t_vars *vars, char **maplines, t_vector2_int pos)
 		&& check_valid_chars(vars, maplines, pos)))
 	{
 		printf("Error\nMap: Incorrect format at (x: %d, y: %d) \
-				not enclosed by walls\n", pos.x, pos.y);
+not enclosed by walls\n", pos.x, pos.y);
 		return (1);
 	}
 	return (0);

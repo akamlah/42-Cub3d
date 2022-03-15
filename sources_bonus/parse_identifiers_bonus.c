@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:03:30 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/09 01:24:00 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/14 19:02:38 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	is_whitespaces(char *line)
 static int	handle_tex_id(int i, char *id, char *line, t_map *map)
 {
 	char	**map_ptr;
+	int		j;
 
+	j = 2;
 	if (id[0] == 'N')
 		map_ptr = &(map->textr_n);
 	if (id[0] == 'S')
@@ -44,7 +46,10 @@ static int	handle_tex_id(int i, char *id, char *line, t_map *map)
 		map->subf_error = 1;
 		return (0);
 	}
-	*map_ptr = ft_strdup(line + 3);
+	while (line[j] == ' ')
+		j++;
+	if (line[j])
+		*map_ptr = ft_strdup(line + j);
 	return (1);
 }
 
@@ -74,22 +79,27 @@ static int	error_duplicate_color_id(t_map *map, int i, char *id)
 
 int	get_color_id(char *line, t_map *map, int i)
 {
+	int	j;
+
+	j = 2;
 	if (!line[0] || !line[1])
 		return (0);
 	if (line [1] != ' ')
 		return (0);
-	if (line[0] == 'F')
+	while (line[j] == ' ')
+		j++;
+	if (line[0] == 'F' && line[j])
 	{	
 		if (map->floor_color)
 			return (error_duplicate_color_id(map, i, "F"));
-		map->floor_color = ft_strdup(line + 2);
+		map->floor_color = ft_strdup(line + j);
 		return (1);
 	}
-	if (line[0] == 'C')
+	if (line[0] == 'C' && line[j])
 	{
 		if (map->ceiling_color)
 			return (error_duplicate_color_id(map, i, "C"));
-		map->ceiling_color = ft_strdup(line + 2);
+		map->ceiling_color = ft_strdup(line + j);
 		return (1);
 	}
 	return (0);

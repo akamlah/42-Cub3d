@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 23:32:23 by akamlah           #+#    #+#             */
-/*   Updated: 2022/03/11 17:00:47 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/14 21:54:47 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int	open_cubfile(t_map *map, char *path)
 {
 	char	*extension;
+	int		path_len;
 
+	path_len = ft_strlen(path);
 	map->fd_cubfile = open(path, O_RDONLY);
 	if (map->fd_cubfile < 0)
 	{
@@ -24,8 +26,8 @@ int	open_cubfile(t_map *map, char *path)
 		print_usage_message(1);
 		return (0);
 	}
-	extension = ft_strchr(path, '.');
-	if (!extension)
+	extension = ft_strchr_rev(path, '.');
+	if (!extension || path_len < 4)
 	{
 		printf("Errror\nWrong file format, must be .cub\n");
 		return (0);
