@@ -6,14 +6,14 @@ YELLOW='\033[0;33m'
 
 # VALID MAP CHECK
 
-i=0
+i=69
 while [ $i -le 86 ]
 do
 	./cub3D ./valid_maps/$i.cub &
 	timer=0
 	while [ $timer -le 20 ]
 	do
-		sleep 0.1
+		sleep 1
 		if pgrep -x "cub3D" > /dev/null; then
 			break
 		fi

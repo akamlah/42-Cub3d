@@ -1,8 +1,8 @@
 
-NO ./wolftex/textures/xpm/fuhrer.xpm
-SO ./wolftex/textures/xpm/fuhrer.xpm
-EA ./wolftex/textures/xpm/fuhrer.xpm
-WE ./wolftex/textures/xpm/fuhrer.xpm
+NO ./textures_xpm/naturalbricks_hd_middle.xpm
+SO ./textures_xpm/naturalbricks_hd_middle.xpm
+EA ./textures_xpm/naturalbricks_hd_middle.xpm
+WE ./textures_xpm/naturalbricks_hd_middle.xpm
 
 C 155,100,160
 F 111,111,111

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_chars_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akamlah <akamlah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 00:03:34 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/11 16:52:16 by akamlah          ###   ########.fr       */
+/*   Updated: 2022/03/15 12:48:43 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_valid_c(char c)
 	char	*valid_c;
 	int		i;
 
-	valid_c = "NSEW";
+	valid_c = "NSEW0";
 	i = 0;
 	while (valid_c[i])
 	{

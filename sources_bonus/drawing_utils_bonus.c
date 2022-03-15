@@ -6,7 +6,7 @@
 /*   By: agebert <agebert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 22:17:06 by agebert           #+#    #+#             */
-/*   Updated: 2022/03/10 16:57:10 by agebert          ###   ########.fr       */
+/*   Updated: 2022/03/15 13:02:43 by agebert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void	*loadimage(char *path, t_vars *vars, t_image *img_memory)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
+		printf("Error\n");
 		perror(path);
 		exit_cub();
 	}

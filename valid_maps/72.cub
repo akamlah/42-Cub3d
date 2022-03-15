@@ -1,7 +1,7 @@
 
 NO ./textures_xpm/naturalbricks_hd_verydark.xpm
 SO ./textures_xpm/naturalbricks_hd_middle.xpm
-EA ./wolftex/textures/xpm/fuhrer.xpm
+EA ./textures_xpm/naturalbricks_hd_middle.xpm
 WE ./textures_xpm/naturalbricks_hd_middle.xpm
 
 C 155,100,160
