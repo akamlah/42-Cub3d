@@ -1,5 +1,5 @@
 # 42-Cub3d
-Simple raycasting engine
+Simple raycasting engine written entirely in C, with configurable map and wall textures.
 
 
 ## Building
