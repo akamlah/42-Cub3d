@@ -25,7 +25,7 @@ The first four lines are the wall textures, one for every orientation:
 * NO the north facing walls
 
 Example:
-```SO <avlid path to an .xpm image> <\n> ```
+```SO <valid path to an .xpm image> <\n> ```
 
 Lines preceded by ```F``` are arsed as RGB values for the floor color, lines preceeded by ```C``` are decoded as ceiling color.
 
